@@ -1,0 +1,15 @@
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 30px;
+}
+
+footer .empty {
+	visibility: hidden;
+}
+footer .direction-button {
+	padding: 10px;
+	border: none;
+	border-radius: 50%;
+}
