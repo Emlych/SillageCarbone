@@ -1,0 +1,29 @@
+.custom-date {
+	margin: 0 10px;
+	margin-bottom: 25px;
+}
+
+.custom-date-input-container {
+	position: relative;
+	padding-top: 10px;
+}
+.custom-date input {
+	padding: 11px 10px;
+	border: 2px solid lightgray;
+	border-radius: 5px;
+}
+.placeholder-text {
+	position: absolute;
+	left: 16px;
+	top: 16px;
+	background-color: white;
+	padding: 5px;
+	width: 90px;
+	text-align: center;
+}
+::-webkit-calendar-picker-indicator {
+	background-color: red;
+	padding: 5px;
+	cursor: pointer;
+	border-radius: 3px;
+}
