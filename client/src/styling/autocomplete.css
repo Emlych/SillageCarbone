@@ -1,0 +1,64 @@
+.autocomplete-searchbar {
+	display: flex;
+	margin-bottom: 25px;
+	border: 2px solid lightgray;
+	border-radius: 5px;
+}
+.autocomplete-searchbar label {
+	padding: 10px 15px;
+	background-color: lightgray;
+}
+.autocomplete-searchbar input {
+	padding: 10px 15px;
+	border: none;
+	height: 100%;
+	font-size: 0.85em;
+}
+
+.autocomplete-searchbar input:focus,
+.autocomplete-searchbar input:active {
+	border-color: transparent;
+}
+
+.dropdown-menu {
+	position: absolute;
+	margin-top: 10px;
+	padding: 10px 15px;
+	background-color: #fff;
+	font-size: 0.85em;
+	box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+	/* Need dropdown to overlap on caroussel */
+	z-index: 99;
+}
+.dropdown-result {
+	margin-top: 8px;
+	margin-bottom: 8px;
+	color: darkgray;
+}
+.dropdown-result:hover {
+	color: black;
+	cursor: pointer;
+}
+/* Mobile */
+@media (max-width: 680px) {
+	.autocomplete > p {
+		font-size: 0.9em;
+		padding-bottom: 10px;
+	}
+
+	.autocomplete-searchbar input {
+		width: 210px;
+	}
+
+	.dropdown-menu {
+		width: 210px;
+	}
+}
+
+/* For big screens */
+@media (min-width: 680px) {
+	.autocomplete > p {
+		font-size: 0.9em;
+		padding-bottom: 10px;
+	}
+}
