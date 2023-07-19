@@ -1,0 +1,97 @@
+header .big-screen,
+header .small-screen {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 7vh;
+	background-color: white;
+}
+
+.sillage-carbone {
+	font-weight: 600;
+}
+
+ul {
+	cursor: pointer;
+}
+
+/* For big screens */
+@media (min-width: 680px) {
+	header .small-screen {
+		display: none;
+	}
+
+	#header-center {
+		display: flex;
+	}
+
+	#header-center a {
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+
+	#header-right .link-deconnexion {
+		color: rgb(70, 148, 173);
+	}
+
+	#header-right:hover {
+		cursor: pointer;
+	}
+}
+
+/* For small screens */
+@media (max-width: 680px) {
+	header .big-screen {
+		display: none;
+	}
+
+	header .small-screen .menu-icon {
+		border: none;
+		background-color: white;
+		font-size: 20px;
+		z-index: 100;
+		padding-right: 10px;
+		padding-left: 10px;
+		background: none;
+		color: rgb(70, 148, 173);
+	}
+
+	.open-burger {
+		display: block;
+		position: fixed;
+		z-index: 99;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.8);
+	}
+
+	.collapse-nav {
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.collapse-nav nav {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.collapse-nav a,
+	.collapse-nav nav,
+	.collapse-nav ul {
+		color: white;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		font-size: 20px;
+	}
+}
