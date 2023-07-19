@@ -1,0 +1,139 @@
+/* For big screens */
+@media (min-width: 680px) {
+	.modal .small-screen {
+		display: none;
+	}
+
+	/* Modal box */
+	.modal__content {
+		max-width: 6650px;
+	}
+}
+
+/* Mobile */
+@media (max-width: 680px) {
+	.modal .big-screen {
+		display: none;
+	}
+}
+
+/* For all screens */
+/* Background transparent */
+.modal {
+	display: block;
+	position: fixed;
+	z-index: 99;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Modal box */
+.modal__content {
+	position: relative;
+	margin: 5vh auto;
+	width: 75%;
+	min-width: 320px;
+	height: 90vh;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 2em;
+}
+
+/** Buttons (close and back) on top */
+.modal__top-icons {
+	display: flex;
+	justify-content: space-between;
+}
+.modal__top-icon {
+	font-size: 24px;
+	color: black;
+	background-color: #fff;
+	border: none;
+}
+.modal__top-icon:hover {
+	cursor: pointer;
+	color: red;
+}
+
+/* Modal box */
+.modal__content {
+	min-width: 320px;
+}
+
+/* All modals */
+.login,
+.signup,
+.forgotten-password {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.modal h2 {
+	text-align: center;
+	padding-bottom: 35px;
+}
+
+.modal-password-input {
+	position: relative;
+}
+.password-eye-icon {
+	position: absolute;
+	right: 10px;
+	top: 20%;
+}
+
+.modal .modal-message {
+	font-size: 0.8em;
+}
+.modal .submit {
+	padding: 10px 15px;
+	background-color: lightblue;
+	border: none;
+	border-radius: 7px;
+	margin-top: 15px;
+}
+.modal .submit:hover,
+.modal .modal-navigateTo:hover {
+	cursor: pointer;
+}
+.modal .modal-navigateTo,
+.modal .warning {
+	text-align: center;
+	font-size: 0.9em;
+	padding-top: 20px;
+}
+
+.login .modal-message:hover {
+	cursor: pointer;
+	font-weight: 600;
+}
+
+/**Forgotten password modal*/
+.forgotten-password .modal-message {
+	font-size: 0.8em;
+	padding-bottom: 20px;
+}
+
+/** Modal bottom (for product modal) */
+.product-modal-button {
+	display: flex;
+	justify-content: space-between;
+}
+
+/** Account deletion modal */
+.deletion-select {
+	background-color: white;
+	width: 100%;
+	border: 2px solid lightgray;
+	border-radius: 5px;
+	padding: 10px 20px;
+}
+.account-button-container {
+	display: flex;
+	column-gap: 15px;
+	justify-content: center;
+}
