@@ -1,0 +1,26 @@
+.searchhero {
+	background-color: lightblue;
+	padding-top: 50px;
+	padding-bottom: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 40vh;
+}
+.searchhero h2 {
+	margin-bottom: 20px;
+}
+/* Mobile */
+@media (max-width: 680px) {
+	.searchhero h2 {
+		max-width: 70%;
+	}
+}
+
+/* For big screens */
+@media (min-width: 680px) {
+	.searchhero h2 {
+		text-align: center;
+	}
+}
