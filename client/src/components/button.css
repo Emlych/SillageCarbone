@@ -1,0 +1,12 @@
+.button {
+	padding: 10px 15px;
+	background-color: lightblue;
+	border: none;
+	border-radius: 7px;
+	margin-top: 15px;
+}
+.red {
+	background-color: red;
+	color: white;
+	font-weight: 600;
+}
