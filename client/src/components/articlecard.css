@@ -1,0 +1,21 @@
+.homecard {
+	padding: 10px 20px;
+	overflow: hidden;
+}
+
+.homecard h3 {
+	color: black;
+	padding-bottom: 10px;
+}
+
+.homecard-container {
+	height: 50vh;
+	overflow-y: auto;
+}
+
+.homecard-text {
+	padding: 10px 20px;
+	background-color: lightblue;
+	color: black;
+	font-size: 0.9em;
+}
