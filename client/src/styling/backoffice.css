@@ -1,0 +1,110 @@
+/* Backoffice non disponible en version mobile */
+
+.backoffice {
+	display: flex;
+	min-height: 100vh;
+}
+
+/* -------------------------------- */
+/* Backoffice Navigation */
+.backoffice nav {
+	width: 30%;
+	min-width: 250px;
+	max-width: 300px;
+	padding: 0 15px;
+	background-color: #2a3042;
+	color: white;
+}
+
+.backoffice nav ul {
+	list-style-type: none;
+}
+.list-level-1 {
+	font-size: 20px;
+	font-weight: 600;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+.list-level-2 {
+	font-size: 15px;
+	padding-left: 15px;
+	padding-bottom: 20px;
+}
+.list-level-2:hover {
+	font-weight: 800;
+}
+.backoffice .icon {
+	padding-right: 5px;
+	width: 20px;
+}
+
+/* -------------------------------- */
+
+/* -------------------------------- */
+/* Backoffice all components */
+.backoffice-components {
+	background-color: #f5f5f8;
+	width: 100%;
+	padding: 30px 30px;
+}
+.backoffice-components h2 {
+	margin-bottom: 20px;
+}
+
+/* -------------------------------- */
+/* Backoffice users component */
+.backoffice-components .users,
+.backoffice-components .products {
+	background-color: #fff;
+	padding: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 30px;
+}
+.backoffice-components .filter {
+	margin-top: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-evenly;
+	background-color: #fff;
+	padding: 20px 30px 0;
+}
+.filter-search-name-container {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+.filter-search-name-container > label {
+	display: block;
+	margin-bottom: 8px;
+}
+#number-input .custom-input {
+	width: 130px;
+}
+.filter-input {
+	margin-right: 20px;
+}
+
+/* -------------------------------- */
+/* Backoffice manageUsers component */
+.backoffice-components .create-user {
+	background-color: #fff;
+	padding: 20px;
+	margin-top: 30px;
+}
+
+.backoffice-components .create-user > div,
+.backoffice-components .create-user button {
+	margin: 10px;
+}
+
+.backoffice-components .create-user .button-container {
+	display: flex;
+	justify-content: flex-end;
+}
+.backoffice-components .create-user button {
+	padding: 10px 20px;
+	font-size: 15px;
+}
