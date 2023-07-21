@@ -1,16 +1,13 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import formidable from "express-formidable";
 import mongoose from "mongoose";
 
 dotenv.config();
 
 /** Create an express app called sillageApp  */
-const sillageApp: Express = express();
+export const sillageApp: Express = express();
 sillageApp.use(cors());
-
-//sillageApp.use(formidable());
 
 /** Use middleware to parse incoming requests with JSON payloads */
 sillageApp.use(express.json());
