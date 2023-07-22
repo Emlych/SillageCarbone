@@ -13,6 +13,7 @@ import Input from "../../components/Input";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
+import Cookies from "js-cookie";
 
 export enum TransportationType {
 	Container = "container",
@@ -50,17 +51,26 @@ const CreateProduct = () => {
 				) {
 					throw new Error("Missing field");
 				}
+
+				// -- Is user connected as admin
+				const adminToken = Cookies.get("adminToken");
+				if (!adminToken) {
+					throw new Error("Not authorized to access list of users.");
+				}
 				// send product to server
-				const response = await axios.post(url, {
-					name,
-					company,
-					type,
-					originHarbour,
-					destinationHarbour,
-					transportation,
-					description,
-				});
-				console.log("response ==> ", response.data);
+				const response = await axios.post(
+					url,
+					{
+						name,
+						company,
+						type,
+						originHarbour,
+						destinationHarbour,
+						transportation,
+						description,
+					},
+					{ headers: { authorization: `Bearer ${adminToken}` } }
+				);
 
 				if (response.data) {
 					alert("Le product a été créé.");
