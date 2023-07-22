@@ -7,7 +7,6 @@ import Home from "./pages/Home.page";
 import Product from "./pages/Product.page";
 import Backoffice from "./pages/Backoffice.page";
 import Account from "./pages/Account.page";
-import Favorites from "./pages/Favorites";
 
 //Import Components
 import Header from "./containers/Header/Header";
@@ -23,6 +22,7 @@ function App() {
 
 	return (
 		<div className="App">
+			{/* Ensure navigation between pages*/}
 			<Router>
 				{/* Header with link to other pages */}
 				<Header toggleModal={toggleModal} />
@@ -46,9 +46,6 @@ function App() {
 
 					{/* Account for connected users - only with admin token */}
 					<Route path="/account" element={<Account />} />
-
-					{/* Favorites for connected users - only with admin token */}
-					<Route path="/favorites" element={<Favorites />} />
 				</Routes>
 			</Router>
 		</div>
