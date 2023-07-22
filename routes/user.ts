@@ -17,6 +17,25 @@ interface UserFilters {
 	creation_date: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
 }
 
+/** User role is admin */
+const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const adminTokenRegistered = req.headers.authorization;
+		if (adminTokenRegistered) {
+			const isAdmin = await User.find({
+				token: adminTokenRegistered.replace("Bearer ", ""),
+			});
+			if (isAdmin) {
+				next();
+			} else {
+				throw new Error("Unauthorized to access these informations");
+			}
+		}
+	} catch (error: any) {
+		res.status(401).json({ message: error.message });
+	}
+};
+
 /** Validation middleware */
 const validateAndSanitizeInputs = [
 	// -- mail format, can't be empty
@@ -148,7 +167,7 @@ router.post("/user/login", async (req: Request, res: Response) => {
 });
 
 /** Get all users */
-router.get("/users", async (req: Request, res: Response) => {
+router.get("/users", isAdmin, async (req: Request, res: Response) => {
 	try {
 		console.info("Route : /users");
 
@@ -167,19 +186,13 @@ router.get("/users", async (req: Request, res: Response) => {
 			if (requestQuery.start_date) {
 				const startDate = new Date(requestQuery.start_date.toString());
 				const startOfDayDate = startOfDay(startDate);
-				requestFilters.creation_date = {
-					$gte: startOfDayDate,
-					//$lte: endOfDay(startDate),
-				};
+				requestFilters.creation_date = { $gte: startOfDayDate };
 			}
 
 			if (requestQuery.finish_date) {
 				const finishDate = new Date(requestQuery.finish_date.toString());
 				const endOfDayDate = endOfDay(finishDate);
-				requestFilters.creation_date = {
-					//$gte: startOfDay(endOfDayDate),
-					$lte: endOfDayDate,
-				};
+				requestFilters.creation_date = { $lte: endOfDayDate };
 			}
 
 			// -- Limit data with page and max items per page

@@ -16,6 +16,7 @@ import Input from "../../components/Input";
 import DateInput from "../../components/DateInput";
 import PageFooter from "./PageFooter";
 import Modal from "../../components/Modal";
+import Cookies from "js-cookie";
 
 interface User {
 	id: number;
@@ -79,7 +80,14 @@ const Users = () => {
 		}) => {
 			try {
 				const url = "http://localhost:8000/users";
+
+				const adminToken = Cookies.get("adminToken");
+				if (!adminToken) {
+					throw new Error("Not authorized to access list of users.");
+				}
+
 				const response = await axios.get(url, {
+					headers: { authorization: `Bearer ${adminToken}` },
 					params: {
 						mail: params.mail,
 						start_date: params.start_date,
