@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import mongoose, { Schema, Types } from "mongoose";
 //Models
 import Product from "../models/Product";
 import ProductType from "../models/ProductType";
 import Transportation from "../models/Transportation";
-import { request } from "http";
+import User from "../models/User";
 
 const router = express.Router();
 const cloudinary = require("cloudinary").v2;
@@ -25,6 +25,25 @@ interface ProductFilters {
 	archived?: Boolean;
 }
 
+/** User role is admin */
+const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const adminTokenRegistered = req.headers.authorization;
+		if (adminTokenRegistered) {
+			const isAdmin = await User.find({
+				token: adminTokenRegistered.replace("Bearer ", ""),
+			});
+			if (isAdmin) {
+				next();
+			} else {
+				throw new Error("Unauthorized to access these informations");
+			}
+		}
+	} catch (error: any) {
+		res.status(401).json({ message: error.message });
+	}
+};
+
 /** Provide id to return all data on a product route */
 router.get("/product/:_id", async (req: Request, res: Response) => {
 	console.info("Route: /product/:_id");
@@ -43,7 +62,7 @@ router.get("/product/:_id", async (req: Request, res: Response) => {
 });
 
 /** Get all products with filter route */
-router.get("/products", async (req: Request, res: Response) => {
+router.get("/products", isAdmin, async (req: Request, res: Response) => {
 	console.info("Route: /products");
 	try {
 		// Retrieve request queries to fill filtersObject with all used filters
@@ -115,7 +134,7 @@ router.get("/products/cache", async (req: Request, res: Response) => {
 });
 
 /** Get all archived products with filter route */
-router.get("/products/archived", async (req: Request, res: Response) => {
+router.get("/products/archived", isAdmin, async (req: Request, res: Response) => {
 	console.info("Route: /products/archived");
 	try {
 		// Retrieve request queries to fill filtersObject with all used filters
@@ -173,7 +192,7 @@ router.get("/products/archived", async (req: Request, res: Response) => {
 });
 
 /** Create a product route */
-router.post("/product/create", async (req: Request, res: Response) => {
+router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 	console.info("Route: /product/create");
 	try {
 		// -- Check if mandatory body were provided
@@ -255,7 +274,7 @@ router.post("/product/create", async (req: Request, res: Response) => {
 });
 
 /** Delete a product route */
-router.delete("/product/delete", async (req: Request, res: Response) => {
+router.delete("/product/delete", isAdmin, async (req: Request, res: Response) => {
 	console.info("route: /product/delete");
 	try {
 		// -- Check all fields were provided
@@ -278,7 +297,7 @@ router.delete("/product/delete", async (req: Request, res: Response) => {
 });
 
 /** Archive a product route */
-router.put("/product/archive", async (req: Request, res: Response) => {
+router.put("/product/archive", isAdmin, async (req: Request, res: Response) => {
 	console.info("route: /product/archive");
 	try {
 		// -- Check all fields were provided
