@@ -13,6 +13,7 @@ import Input from "../../components/Input";
 import BackofficeProductCard from "./BackofficeProductCard";
 import Modal from "../../components/Modal";
 import PageFooter from "./PageFooter";
+import Cookies from "js-cookie";
 
 interface Product {
 	_id: string;
@@ -76,7 +77,15 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 				const url = archivedProducts
 					? "http://localhost:8000/products/archived"
 					: "http://localhost:8000/products";
+
+				// -- Is user connected as admin
+				const adminToken = Cookies.get("adminToken");
+				if (!adminToken) {
+					throw new Error("Not authorized to access list of users.");
+				}
+
 				const response = await axios.get(url, {
+					headers: { authorization: `Bearer ${adminToken}` },
 					params: {
 						name: params.name,
 						company: params.company,
