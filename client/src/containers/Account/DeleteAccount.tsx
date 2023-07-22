@@ -34,8 +34,16 @@ const DeleteAccount = ({ toggleModal }: DeleteAccountProps) => {
 				if (!password) {
 					throw new Error("Missing field");
 				}
+				// -- Is user connected as admin
+				const userToken = Cookies.get("userToken");
+				if (!userToken) {
+					throw new Error("Not authorized.");
+				}
 				// -- Send delete request
-				const response = await axios.delete(url, { data: { mail: userMail, password } });
+				const response = await axios.delete(url, {
+					headers: { authorization: `Bearer ${userToken}` },
+					data: { mail: userMail, password },
+				});
 
 				if (response.data) {
 					// -- Delete userMailToken and userToken

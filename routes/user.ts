@@ -2,38 +2,36 @@ import express, { NextFunction, Request, Response } from "express";
 import User, { UserType } from "../models/User";
 import { endOfDay, startOfDay } from "date-fns";
 import { body, validationResult } from "express-validator";
-import { generateHash, generateSaltHashToken } from "../utils/router-utils";
+import {
+	authenticateAndCheckUserRole,
+	generateHash,
+	generateSaltHashToken,
+} from "../utils/router-utils";
 import mongoose from "mongoose";
 
 const router = express.Router();
 
-// All interfaces
-interface UserInputs {
-	reqMail: string;
-	reqPassword: string;
-}
 interface UserFilters {
 	mail: RegExp;
 	creation_date: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
 }
 
-/** User role is admin */
+/** User role is admin ?
+ * @param req : user request with headers' authorization
+ * @param res : response
+ * @param next : move to next function
+ */
 const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		const adminTokenRegistered = req.headers.authorization;
-		if (adminTokenRegistered) {
-			const isAdmin = await User.find({
-				token: adminTokenRegistered.replace("Bearer ", ""),
-			});
-			if (isAdmin) {
-				next();
-			} else {
-				throw new Error("Unauthorized to access these informations");
-			}
-		}
-	} catch (error: any) {
-		res.status(401).json({ message: error.message });
-	}
+	await authenticateAndCheckUserRole(req, res, next, UserType.Admin);
+};
+
+/** User role is connected user ?
+ * @param req : user request with headers' authorization
+ * @param res : response
+ * @param next : move to next function
+ */
+const isConnectedUser = async (req: Request, res: Response, next: NextFunction) => {
+	await authenticateAndCheckUserRole(req, res, next, UserType.ConnectedUser);
 };
 
 /** Validation middleware */
@@ -114,7 +112,7 @@ router.post(
 			// -- Generate salt, hash et token
 			const { newSalt, newHash, newToken } = generateSaltHashToken(req.body.password);
 
-			// -- If user role is specified set it userType, default value will be connected user
+			// -- If user role is specified, set it to userType, default value will be connected user
 			const userType = req.body.userType || UserType.ConnectedUser;
 
 			// -- Register new user
@@ -216,44 +214,48 @@ router.get("/users", isAdmin, async (req: Request, res: Response) => {
 });
 
 /** Update user password */
-router.put("/user/change-password", async (req: Request, res: Response) => {
-	console.info("route: /user/change-password");
-	try {
-		// -- Check all fields were provided
-		if (!req.body || !req.body.mail || !req.body.password || !req.body.newPassword) {
-			throw new Error("Missing field(s)");
+router.put(
+	"/user/change-password",
+	isConnectedUser,
+	async (req: Request, res: Response) => {
+		console.info("route: /user/change-password");
+		try {
+			// -- Check all fields were provided
+			if (!req.body || !req.body.mail || !req.body.password || !req.body.newPassword) {
+				throw new Error("Missing field(s)");
+			}
+
+			// -- Find user with provided mail
+			const searchedUser = await User.findOne({ mail: req.body.mail });
+			if (!searchedUser || !searchedUser.salt) {
+				throw new Error("Unauthorized connexion");
+			}
+
+			// -- Generate hash from password to compare with database hash to check if actual password is correct
+			const actualPasswordNewHash = generateHash(req.body.password, searchedUser.salt);
+			if (actualPasswordNewHash !== searchedUser["hash"]) {
+				throw new Error("Incorrect password");
+			}
+
+			// -- Generate hash et token on new password input
+			const { newSalt, newHash, newToken } = generateSaltHashToken(req.body.newPassword);
+
+			// -- Update token, salt and hash
+			searchedUser.token = newToken;
+			searchedUser.salt = newSalt;
+			searchedUser.hash = newHash;
+
+			// -- Register change
+			await searchedUser.save();
+			res.status(200).json({ message: `Password udpate for ${req.body.mail}` });
+		} catch (error: any) {
+			res.status(400).json({ message: error.message });
 		}
-
-		// -- Find user with provided mail
-		const searchedUser = await User.findOne({ mail: req.body.mail });
-		if (!searchedUser || !searchedUser.salt) {
-			throw new Error("Unauthorized connexion");
-		}
-
-		// -- Generate hash from password to compare with database hash to check if actual password is correct
-		const actualPasswordNewHash = generateHash(req.body.password, searchedUser.salt);
-		if (actualPasswordNewHash !== searchedUser["hash"]) {
-			throw new Error("Incorrect password");
-		}
-
-		// -- Generate hash et token on new password input
-		const { newSalt, newHash, newToken } = generateSaltHashToken(req.body.newPassword);
-
-		// -- Update token, salt and hash
-		searchedUser.token = newToken;
-		searchedUser.salt = newSalt;
-		searchedUser.hash = newHash;
-
-		// -- Register change
-		await searchedUser.save();
-		res.status(200).json({ message: `Password udpate for ${req.body.mail}` });
-	} catch (error: any) {
-		res.status(400).json({ message: error.message });
 	}
-});
+);
 
 /** Delete user route */
-router.delete("/user/delete", async (req: Request, res: Response) => {
+router.delete("/user/delete", isConnectedUser, async (req: Request, res: Response) => {
 	console.info("route: /user/delete");
 	try {
 		// -- Check all fields were provided

@@ -34,12 +34,21 @@ const ModifyPassword = () => {
 				if (!actualPassword || !newPassword) {
 					throw new Error("Missing field");
 				}
+				// -- Is user connected as admin
+				const userToken = Cookies.get("userToken");
+				if (!userToken) {
+					throw new Error("Not authorized.");
+				}
 				// -- Send update request
-				const response = await axios.put(url, {
-					mail: userMail,
-					password: actualPassword,
-					newPassword,
-				});
+				const response = await axios.put(
+					url,
+					{
+						mail: userMail,
+						password: actualPassword,
+						newPassword,
+					},
+					{ headers: { authorization: `Bearer ${userToken}` } }
+				);
 
 				if (response.data) {
 					setValidRequest(true);
