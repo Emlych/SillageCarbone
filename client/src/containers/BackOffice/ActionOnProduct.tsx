@@ -1,5 +1,6 @@
 import axios from "axios";
 import Button from "../../components/Button";
+import Cookies from "js-cookie";
 
 export type ActionOnProductProps = {
 	toggleModal: Function;
@@ -20,8 +21,17 @@ const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps)
 					throw new Error("Missing product id");
 				}
 
+				// -- Is user connected as admin
+				const adminToken = Cookies.get("adminToken");
+				if (!adminToken) {
+					throw new Error("Not authorized to access list of users.");
+				}
+
 				// -- Send delete request
-				const response = await axios.delete(url, { data: { _id } });
+				const response = await axios.delete(url, {
+					headers: { authorization: `Bearer ${adminToken}` },
+					data: { _id },
+				});
 
 				if (response.data) {
 					// -- Close modal
@@ -42,11 +52,22 @@ const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps)
 				if (!_id) {
 					throw new Error("Missing product id");
 				}
+
+				// -- Is user connected as admin
+				const adminToken = Cookies.get("adminToken");
+				if (!adminToken) {
+					throw new Error("Not authorized to access list of users.");
+				}
+
 				// -- Send update request
-				const response = await axios.put(url, {
-					_id,
-					archive: archiveStatus,
-				});
+				const response = await axios.put(
+					url,
+					{
+						_id,
+						archive: archiveStatus,
+					},
+					{ headers: { authorization: `Bearer ${adminToken}` } }
+				);
 
 				if (response.data.message) {
 					// -- Close modal
