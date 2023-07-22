@@ -21,13 +21,13 @@ export const closeDatabase = async () => {
 };
 
 // Clear db
-export const clearDatabase = async () => {
-	const collections = mongoose.connection.collections;
-	for (const key in collections) {
-		const collection = collections[key];
-		await collection.deleteMany({});
-	}
-};
+// export const clearDatabase = async () => {
+// 	const collections = mongoose.connection.collections;
+// 	for (const key in collections) {
+// 		const collection = collections[key];
+// 		await collection.deleteMany({});
+// 	}
+// };
 
 describe("GET routes", () => {
 	it("Page not found - return 404 code status", async () => {
@@ -51,10 +51,10 @@ describe("Test connexion to db", () => {
 	// Exécute après la fin des tests
 	afterAll(async () => {
 		closeDatabase();
-		clearDatabase();
+		//clearDatabase();
 	});
 
-	it("Devrait se connecter à la base de données", async () => {
+	it("Connexion to db possible", async () => {
 		const isConnected = mongoose.connection.readyState === 1;
 		expect(isConnected).toBe(true);
 	});
