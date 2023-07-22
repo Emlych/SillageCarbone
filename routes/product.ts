@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
-import mongoose, { Types } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 //Models
 import Product from "../models/Product";
 import ProductType from "../models/ProductType";
 import Transportation from "../models/Transportation";
+import { request } from "http";
 
 const router = express.Router();
 const cloudinary = require("cloudinary").v2;
@@ -19,7 +20,7 @@ cloudinary.config({
 interface ProductFilters {
 	name: RegExp;
 	company: RegExp;
-	type: RegExp;
+	type_id?: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId> | null;
 	_id?: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
 	archived?: Boolean;
 }
@@ -49,7 +50,6 @@ router.get("/products", async (req: Request, res: Response) => {
 		const requestFilters: ProductFilters = {
 			name: new RegExp("", "i"),
 			company: new RegExp("", "i"),
-			type: new RegExp("", "i"),
 			archived: false,
 		};
 		const requestQuery = req.query;
@@ -63,16 +63,23 @@ router.get("/products", async (req: Request, res: Response) => {
 				requestFilters.company = new RegExp(`${requestQuery.company}`, "i");
 			}
 			if (requestQuery.type && String(requestQuery.type).length > 0) {
-				requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
+				//requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
+
+				// -- Find the ProductType based on the name
+				const productType = await ProductType.findOne({
+					name: new RegExp(`${requestQuery.type}`, "i"),
+				});
+
+				if (productType) {
+					requestFilters.type_id = new Types.ObjectId(productType._id);
+				} else {
+					requestFilters.type_id = null;
+				}
 			}
 			// -- Optional filter to exclude a specific _id
 			if (requestQuery.excludeId) {
 				requestFilters._id = { $ne: req.query.excludeId };
 			}
-			// // -- Optional filter to retrieve only archived products
-			// if (requestQuery.archived) {
-			// 	requestFilters.archived = true;
-			// }
 
 			// -- Limit data with page and max items per page
 			let page = parseInt(requestQuery.page as string) ?? 1;
@@ -115,7 +122,6 @@ router.get("/products/archived", async (req: Request, res: Response) => {
 		const requestFilters: ProductFilters = {
 			name: new RegExp("", "i"),
 			company: new RegExp("", "i"),
-			type: new RegExp("", "i"),
 			archived: true,
 		};
 		const requestQuery = req.query;
@@ -129,7 +135,21 @@ router.get("/products/archived", async (req: Request, res: Response) => {
 				requestFilters.company = new RegExp(`${requestQuery.company}`, "i");
 			}
 			if (requestQuery.type && String(requestQuery.type).length > 0) {
-				requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
+				//requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
+
+				// -- Find the ProductType based on the name
+				const productType = await ProductType.findOne({
+					name: new RegExp(`${requestQuery.type}`, "i"),
+				});
+
+				if (productType) {
+					requestFilters.type_id = new Types.ObjectId(productType._id);
+				} else {
+					requestFilters.type_id = null;
+					// // If the ProductType doesn't exist, return an empty response
+					// res.json({ count: 0, products: [] });
+					// return;
+				}
 			}
 
 			// -- Limit data with page and max items per page
@@ -184,15 +204,7 @@ router.post("/product/create", async (req: Request, res: Response) => {
 		// -- Check if transportation already exists, if not create it
 		let transportation = await Transportation.findOne({ name: req.body.transportation });
 		if (!transportation) {
-			//TODO code à supprimer une fois la rubrique "transport créée"
-			const newTransportation = new Transportation({
-				name: req.body.transportation,
-				productId: [],
-				creation_date: new Date(),
-				archived: false,
-			});
-			console.info("new type", newTransportation);
-			transportation = newTransportation;
+			throw new Error("Missing transportation");
 		}
 
 		// -- Define distance

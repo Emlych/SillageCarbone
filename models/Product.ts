@@ -1,16 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-// export enum Harbour {
-// 	AMS = "Amsterdam",
-// 	HAV = "Havre",
-// 	SHA = "Shanghai",
-// }
-
-export enum Transportation {
-	Container = "container",
-	Sailing = "sailing",
-}
-
 const ProductSchema = new Schema({
 	name: { type: String, maxLength: 50, required: true },
 	company: { type: String, maxLength: 50, required: true },
