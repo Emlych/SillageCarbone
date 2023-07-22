@@ -81,6 +81,7 @@ const Users = () => {
 			try {
 				const url = "http://localhost:8000/users";
 
+				// -- Is user connected as admin
 				const adminToken = Cookies.get("adminToken");
 				if (!adminToken) {
 					throw new Error("Not authorized to access list of users.");

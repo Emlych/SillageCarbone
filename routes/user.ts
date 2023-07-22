@@ -166,7 +166,7 @@ router.post("/user/login", async (req: Request, res: Response) => {
 	}
 });
 
-/** Get all users */
+/** Get all users - backoffice */
 router.get("/users", isAdmin, async (req: Request, res: Response) => {
 	try {
 		console.info("Route : /users");
@@ -282,7 +282,7 @@ router.delete("/user/delete", async (req: Request, res: Response) => {
 });
 
 /** Delete user as admin route  */
-router.delete("/user/admin/delete", async (req: Request, res: Response) => {
+router.delete("/user/admin/delete", isAdmin, async (req: Request, res: Response) => {
 	console.info("route: /user/admin/delete");
 	try {
 		// -- Check all fields were provided
