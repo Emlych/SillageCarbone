@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 //Models
 import Product from "../models/Product";
 import ProductType from "../models/ProductType";
@@ -223,7 +223,15 @@ router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 		// -- Check if transportation already exists, if not create it
 		let transportation = await Transportation.findOne({ name: req.body.transportation });
 		if (!transportation) {
-			throw new Error("Missing transportation");
+			//TODO code à supprimer une fois la rubrique "transport créée"
+			const newTransportation = new Transportation({
+				name: req.body.transportation,
+				productId: [],
+				creation_date: new Date(),
+				archived: false,
+			});
+			console.info("new type", newTransportation);
+			transportation = newTransportation;
 		}
 
 		// -- Define distance
