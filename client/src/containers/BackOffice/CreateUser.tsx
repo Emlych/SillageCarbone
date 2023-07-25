@@ -6,14 +6,13 @@ import {
 	faLock,
 	faUserAstronaut,
 } from "@fortawesome/free-solid-svg-icons";
-import "../../styling/backoffice.css";
+import "../../pages/backoffice.css";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserType } from "../../dto/UserDto";
-// import "react-toastify/dist/ReactToastify.css";
 
 const CreateUser = () => {
 	/** Informations associated with account creation: mail, password and user role */

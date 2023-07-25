@@ -1,6 +1,6 @@
 /** Backoffice Users Container : display all users with filter */
 
-import "../../styling/backoffice.css";
+import "../../pages/backoffice.css";
 import { faHashtag, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";

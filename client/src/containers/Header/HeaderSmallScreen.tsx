@@ -1,7 +1,7 @@
 /** Header navigation for smaller screen. Backoffice is not accessible from small screen. */
 
 import { Link } from "react-router-dom";
-import "../../styling/header.css";
+import "./header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 /** Backoffice page : for admin to manage users and products */
-import "../styling/backoffice.css";
+import "./backoffice.css";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";

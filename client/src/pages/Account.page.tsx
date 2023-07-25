@@ -1,5 +1,5 @@
 import Button from "../components/Button";
-import "../styling/account.css";
+import "./account.css";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import Cookies from "js-cookie";

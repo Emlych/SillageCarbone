@@ -1,7 +1,7 @@
 /** BackOffice ProductCard container */
 import Button from "../../components/Button";
 import CardItem from "../../components/CardItem";
-import "../../styling/backofficeProductCard.css";
+import "./backofficeProductCard.css";
 import { capitalizeFirstLetter } from "../../utils/format-data-utils";
 import { faBoxOpen, faTag } from "@fortawesome/free-solid-svg-icons";
 

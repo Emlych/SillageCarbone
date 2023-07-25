@@ -1,4 +1,4 @@
-import "../../styling/header.css";
+import "./header.css";
 import { deleteToken } from "../../utils/data-utils";
 import HeaderBigScreen from "./HeaderBigScreen";
 import HeaderSmallScreen from "./HeaderSmallScreen";
@@ -15,7 +15,10 @@ const Header = ({ toggleModal }: HeaderConnexionProps) => {
 	};
 	return (
 		<header>
+			{/* Header for device with large screen */}
 			<HeaderBigScreen toggleModal={toggleModal} handleDeconnexion={handleDeconnexion} />
+
+			{/* Header for mobile device */}
 			<HeaderSmallScreen
 				toggleModal={toggleModal}
 				handleDeconnexion={handleDeconnexion}

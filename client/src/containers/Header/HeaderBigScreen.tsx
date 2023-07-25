@@ -1,7 +1,7 @@
 /** Header navigation for bigger screen. */
 
 import { Link, useNavigate } from "react-router-dom";
-import "../../styling/header.css";
+import "./header.css";
 import Cookies from "js-cookie";
 
 export type HeaderBigScreenProps = {
@@ -42,6 +42,7 @@ const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProp
 			</div>
 
 			<div id="header-right">
+				{/* Deconnexion or Connexion */}
 				{userToken || adminToken ? (
 					<div
 						className="link-deconnexion"

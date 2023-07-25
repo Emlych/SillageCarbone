@@ -1,6 +1,6 @@
 import SearchHero from "../containers/SearchProduct/SearchHero.container";
 import CarouselHome from "../containers/Home/Caroussel.container";
-import "../styling/home.css";
+import "./home.css";
 
 const Home = () => {
 	const articles = [
