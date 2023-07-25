@@ -18,6 +18,10 @@ import PageFooter from "./PageFooter";
 import Modal from "../../components/Modal";
 import Cookies from "js-cookie";
 
+// Toast service
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface User {
 	id: number;
 	mail: string;
@@ -114,6 +118,7 @@ const Users = () => {
 				// -- Allow display of users
 				setIsLoading(false);
 			} catch (error) {
+				toast.error("Les utilisateurs n'ont pas pu être récupérés");
 				console.error("Error ", error);
 			}
 		};
@@ -217,6 +222,8 @@ const Users = () => {
 			) : (
 				<span>En cours de chargement...</span>
 			)}
+
+			<ToastContainer position="bottom-right" autoClose={5000} />
 		</div>
 	);
 };

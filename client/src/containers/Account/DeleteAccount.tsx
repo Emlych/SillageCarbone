@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { deleteToken } from "../../utils/data-utils";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export type DeleteAccountProps = {
 	toggleModal: Function;
@@ -51,11 +52,10 @@ const DeleteAccount = ({ toggleModal }: DeleteAccountProps) => {
 
 					// -- Navigate
 					navigate("/");
-					alert("Votre compte a été supprimé");
 				}
 			} catch (error) {
 				console.error(error);
-				alert("User could not be deleted.");
+				toast.error("Le compte n'a pas pu être supprimé");
 			}
 		};
 		fetchData();
@@ -110,6 +110,9 @@ const DeleteAccount = ({ toggleModal }: DeleteAccountProps) => {
 					alert
 				/>
 			</div>
+
+			{/* Toast to display error message */}
+			<ToastContainer position="bottom-right" autoClose={5000} />
 		</form>
 	);
 };
