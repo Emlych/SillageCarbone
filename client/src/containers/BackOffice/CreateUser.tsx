@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { fetchUserData } from "../../utils/data-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faEnvelope,
@@ -13,13 +12,14 @@ import Input from "../../components/Input";
 import { UserType } from "../../components/Modal";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateUser = () => {
 	/** Informations associated with account creation: mail, password and user role */
 	const [mail, setMail] = useState("");
 	const [password, setPassword] = useState("");
 	const [hiddenPassword, setHiddenPassword] = useState(true);
-	const [formStatus, setFormStatus] = useState("");
 	const [userRole, setUserRole] = useState(UserType.ConnectedUser);
 
 	/** On form submission, send user data to server */
@@ -35,9 +35,10 @@ const CreateUser = () => {
 				}
 				const response = await axios.post(url, { mail, password, userRole });
 				if (response.data) {
-					setFormStatus(`Utilisateur ${userRole} créé: ${mail}`);
+					toast(`Utilisateur ${userRole}  créé `);
 				}
 			} catch (error: any) {
+				toast.error(`Erreur dans la création d'un nouvel utilisateur`, {});
 				throw new Error("Vous n'êtes pas autorisé à vous connecter.");
 			}
 		};
@@ -122,12 +123,11 @@ const CreateUser = () => {
 					</div>
 				</div>
 
-				{/* Set error message if wrong password: depends on */}
-				<div>{formStatus}</div>
-
 				<div className="button-container">
 					<Button buttonText="Valider" buttonType="submit" />
 				</div>
+
+				<ToastContainer position="bottom-right" autoClose={5000} />
 			</form>
 		</div>
 	);
