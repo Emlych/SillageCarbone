@@ -1,5 +1,4 @@
 // Component containing a search bar to research product
-// Search should function with autocomplete
 import Autocomplete from "./Autocomplete.container";
 import "../../styling/searchhero.css";
 

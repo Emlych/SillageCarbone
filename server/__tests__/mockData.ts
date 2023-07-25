@@ -1,5 +1,5 @@
-import { DetailedProduct } from "./productDto";
-import { User, userType } from "./userDto";
+import { DetailedProduct } from "../dto/productDto";
+import { User, userType } from "../dto/userDto";
 
 export const users: User[] = [
 	{
