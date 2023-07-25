@@ -102,12 +102,16 @@ const Autocomplete = () => {
 
 	return (
 		<div data-testid="autocomplete" className="autocomplete">
+			{/* Instructions for user */}
 			<p>Entrer le nom et la marque d'un produit</p>
+
+			{/* Search bar with search icon */}
 			<div className="autocomplete-searchbar">
 				<label htmlFor="mail">
-					<FontAwesomeIcon icon={faSearch} />
+					<FontAwesomeIcon icon={faSearch} aria-label="Rechercher un produit" />
 				</label>
 				<div>
+					{/* Field for text input */}
 					<input
 						placeholder="Rechercher un produit"
 						value={searchedProduct}
