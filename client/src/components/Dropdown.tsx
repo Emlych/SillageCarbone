@@ -1,7 +1,7 @@
 /** Dropdown UI component with select content (options) */
 
 import { TransportationType } from "../containers/BackOffice/CreateProduct";
-import { UserType } from "./Modal";
+import { UserType } from "../dto/UserDto";
 
 export type DropdownProps<T> = {
 	options: Map<number | T, T> | null;

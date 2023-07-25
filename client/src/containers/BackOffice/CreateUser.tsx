@@ -9,10 +9,10 @@ import {
 import "../../styling/backoffice.css";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { UserType } from "../../components/Modal";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { UserType } from "../../dto/UserDto";
 // import "react-toastify/dist/ReactToastify.css";
 
 const CreateUser = () => {

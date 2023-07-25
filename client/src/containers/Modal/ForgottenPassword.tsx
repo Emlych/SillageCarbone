@@ -1,9 +1,6 @@
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { FormEventHandler } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { User, UserType } from "../../components/Modal";
-import { fetchUserData } from "../../utils/data-utils";
 
 export type ForgottenPasswordProps = {
 	//handleFormSubmit: FormEventHandler<HTMLFormElement>;
@@ -23,26 +20,7 @@ const ForgottenPassword = ({
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const url = "http://localhost:8000/login";
-
-		// try {
-		// 	// Make API call to server
-		// 	const res: User = await fetchUserData(url, mail, password);
-
-		// 	// If positif response from server, create a token and close modal
-		// 	if (res && setUser) {
-		// 		const isAdmin = res.userType === UserType.admin;
-		// 		setUser(res.token, res.mail, isAdmin);
-		// 		toggleModal();
-		// 	}
-		// } catch (error) {
-		// 	if (!mail || !password) {
-		// 		setErrorMessage("Missing field(s).");
-		// 		alert("Missing field(s)");
-		// 	} else {
-		// 		alert("User connexion failed");
-		// 	}
-		// }
+		// TODO V2
 	};
 
 	return (

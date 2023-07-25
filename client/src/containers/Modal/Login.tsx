@@ -2,9 +2,9 @@ import { faEnvelope, faEye, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { UserType } from "../../components/Modal";
-import { createToken, fetchUserData } from "../../utils/data-utils";
+import { createToken } from "../../utils/data-utils";
 import axios from "axios";
+import { UserType } from "../../dto/UserDto";
 
 export type LoginProps = {
 	toggleModal: Function;

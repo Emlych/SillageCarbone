@@ -4,24 +4,10 @@ import ProductDetail from "../containers/BackOffice/ProductDetail";
 import Signup from "../containers/Modal/Signup";
 import Login from "../containers/Modal/Login";
 import ForgottenPassword from "../containers/Modal/ForgottenPassword";
-import { fetchUserData } from "../utils/data-utils";
 import ModifyPassword from "../containers/Account/ModifyAccount";
 import DeleteAccount from "../containers/Account/DeleteAccount";
 import AdminDeleteAccount from "../containers/BackOffice/AdminDeleteAccount";
 import ActionOnProduct from "../containers/BackOffice/ActionOnProduct";
-
-export enum UserType {
-	ConnectedUser = "connectedUser",
-	Admin = "admin",
-}
-
-export type User = {
-	id: number;
-	mail: string;
-	password: string;
-	token: string;
-	userType: UserType;
-};
 
 type ComponentKey = "signup" | "login" | "forgotten-password" | "product-detail";
 

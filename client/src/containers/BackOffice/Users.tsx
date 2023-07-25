@@ -1,10 +1,5 @@
 /** Backoffice Users Container : display all users with filter */
 
-// To test:
-// - behaviour when missing data
-// - existence of element inside list
-// - filter
-
 import "../../styling/backoffice.css";
 import { faHashtag, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";

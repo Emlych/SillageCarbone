@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { UserType } from "../../components/Modal";
 import { createToken } from "../../utils/data-utils";
 import axios from "axios";
+import { UserType } from "../../dto/UserDto";
 
 type SignupProps = {
 	toggleModal: Function;

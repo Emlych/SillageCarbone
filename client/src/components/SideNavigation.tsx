@@ -1,3 +1,4 @@
+// Navigation on left side
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 
 type NavigationProps = {
