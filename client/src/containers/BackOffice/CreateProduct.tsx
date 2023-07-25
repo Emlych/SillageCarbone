@@ -14,6 +14,8 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 export enum TransportationType {
 	Container = "container",
@@ -29,9 +31,6 @@ const CreateProduct = () => {
 	const [originHarbour, setOriginHarbour] = useState("");
 	const [destinationHarbour, setDestinationHarbour] = useState("");
 	const [transportation, setTransportation] = useState(TransportationType.Container);
-
-	/** Error message */
-	const [errorMessage, setErrorMessage] = useState("");
 
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
@@ -73,11 +72,11 @@ const CreateProduct = () => {
 				);
 
 				if (response.data) {
-					alert("Le product a été créé.");
+					toast(`Création du produit ${name} - ${company} `);
 					initForm();
 				}
 			} catch (error) {
-				alert("Product creation failed");
+				toast.error(`Erreur dans la création du produit`);
 				console.error(error);
 			}
 		};
@@ -194,16 +193,7 @@ const CreateProduct = () => {
 
 					<div>{transportation}</div>
 				</div>
-				{/* <Input
-					faIcon={faShip}
-					placeholderText="Type de transport"
-					value={transportation}
-					data-testid="port-arrivee"
-					onChange={(event) => {
-						setTransportation(event.target.value);
-					}}
-					type="text"
-				/> */}
+
 				<Input
 					faIcon={faCommentDots}
 					placeholderText="Description"
@@ -215,12 +205,11 @@ const CreateProduct = () => {
 					type="text"
 				/>
 
-				{/* Set error message if wrong password: depends on */}
-				<div className="warning">{errorMessage}</div>
-
 				<div className="button-container">
 					<Button buttonText="Valider" buttonType="submit" />
 				</div>
+
+				<ToastContainer position="bottom-right" autoClose={5000} />
 			</form>
 		</div>
 	);

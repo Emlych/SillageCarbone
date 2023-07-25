@@ -13,7 +13,7 @@ import { UserType } from "../../components/Modal";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 const CreateUser = () => {
 	/** Informations associated with account creation: mail, password and user role */
@@ -35,7 +35,7 @@ const CreateUser = () => {
 				}
 				const response = await axios.post(url, { mail, password, userRole });
 				if (response.data) {
-					toast(`Utilisateur ${userRole}  créé `);
+					toast(`Utilisateur de type ${userRole} créé `);
 				}
 			} catch (error: any) {
 				toast.error(`Erreur dans la création d'un nouvel utilisateur`, {});

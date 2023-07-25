@@ -7,6 +7,8 @@ import Button from "../../components/Button";
 import "./productTags.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 type Transportation = {
 	_id: string;
@@ -46,11 +48,11 @@ const ProductTags = () => {
 				});
 
 				if (response.data) {
-					alert("Le transport a été créé.");
+					toast(`Transport ${newTransportation}  créé `);
 					initForm();
 				}
 			} catch (error) {
-				alert("Product transportation creation failed");
+				toast.error(`Erreur dans la création d'un nouveau transport`);
 				console.error(error);
 			}
 		};
@@ -63,8 +65,6 @@ const ProductTags = () => {
 			try {
 				const url = "http://localhost:8000/transportations";
 
-				console.log("fetch data please here ", url);
-
 				const response = await axios.get(url);
 				console.log("response ", response.data);
 
@@ -74,6 +74,7 @@ const ProductTags = () => {
 
 				setAllTransportations(response.data.transportations);
 			} catch (error) {
+				toast.error(`Erreur dans l'extraction des moyens de transport`);
 				console.error("Error ", error);
 			}
 		};
@@ -142,6 +143,7 @@ const ProductTags = () => {
 						</div>
 					))}
 			</div>
+			<ToastContainer position="bottom-right" autoClose={5000} />
 		</div>
 	);
 };

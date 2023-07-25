@@ -1,9 +1,6 @@
 /** Backoffice Products Container : display all products with filter */
-// To test:
-// - behaviour when missing data
-// - existence of element inside list
-// TODO :
-// - "factoriser les interfaces en doublon (exemple: product)"
+
+// TODO : "factoriser les interfaces en doublon (exemple: product)"
 import { faBoxOpen, faHashtag, faTag } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -14,6 +11,8 @@ import BackofficeProductCard from "./BackofficeProductCard";
 import Modal from "../../components/Modal";
 import PageFooter from "./PageFooter";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 interface Product {
 	_id: string;
@@ -112,7 +111,8 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 				// -- Allow display of products
 				setIsLoading(false);
 			} catch (error) {
-				console.error("Error ", error);
+				toast.error(`Erreur dans la récupération des produits`);
+				throw new Error("Error in retrival of products");
 			}
 		};
 		fetchAndFilterProductsData(params);
@@ -268,6 +268,8 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 			{!isLoading && products && products.length === 0 && (
 				<span>Pas de produit à afficher.</span>
 			)}
+
+			<ToastContainer position="bottom-right" autoClose={5000} />
 		</div>
 	);
 };

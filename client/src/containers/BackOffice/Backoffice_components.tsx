@@ -8,6 +8,8 @@ import Products from "./Products";
 import CreateProduct from "./CreateProduct";
 import ProductTags from "./ProductTags";
 
+import "react-toastify/dist/ReactToastify.css";
+
 type BackofficeComponentsProps = {
 	componentKey: BackOfficeComponentKey;
 };

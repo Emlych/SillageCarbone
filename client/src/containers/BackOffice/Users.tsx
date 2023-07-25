@@ -20,7 +20,6 @@ import Cookies from "js-cookie";
 
 // Toast service
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 interface User {
 	id: number;
@@ -118,7 +117,7 @@ const Users = () => {
 				// -- Allow display of users
 				setIsLoading(false);
 			} catch (error) {
-				toast.error("Les utilisateurs n'ont pas pu être récupérés");
+				toast.error("Erreur dans la récupération des utilisateurs.");
 				console.error("Error ", error);
 			}
 		};
@@ -193,7 +192,7 @@ const Users = () => {
 				/>
 			</div>
 
-			{!isLoading && users && users.length > 0 ? (
+			{!isLoading && users ? (
 				<div>
 					<div className="users">
 						{/* Filter by search bar item if not empty */}
