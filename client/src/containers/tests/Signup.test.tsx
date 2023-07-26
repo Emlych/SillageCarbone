@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import Signup from "../containers/Modal/Signup";
+import Signup from "../Modal/Signup";
 
 describe("Signup", () => {
 	const mockSetUser = jest.fn();

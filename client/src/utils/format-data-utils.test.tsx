@@ -2,7 +2,7 @@ import {
 	capitalizeFirstLetter,
 	formatDate,
 	formatTextToString,
-} from "../utils/format-data-utils";
+} from "./format-data-utils";
 
 /** Unit testing of utils function */
 describe("Format Data Utils Function", () => {

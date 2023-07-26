@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import CreateUser from "../containers/BackOffice/CreateUser";
+import CreateUser from "../BackOffice/CreateUser";
 import React from "react";
 
 describe("CreateUser", () => {

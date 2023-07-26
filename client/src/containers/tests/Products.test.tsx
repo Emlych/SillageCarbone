@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import Products from "../containers/BackOffice/Products";
+import Products from "../BackOffice/Products";
 
 test("Products component renders correctly", () => {
 	render(<Products />);

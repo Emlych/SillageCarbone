@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import Navigation from "../containers/BackOffice/Backoffice_navigation";
+import Navigation from "../BackOffice/Backoffice_navigation";
 
 test("Navigation component renders correctly", () => {
 	const setComponentKey = jest.fn();

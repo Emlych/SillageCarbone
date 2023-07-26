@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import Users from "../containers/BackOffice/Users";
+import Users from "../BackOffice/Users";
 
 test("Users component renders correctly", () => {
 	render(<Users />);
