@@ -3,8 +3,7 @@ import { useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { updateUser } from "../../services/userService";
 
 const ModifyPassword = () => {
 	const [actualPassword, setActualPassword] = useState("");
@@ -18,43 +17,12 @@ const ModifyPassword = () => {
 	// -- When password has been changed, validRequest will be passed to true
 	const [validRequest, setValidRequest] = useState(false);
 
-	// -- Retrieve user mail using cookie token
-	const userMail = Cookies.get("userMailToken");
-
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
-		const url = "http://localhost:8000/user/change-password";
 		const fetchData = async () => {
 			try {
-				// -- No mail registered (needs to be investigated)
-				if (!userMail) {
-					throw new Error("Missing user");
-				}
-				// -- Check all fields were provided
-				if (!actualPassword || !newPassword) {
-					throw new Error("Missing field");
-				}
-				// -- Is user connected as admin
-				const userToken = Cookies.get("userToken");
-				if (!userToken) {
-					throw new Error("Not authorized.");
-				}
-				// -- Send update request
-				const response = await axios.put(
-					url,
-					{
-						mail: userMail,
-						password: actualPassword,
-						newPassword,
-					},
-					{ headers: { authorization: `Bearer ${userToken}` } }
-				);
-
-				if (response.data) {
-					setValidRequest(true);
-				}
-
-				// -- Need to display an "okay message"
+				updateUser(actualPassword, newPassword);
+				setValidRequest(true);
 			} catch (error: any) {
 				alert("User password could not be changed.");
 				throw new Error("Could not modify password");
