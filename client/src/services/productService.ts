@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ProductWithCO2 } from "../dto/ProductDto";
+import { Transportation } from "../dto/TransportationDto";
 
 export const fetchProductById = async (_id: string) => {
 	const url = `http://localhost:8001/product/${_id}`;
@@ -85,6 +86,101 @@ export const fetchProducts = async (
 		const count = response.data.count;
 
 		return { products, count };
+	} catch (error) {
+		throw new Error("Error fetching products.");
+	}
+};
+
+export const createProduct = async (
+	name: string,
+	company: string,
+	type: string,
+	originHarbour: string,
+	destinationHarbour: string,
+	transportation: string,
+	description?: string
+): Promise<{ _id: string; mail: string; token: string }> => {
+	const url = "http://localhost:8000/product/create";
+
+	try {
+		if (
+			!name ||
+			!company ||
+			!type ||
+			!originHarbour ||
+			!destinationHarbour ||
+			!transportation
+		) {
+			throw new Error("Missing field");
+		}
+
+		// -- Is user connected as admin
+		const adminToken = Cookies.get("adminToken");
+		if (!adminToken) {
+			throw new Error("Not authorized to access list of users.");
+		}
+
+		// send product to server
+		const response = await axios.post(
+			url,
+			{
+				name,
+				company,
+				type,
+				originHarbour,
+				destinationHarbour,
+				transportation,
+				description,
+			},
+			{ headers: { authorization: `Bearer ${adminToken}` } }
+		);
+
+		if (!response.data) {
+			throw new Error("User could not be created");
+		}
+		return response.data;
+	} catch (error) {
+		throw new Error("User could not be created");
+	}
+};
+
+export const createNewTransportation = async (
+	newTransportation: string,
+	carbonCoef: number
+): Promise<{ _id: string; mail: string; token: string }> => {
+	const url = "http://localhost:8000/product/transportation/create";
+
+	try {
+		if (!newTransportation || !carbonCoef) {
+			throw new Error("Missing field");
+		}
+
+		// send transportation to server
+		const response = await axios.post(url, {
+			transportation: newTransportation,
+			carbonCoefficient: carbonCoef,
+		});
+
+		if (!response.data) {
+			throw new Error("User could not be created");
+		}
+		return response.data;
+	} catch (error) {
+		throw new Error("User could not be created");
+	}
+};
+
+export const fetchTransportations = async (): Promise<Transportation[]> => {
+	const url = "http://localhost:8000/transportations";
+
+	try {
+		const response = await axios.get(url);
+
+		if (!response.data?.transportations) {
+			throw new Error("No transportations retrieved");
+		}
+
+		return response.data.transportations;
 	} catch (error) {
 		throw new Error("Error fetching products.");
 	}

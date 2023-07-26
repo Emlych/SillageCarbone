@@ -1,23 +1,19 @@
 /** Backoffice Products Tags : manage transportation, product types, companies, ...*/
-
 import { faPen, faShip, faSmog, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Input from "../../components/Input";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import "./productTags.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-
-type Transportation = {
-	_id: string;
-	name: string;
-	carbonCoefficient: number;
-};
+import {
+	createNewTransportation,
+	fetchTransportations,
+} from "../../services/productService";
+import { Transportation } from "../../dto/TransportationDto";
 
 const ProductTags = () => {
-	// Transportation
+	// States
 	const [newTransportation, setNewTransportation] = useState("");
 	const [carbonCoef, setCarbonCoef] = useState(1);
 	const [allTransportations, setAllTransportations] = useState<Transportation[] | null>(
@@ -34,26 +30,13 @@ const ProductTags = () => {
 	const createTransportation = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const url = "http://localhost:8000/product/transportation/create";
-
 		const fetchData = async () => {
 			try {
-				if (!newTransportation || !carbonCoef) {
-					throw new Error("Missing field");
-				}
-				// send product to server
-				const response = await axios.post(url, {
-					transportation: newTransportation,
-					carbonCoefficient: carbonCoef,
-				});
-
-				if (response.data) {
-					toast(`Transport ${newTransportation}  créé `);
-					initForm();
-				}
+				createNewTransportation(newTransportation, carbonCoef);
+				toast(`Transport ${newTransportation}  créé `);
+				initForm();
 			} catch (error) {
 				toast.error(`Erreur dans la création d'un nouveau transport`);
-				console.error(error);
 			}
 		};
 		fetchData();
@@ -63,19 +46,10 @@ const ProductTags = () => {
 	useEffect(() => {
 		const fetchAndFilterProductsData = async () => {
 			try {
-				const url = "http://localhost:8000/transportations";
-
-				const response = await axios.get(url);
-				console.log("response ", response.data);
-
-				if (!response.data?.transportations) {
-					throw new Error("No transportations retrieved");
-				}
-
-				setAllTransportations(response.data.transportations);
+				const transportations = await fetchTransportations();
+				setAllTransportations(transportations);
 			} catch (error) {
 				toast.error(`Erreur dans l'extraction des moyens de transport`);
-				console.error("Error ", error);
 			}
 		};
 		fetchAndFilterProductsData();
