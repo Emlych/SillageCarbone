@@ -1,4 +1,4 @@
-import "../../components/modal.css";
+import "../../pages/modal.css";
 import CardItem from "../../components/CardItem";
 import {
 	faCalendar,
@@ -13,8 +13,8 @@ import {
 import { formatDate, formattedDate } from "../../utils/format-data-utils";
 import Button from "../../components/Button";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { DetailedProduct } from "../../dto/ProductDto";
+import { fetchProductById } from "../../services/productService";
 
 type ProductDetailProps = {
 	_id: string;
@@ -28,17 +28,11 @@ const ProductDetail = ({ _id }: ProductDetailProps) => {
 	/** Read data associated with product _id on page loading */
 	useEffect(() => {
 		const fetchProduct = async () => {
-			const url = `http://localhost:8000/product/${_id}`;
-
 			try {
-				const response = await axios.get(url);
-				const productData = response.data;
-				if (!productData) {
-					console.error("No product was found");
-					throw new Error("Product not found");
-				}
-				setProduct(response.data.product);
-				const creationDate = response.data.product.creation_date;
+				const product = await fetchProductById(_id);
+				setProduct(product);
+
+				const creationDate = product.creation_date;
 
 				if (creationDate) {
 					const convertDateFormat = formatDate(
@@ -49,7 +43,6 @@ const ProductDetail = ({ _id }: ProductDetailProps) => {
 				}
 				setIsLoading(false);
 			} catch (error: any) {
-				console.error(error);
 				throw new Error(error.message);
 			}
 		};

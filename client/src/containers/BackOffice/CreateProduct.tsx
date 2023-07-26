@@ -49,7 +49,6 @@ const CreateProduct = () => {
 				initForm();
 			} catch (error) {
 				toast.error(`Erreur dans la création du produit`);
-				console.error(error);
 			}
 		};
 		fetchData();

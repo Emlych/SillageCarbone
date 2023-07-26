@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import ProductCard from "../containers/Product/Product_Card";
+import ProductCard from "../../containers/Product/Product_Card";
 
 // Mock data for testing
 const product = {
@@ -27,6 +27,4 @@ test("ProductCard renders correctly", () => {
 	// Check if company name is rendered
 	const companyElement = screen.getByText("Sample Company");
 	expect(companyElement).toBeInTheDocument();
-
-	// ... Continue checking other elements and their values
 });

@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import { fireEvent, render } from "@testing-library/react";
-import PageFooter from "../containers/BackOffice/PageFooter";
+import PageFooter from "../PageFooter";
 
 /** Unit testing of utils function */
 describe("Page footer", () => {

@@ -1,21 +1,13 @@
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import { ChangeEvent } from "react";
 
 export type ForgottenPasswordProps = {
-	//handleFormSubmit: FormEventHandler<HTMLFormElement>;
 	mail: string;
 	setMail: Function;
 };
-const ForgottenPassword = ({
-	//handleFormSubmit,
-	mail,
-	setMail,
-}: ForgottenPasswordProps) => {
-	const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setMail(event.target.value);
-	};
-
+const ForgottenPassword = ({ mail, setMail }: ForgottenPasswordProps) => {
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -37,7 +29,7 @@ const ForgottenPassword = ({
 				placeholderText="Adresse mail"
 				value={mail}
 				data-testid="mail"
-				onChange={handleMailChange}
+				onChange={(event: ChangeEvent<HTMLInputElement>) => setMail(event.target.value)}
 				type="email"
 			/>
 			<Button buttonText="Soumettre" buttonType="submit" />

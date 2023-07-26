@@ -4,22 +4,15 @@ import { faHashtag, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
 // Components
-import UserCard from "../UserCard";
 import Input from "../../components/Input";
 import DateInput from "../../components/DateInput";
-import PageFooter from "./PageFooter";
-import Modal from "../../components/Modal";
+import PageFooter from "../../components/PageFooter";
+import Modal from "../../pages/Modal";
+import UserCard from "../../components/Backoffice/UserCard";
 
 import { ToastContainer, toast } from "react-toastify";
 import { fetchUsers } from "../../services/userService";
-
-interface User {
-	id: number;
-	mail: string;
-	creation_date: Date;
-}
-export const DEFAULT_START_DATE = new Date(2010, 9, 5);
-export const DEFAULT_FINISH_DATE = new Date();
+import { DEFAULT_START_DATE, User } from "../../dto/UserDto";
 
 const Users = () => {
 	// User data loaded

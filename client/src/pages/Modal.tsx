@@ -79,6 +79,7 @@ const Modal = ({
 				}
 			}
 		} else {
+			// -- Modal dealed from Header toggleModal
 			switch (componentKeyName) {
 				case "signup":
 					return (

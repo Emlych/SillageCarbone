@@ -1,4 +1,4 @@
-import "../../styling/productcard.css";
+import "./productcard.css";
 import { useState } from "react";
 import { capitalizeFirstLetter } from "../../utils/format-data-utils";
 import Button from "../../components/Button";

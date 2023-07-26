@@ -11,7 +11,7 @@ import { Product } from "../../dto/ProductDto";
 import { fetchProductsForCache } from "../../services/productService";
 
 interface ProductCache {
-	[_id: number]: Product;
+	[_id: string]: Product;
 }
 
 /** Component that contains :
@@ -26,21 +26,13 @@ const Autocomplete = () => {
 	// Name of product that should be retrieved from database
 	const [searchedProduct, setSearchedProduct] = useState("");
 	// List of products to suggest to user
-	const [suggestions, setSuggestions] = useState<Map<number, string> | null>(null);
+	const [suggestions, setSuggestions] = useState<Map<string, string> | null>(null);
 
 	/** On first load of this component, retrieve products from database and store them in products*/
 	useEffect(() => {
 		const fetchAndFilterProductsData = async () => {
 			try {
 				const products = await fetchProductsForCache();
-				// const url = "http://localhost:8000/products/cache";
-				// const response = await axios.get(url);
-
-				// if (!response.data?.products) {
-				// 	throw new Error("No products retrieved");
-				// }
-
-				// -- Update products
 				setProducts(products);
 			} catch (error) {
 				console.error("Error ", error);
@@ -79,7 +71,7 @@ const Autocomplete = () => {
 		let inputKeywords = formatTextToString(inputValue);
 
 		// Provide list of products which match with inputValue and store its id and name inside a map
-		const matchingProducts = new Map<number, string>();
+		const matchingProducts = new Map<string, string>();
 		for (const product in productCache) {
 			const hasMatchInName = productCache[product].keywords.includes(inputKeywords);
 

@@ -1,24 +1,35 @@
-import Button from "../components/Button";
 import "./account.css";
-import { useState } from "react";
-import Modal from "../components/Modal";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import Button from "../components/Button";
+import Modal from "./Modal";
+import { fetchUserByMail } from "../services/userService";
 
 const Account = () => {
 	// -- Retrieve user mail using cookie token
 	const userMail = Cookies.get("userMailToken");
 
+	const [accountDate, setAccountDate] = useState("");
+
 	// -- Change password modal
 	const [changePasswordModalIsOpen, setChangePasswordModalIsOpen] = useState(false);
-	const openChangePasswordModal = () => {
-		setChangePasswordModalIsOpen(!changePasswordModalIsOpen);
-	};
-
 	// -- Delete account modal
 	const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-	const openDeleteAccountModal = () => {
-		setDeleteModalIsOpen(!deleteModalIsOpen);
-	};
+
+	useEffect(() => {
+		const fetchAccountCreationDate = async () => {
+			try {
+				if (!userMail) {
+					throw new Error("No mail");
+				}
+				const creationDate = await fetchUserByMail(userMail);
+				setAccountDate(creationDate);
+			} catch (error: any) {
+				throw new Error(error.message);
+			}
+		};
+		fetchAccountCreationDate();
+	}, []);
 
 	return (
 		<div className="account">
@@ -29,7 +40,7 @@ const Account = () => {
 					<p>Mail user : {userMail} </p>
 					<label htmlFor="newsletter">Inscription à la newsletter </label>
 					<input type="checkbox" name="newsletter" id="" />
-					<p>Date de création du compte </p>
+					<p>Date de création du compte : {accountDate}</p>
 				</div>
 				<div className="account-container">
 					<h3>Gestion du mot de passe</h3>
@@ -37,7 +48,7 @@ const Account = () => {
 						<Button
 							buttonText="Changement du mot de passe"
 							buttonType="button"
-							callback={openChangePasswordModal}
+							callback={() => setChangePasswordModalIsOpen(true)}
 						/>
 					</div>
 				</div>
@@ -47,7 +58,7 @@ const Account = () => {
 						<Button
 							buttonText="Supprimer"
 							buttonType="button"
-							callback={openDeleteAccountModal}
+							callback={() => setDeleteModalIsOpen(true)}
 						/>
 					</div>
 				</div>
@@ -55,12 +66,18 @@ const Account = () => {
 
 			{/* Modal for password change */}
 			{changePasswordModalIsOpen && (
-				<Modal toggleModal={openChangePasswordModal} accountModalKey="change-password" />
+				<Modal
+					toggleModal={() => setChangePasswordModalIsOpen(!changePasswordModalIsOpen)} //! TODO a voir s'il faut remodifier
+					accountModalKey="change-password"
+				/>
 			)}
 
 			{/* Modal for account deletion */}
 			{deleteModalIsOpen && (
-				<Modal toggleModal={openDeleteAccountModal} accountModalKey="delete-account" />
+				<Modal
+					toggleModal={() => setDeleteModalIsOpen(!changePasswordModalIsOpen)} //! TODO a voir s'il faut remodifier
+					accountModalKey="delete-account"
+				/>
 			)}
 		</div>
 	);

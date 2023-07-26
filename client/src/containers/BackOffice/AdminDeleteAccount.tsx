@@ -1,9 +1,9 @@
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { deleteUserAsAdmin } from "../../services/userService";
+import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
-import axios from "axios";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import Cookies from "js-cookie";
 
 export type AdminDeleteAccountProps = {
 	toggleModal: Function;
@@ -13,36 +13,17 @@ const AdminDeleteAccount = ({ toggleModal, mail }: AdminDeleteAccountProps) => {
 	/** On form submission, delete account */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
-		const url = "http://localhost:8000/user/admin/delete";
 
 		const fetchData = async () => {
 			try {
-				// -- No mail registered (needs to be investigated)
-				if (!mail) {
-					throw new Error("Missing user");
-				}
-
-				// -- Is user connected as admin
-				const adminToken = Cookies.get("adminToken");
-				if (!adminToken) {
-					throw new Error("Not authorized to access list of users.");
-				}
-
-				// -- Send delete request
-				const response = await axios.delete(url, {
-					headers: { authorization: `Bearer ${adminToken}` },
-					data: { mail },
-				});
-
-				if (response.data) {
+				await deleteUserAsAdmin(mail).then(() => {
 					// -- Close modal
 					toggleModal();
-					alert("Compte supprimé");
+					toast("Compte supprimé");
 					window.location.reload();
-				}
+				});
 			} catch (error) {
-				console.error(error);
-				alert("User could not be deleted.");
+				toast.error("Le compte n'a pas pu être supprimé");
 			}
 		};
 		fetchData();
@@ -85,6 +66,9 @@ const AdminDeleteAccount = ({ toggleModal, mail }: AdminDeleteAccountProps) => {
 					alert
 				/>
 			</div>
+
+			{/* Toast to display error message */}
+			<ToastContainer position="bottom-right" autoClose={5000} />
 		</form>
 	);
 };

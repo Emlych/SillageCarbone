@@ -1,5 +1,4 @@
 // Component displayed on home page : one title + explanations inside an insert
-
 import "./articlecard.css";
 
 type HomeCardProps = {
@@ -7,7 +6,7 @@ type HomeCardProps = {
 	text: string;
 };
 
-const HomeCard = ({ title, text }: HomeCardProps) => {
+const ArticleCard = ({ title, text }: HomeCardProps) => {
 	return (
 		<article className="homecard">
 			<h3 className="homecard-title">{title}</h3>
@@ -18,4 +17,4 @@ const HomeCard = ({ title, text }: HomeCardProps) => {
 	);
 };
 
-export default HomeCard;
+export default ArticleCard;

@@ -4,8 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { createToken } from "../../utils/data-utils";
-import axios from "axios";
-import { UserType } from "../../dto/UserDto";
+import { createUser } from "../../services/userService";
 
 type SignupProps = {
 	toggleModal: Function;
@@ -44,33 +43,16 @@ const Signup = ({
 		setCanSubmit(confirmPassword === password);
 	}, [password, confirmPassword]);
 
-	const handleMailChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setMail(event.target.value);
-	};
-	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setPassword(event.target.value);
-	};
-	const handleConfirmPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setConfirmPassword(event.target.value);
-	};
-
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const url = "http://localhost:8000/user/create";
-
 		const fetchData = async () => {
 			try {
-				if (!mail || !password) {
-					throw new Error("Missing field");
-				}
-				const response = await axios.post(url, { mail, password });
-				if (response.data) {
-					const isAdmin = response.data.userType === UserType.Admin;
-					createToken(response.data.token, response.data.mail, isAdmin);
+				createUser(mail, password).then((userData) => {
+					createToken(userData.token, userData.mail, false);
 					toggleModal();
-				}
+				});
 			} catch (error: any) {
 				throw new Error("Vous n'êtes pas autorisé à vous connecter.");
 			}
@@ -87,7 +69,7 @@ const Signup = ({
 				placeholderText="Adresse mail"
 				value={mail}
 				data-testid="mail"
-				onChange={handleMailChange}
+				onChange={(event: ChangeEvent<HTMLInputElement>) => setMail(event.target.value)}
 				type="email"
 			/>
 
@@ -103,7 +85,9 @@ const Signup = ({
 					placeholderText="Mot de passe"
 					value={password}
 					data-testid="password"
-					onChange={handlePasswordChange}
+					onChange={(event: ChangeEvent<HTMLInputElement>) =>
+						setPassword(event.target.value)
+					}
 					type={hiddenPassword ? "password" : "text"}
 				/>
 			</div>
@@ -120,7 +104,9 @@ const Signup = ({
 					placeholderText="Confirmer le mot de passe"
 					value={confirmPassword}
 					data-testid="password"
-					onChange={handleConfirmPasswordChange}
+					onChange={(event: ChangeEvent<HTMLInputElement>) =>
+						setConfirmPassword(event.target.value)
+					}
 					type={hiddenConfirmPassword ? "password" : "text"}
 				/>
 			</div>

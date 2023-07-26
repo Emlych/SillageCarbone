@@ -1,7 +1,7 @@
 /** UserCard container */
-import { formatDate } from "../utils/format-data-utils";
-import "../styling/usercard.css";
-import Button from "../components/Button";
+import { formatDate } from "../../utils/format-data-utils";
+import Button from "../Button";
+import "./usercard.css";
 
 interface UserCardProps {
 	mail: string;

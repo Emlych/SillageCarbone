@@ -37,14 +37,6 @@ const CreateUser = () => {
 		fetchData();
 	};
 
-	/*** Set mail, password and user role on change in input */
-	const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setMail(event.target.value);
-	};
-	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(event.target.value);
-	};
-
 	// Enable closing dropdown on clicking outside of dropdown
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -78,7 +70,9 @@ const CreateUser = () => {
 					placeholderText="Adresse mail"
 					value={mail}
 					data-testid="mail"
-					onChange={handleMailChange}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						setMail(event.target.value)
+					}
 					type="email"
 				/>
 
@@ -94,7 +88,9 @@ const CreateUser = () => {
 						placeholderText="Mot de passe"
 						value={password}
 						data-testid="password"
-						onChange={handlePasswordChange}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setPassword(event.target.value)
+						}
 						type={hiddenPassword ? "password" : "text"}
 					/>
 				</div>

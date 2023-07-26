@@ -1,10 +1,9 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import Login from "../containers/Modal/Login";
+import Login from "./Login";
 
 describe("Login", () => {
 	const mockSetUser = jest.fn();
 	const mockToggleModal = jest.fn();
-	const mockFetchUserData = jest.fn();
 	const mockSetMail = jest.fn();
 	const mockSetPassword = jest.fn();
 	const mockSetHiddenPassword = jest.fn();

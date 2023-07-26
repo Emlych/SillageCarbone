@@ -1,21 +1,13 @@
 /** Product page to display detailed information on product */
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { DetailedProduct } from "../dto/ProductDto";
+import { CarousselProduct, DetailedProduct } from "../dto/ProductDto";
 // Containers
 import SearchHero from "../containers/SearchProduct/SearchHero.container";
 import ProductCard from "../containers/Product/Product_Card";
 import Caroussel from "../containers/Product/Caroussel";
-import NoProductCard from "../containers/Product/NoProduct_Card";
 import { fetchProductById, fetchSimilarProducts } from "../services/productService";
 import { ToastContainer, toast } from "react-toastify";
-
-export type CarousselProduct = {
-	_id: number;
-	name: string;
-	company: string;
-	co2: number;
-};
 
 const Product = () => {
 	// -- id of product inside database
@@ -70,9 +62,6 @@ const Product = () => {
 
 	return (
 		<div>
-			{/* Display message if product is missing */}
-			{isLoading && <NoProductCard />}
-
 			{/* Display product details and caroussel of similar products */}
 			{!isLoading && product && (
 				<div>

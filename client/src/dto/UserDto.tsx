@@ -8,3 +8,6 @@ export interface User {
 	mail: string;
 	creation_date: Date;
 }
+
+export const DEFAULT_START_DATE = new Date(2010, 9, 5);
+export const DEFAULT_FINISH_DATE = new Date();

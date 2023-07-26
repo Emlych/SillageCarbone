@@ -1,60 +1,35 @@
 import { faEye, faLock } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Cookies from "js-cookie";
-import axios from "axios";
+import { useState } from "react";
 import { deleteToken } from "../../utils/data-utils";
 import { useNavigate } from "react-router-dom";
+import { deleteUser } from "../../services/userService";
 import { ToastContainer, toast } from "react-toastify";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 export type DeleteAccountProps = {
 	toggleModal: Function;
 };
+
 const DeleteAccount = ({ toggleModal }: DeleteAccountProps) => {
 	const [password, setPassword] = useState("");
 	const [hiddenPassword, setHiddenPassword] = useState(true);
-
-	// -- Retrieve user mail using cookie token
-	const userMail = Cookies.get("userMailToken");
 
 	const navigate = useNavigate();
 
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
-		const url = "http://localhost:8000/user/delete";
 
 		const fetchData = async () => {
 			try {
-				// -- No mail registered (needs to be investigated)
-				if (!userMail) {
-					throw new Error("Missing user");
-				}
-				// -- Check all fields were provided
-				if (!password) {
-					throw new Error("Missing field");
-				}
-				// -- Is user connected as admin
-				const userToken = Cookies.get("userToken");
-				if (!userToken) {
-					throw new Error("Not authorized.");
-				}
-				// -- Send delete request
-				const response = await axios.delete(url, {
-					headers: { authorization: `Bearer ${userToken}` },
-					data: { mail: userMail, password },
-				});
-
-				if (response.data) {
+				await deleteUser(password).then(() => {
 					// -- Delete userMailToken and userToken
 					deleteToken();
-
-					// -- Navigate
+					// -- Navigate to home page
 					navigate("/");
-				}
+				});
 			} catch (error) {
-				console.error(error);
 				toast.error("Le compte n'a pas pu être supprimé");
 			}
 		};

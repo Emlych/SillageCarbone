@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import "../../styling/carouselHome.css";
-import ArticleCard from "../../components/ArticleCard";
+import ArticleCard from "../../components/Home/ArticleCard";
 
 interface CarouselProps {
 	articles: Article[];

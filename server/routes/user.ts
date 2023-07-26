@@ -306,4 +306,24 @@ router.delete("/user/admin/delete", isAdmin, async (req: Request, res: Response)
 	}
 });
 
+/** Provide mail to return creation date of a user route */
+router.get("/user/mail", async (req: Request, res: Response) => {
+	console.info("Route: /product/mail");
+
+	try {
+		// -- Check if id was provided
+		const userMail = req.body.mail;
+		if (!userMail) {
+			throw new Error("No mail provided");
+		}
+		const searchedUser = await User.findOne({ mail: userMail });
+		if (!searchedUser) {
+			throw new Error("User not found.");
+		}
+		return res.status(200).json({ creation_date: searchedUser.creation_date });
+	} catch (error: any) {
+		return res.status(400).json({ error: error.message });
+	}
+});
+
 module.exports = router;

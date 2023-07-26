@@ -1,6 +1,5 @@
-import axios from "axios";
 import Button from "../../components/Button";
-import Cookies from "js-cookie";
+import { archiveProduct, deleteProduct } from "../../services/productService";
 
 export type ActionOnProductProps = {
 	toggleModal: Function;
@@ -12,81 +11,36 @@ const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps)
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const deleteProduct = async () => {
-			const url = "http://localhost:8000/product/delete";
+		const deleteProductService = async () => {
 			try {
-				console.info("delete please");
-				// -- No id registered (needs to be investigated)
-				if (!_id) {
-					throw new Error("Missing product id");
-				}
-
-				// -- Is user connected as admin
-				const adminToken = Cookies.get("adminToken");
-				if (!adminToken) {
-					throw new Error("Not authorized to access list of users.");
-				}
-
-				// -- Send delete request
-				const response = await axios.delete(url, {
-					headers: { authorization: `Bearer ${adminToken}` },
-					data: { _id },
-				});
-
-				if (response.data) {
+				deleteProduct(_id).then(() => {
 					// -- Close modal
 					toggleModal();
-					alert("Produit supprimé");
 					window.location.reload();
-				}
+				});
 			} catch (error) {
 				console.error(error);
-				alert("Product could not be deleted.");
 			}
 		};
 
-		const archiveProduct = async (archiveStatus: boolean) => {
-			const url = "http://localhost:8000/product/archive";
+		const archiveProductService = async (archiveStatus: boolean) => {
 			try {
-				// -- No id registered (needs to be investigated)
-				if (!_id) {
-					throw new Error("Missing product id");
-				}
-
-				// -- Is user connected as admin
-				const adminToken = Cookies.get("adminToken");
-				if (!adminToken) {
-					throw new Error("Not authorized to access list of users.");
-				}
-
-				// -- Send update request
-				const response = await axios.put(
-					url,
-					{
-						_id,
-						archive: archiveStatus,
-					},
-					{ headers: { authorization: `Bearer ${adminToken}` } }
-				);
-
-				if (response.data.message) {
+				archiveProduct(_id, archiveStatus).then(() => {
 					// -- Close modal
 					toggleModal();
-					alert(response.data.message);
 					window.location.reload();
-				}
+				});
 			} catch (error) {
 				console.error(error);
-				alert("Product could not be archived.");
 			}
 		};
 
 		if (actionType === "archive") {
-			archiveProduct(true);
+			archiveProductService(true);
 		} else if (actionType === "delete") {
-			deleteProduct();
+			deleteProductService();
 		} else if (actionType === "unarchive") {
-			archiveProduct(false);
+			archiveProductService(false);
 		}
 	};
 

@@ -11,7 +11,7 @@ import Account from "./pages/Account.page";
 //Import Components
 import Header from "./containers/Header/Header";
 import ErrorProduct from "./pages/ErrorProduct";
-import Modal from "./components/Modal";
+import Modal from "./pages/Modal";
 
 function App() {
 	/** Open or close the login modal */

@@ -1,8 +1,5 @@
-// // Test if autocompletion works with mocks list of product
-// const mockProductsData = ["thon", "boite", "chocolat", "thon rouge"];
-
 import { render, screen, fireEvent } from "@testing-library/react";
-import Autocomplete from "../containers/SearchProduct/Autocomplete.container";
+import Autocomplete from "./Autocomplete.container";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // Mock the useNavigate hook

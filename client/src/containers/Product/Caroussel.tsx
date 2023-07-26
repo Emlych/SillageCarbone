@@ -1,7 +1,7 @@
-import CarousselCard from "../Home/CarousselCard";
+import CarousselCard from "../../components/CarousselCard";
 import "../../styling/caroussel.css";
-import { CarousselProduct } from "../../pages/Product.page";
 import { useNavigate } from "react-router-dom";
+import { CarousselProduct } from "../../dto/ProductDto";
 
 const Caroussel = ({ products }: { products: CarousselProduct[] }) => {
 	//	Redirect to new product page

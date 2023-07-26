@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import "./dateinput.css";
 import { formatDate } from "../utils/format-data-utils";
-import { DEFAULT_FINISH_DATE, DEFAULT_START_DATE } from "../containers/BackOffice/Users";
+import { DEFAULT_FINISH_DATE, DEFAULT_START_DATE } from "../dto/UserDto";
 
 type DateInputProps = {
 	value: Date;

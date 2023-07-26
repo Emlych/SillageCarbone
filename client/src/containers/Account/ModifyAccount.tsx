@@ -1,9 +1,11 @@
 import { faEye, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { updateUser } from "../../services/userService";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateUser } from "../../services/userService";
+
+// TODO factoriser en un autre composant encore
 
 const ModifyPassword = () => {
 	const [actualPassword, setActualPassword] = useState("");
@@ -31,7 +33,7 @@ const ModifyPassword = () => {
 		fetchData();
 	};
 
-	/** Return true if password and password to confirm are the same */
+	/** Return true if password and password to confirm are the same */ //TODO change into function for strong password
 	const comparePasswords = (password: string, confirmPassword: string): boolean => {
 		return password === confirmPassword;
 	};

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 // Components
 import Input from "../../components/Input";
 import BackofficeProductCard from "./BackofficeProductCard";
-import Modal from "../../components/Modal";
-import PageFooter from "./PageFooter";
+import PageFooter from "../../components/PageFooter";
+import Modal from "../../pages/Modal";
 import { ToastContainer, toast } from "react-toastify";
 import { fetchProducts } from "../../services/productService";
 import { ProductWithCO2 } from "../../dto/ProductDto";
@@ -166,7 +166,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 							data-testid="limitPerPage"
 							onChange={(event) => {
 								const inputValue = Number(event.target.value);
-								if (!isNaN(inputValue)) {
+								if (!isNaN(inputValue) && inputValue > 0) {
 									setLimitPerPage(inputValue);
 								}
 							}}

@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { createToken } from "../../utils/data-utils";
-import axios from "axios";
 import { UserType } from "../../dto/UserDto";
+import { loginUser } from "../../services/userService";
+import { ChangeEvent } from "react";
 
 export type LoginProps = {
 	toggleModal: Function;
@@ -30,36 +31,17 @@ const Login = ({
 	setErrorMessage,
 	setComponentKeyName,
 }: LoginProps) => {
-	const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setMail(event.target.value);
-	};
-	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(event.target.value);
-	};
-
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const url = "http://localhost:8000/user/login";
 		const fetchData = async () => {
 			try {
-				// -- Check all fields were provided
-				if (!mail || !password) {
-					throw new Error("Missing field");
-				}
-				const response = await axios.post(url, { mail, password });
-				const searchedUser = response.data.searchedUser;
-				if (
-					searchedUser &&
-					searchedUser.token &&
-					searchedUser.userType &&
-					searchedUser.mail
-				) {
+				loginUser(mail, password).then((searchedUser) => {
 					const isAdmin = searchedUser.userType === UserType.Admin;
 					createToken(searchedUser.token, searchedUser.mail, isAdmin);
 					toggleModal();
-				}
+				});
 			} catch (error: any) {
 				if (error.response.status === 400 || error.response.status === 401)
 					setErrorMessage("Mauvais email/mot de passe");
@@ -77,7 +59,7 @@ const Login = ({
 				placeholderText="Adresse mail"
 				value={mail}
 				data-testid="mail"
-				onChange={handleMailChange}
+				onChange={(event: ChangeEvent<HTMLInputElement>) => setMail(event.target.value)}
 				type="email"
 			/>
 
@@ -93,7 +75,9 @@ const Login = ({
 					placeholderText="Mot de passe"
 					value={password}
 					data-testid="password"
-					onChange={handlePasswordChange}
+					onChange={(event: ChangeEvent<HTMLInputElement>) =>
+						setPassword(event.target.value)
+					}
 					type={hiddenPassword ? "password" : "text"}
 				/>
 			</div>

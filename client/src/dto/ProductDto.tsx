@@ -42,3 +42,10 @@ export type DetailedProductType = {
 	destination_harbour: string;
 	intermediate_harbour?: string[];
 };
+
+export type CarousselProduct = {
+	_id: number;
+	name: string;
+	company: string;
+	co2: number;
+};

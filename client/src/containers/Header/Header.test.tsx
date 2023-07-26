@@ -1,9 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Cookies from "js-cookie";
-import HeaderBigScreen, {
-	HeaderBigScreenProps,
-} from "../containers/Header/HeaderBigScreen";
+import HeaderBigScreen, { HeaderBigScreenProps } from "./HeaderBigScreen";
 
 // Mock js cookie dependency
 jest.mock("js-cookie");

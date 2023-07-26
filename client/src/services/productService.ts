@@ -4,7 +4,7 @@ import { ProductWithCO2 } from "../dto/ProductDto";
 import { Transportation } from "../dto/TransportationDto";
 
 export const fetchProductById = async (_id: string) => {
-	const url = `http://localhost:8001/product/${_id}`;
+	const url = `http://localhost:8000/product/${_id}`;
 	try {
 		const response = await axios.get(url);
 		const productData = response.data;
@@ -12,14 +12,13 @@ export const fetchProductById = async (_id: string) => {
 			throw new Error("No product was found");
 		}
 		return response.data.product;
-	} catch (error) {
-		console.error(error);
-		throw new Error("Product not found");
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 
 export const fetchSimilarProducts = async (productType: string, excludeId: string) => {
-	const url = `http://localhost:8001/products/`;
+	const url = `http://localhost:8000/products/`;
 	try {
 		const response = await axios.get(url, {
 			params: { type: productType, excludeId, limit: 3, page: 1 },
@@ -29,7 +28,6 @@ export const fetchSimilarProducts = async (productType: string, excludeId: strin
 		}
 		return response.data.products;
 	} catch (error: any) {
-		console.error(error);
 		throw new Error(error.message);
 	}
 };
@@ -141,6 +139,70 @@ export const createProduct = async (
 		return response.data;
 	} catch (error) {
 		throw new Error("User could not be created");
+	}
+};
+
+export const deleteProduct = async (_id: string) => {
+	const url = "http://localhost:8000/product/delete";
+
+	try {
+		// -- No id registered (needs to be investigated)
+		if (!_id) {
+			throw new Error("Missing product id");
+		}
+
+		// -- Is user connected as admin
+		const adminToken = Cookies.get("adminToken");
+		if (!adminToken) {
+			throw new Error("Missing authorization");
+		}
+
+		// -- Send delete request
+		const response = await axios.delete(url, {
+			headers: { authorization: `Bearer ${adminToken}` },
+			data: { _id },
+		});
+
+		if (!response.data) {
+			throw new Error("Could not delete product");
+		}
+		return response.data;
+	} catch (error: any) {
+		throw new Error(error.message);
+	}
+};
+
+export const archiveProduct = async (_id: string, archiveStatus: boolean) => {
+	const url = "http://localhost:8000/product/archive";
+
+	try {
+		// -- No id registered (needs to be investigated)
+		if (!_id) {
+			throw new Error("Missing product id");
+		}
+
+		// -- Is user connected as admin
+		const adminToken = Cookies.get("adminToken");
+		if (!adminToken) {
+			throw new Error("Missing authorization");
+		}
+
+		// -- Send update request
+		const response = await axios.put(
+			url,
+			{
+				_id,
+				archive: archiveStatus,
+			},
+			{ headers: { authorization: `Bearer ${adminToken}` } }
+		);
+
+		if (!response.data) {
+			throw new Error("Could not delete product");
+		}
+		return response.data;
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 

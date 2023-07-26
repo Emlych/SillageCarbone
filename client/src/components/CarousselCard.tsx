@@ -1,4 +1,4 @@
-import { CarousselProduct } from "../../pages/Product.page";
+import { CarousselProduct } from "../dto/ProductDto";
 
 const CarousselCard = ({ product }: { product: CarousselProduct }) => {
 	return (
