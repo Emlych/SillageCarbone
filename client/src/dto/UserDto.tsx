@@ -3,10 +3,8 @@ export enum UserType {
 	Admin = "admin",
 }
 
-export type User = {
+export interface User {
 	id: number;
 	mail: string;
-	password: string;
-	token: string;
-	userType: UserType;
-};
+	creation_date: Date;
+}

@@ -1,11 +1,15 @@
 // Product defined by an id in db, a name, a company and keywords for search.
 export interface PartialProduct {
-	_id: number;
+	_id: string;
 	name: string;
 	company: string;
 }
 export interface Product extends PartialProduct {
 	keywords: string;
+}
+
+export interface ProductWithCO2 extends PartialProduct {
+	co2: number;
 }
 
 export interface DetailedProduct {

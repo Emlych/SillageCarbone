@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
-import axios from "axios";
 import { Product } from "../../dto/ProductDto";
+import { fetchProductsForCache } from "../../services/productService";
 
 interface ProductCache {
 	[_id: number]: Product;
@@ -32,15 +32,16 @@ const Autocomplete = () => {
 	useEffect(() => {
 		const fetchAndFilterProductsData = async () => {
 			try {
-				const url = "http://localhost:8000/products/cache";
-				const response = await axios.get(url);
+				const products = await fetchProductsForCache();
+				// const url = "http://localhost:8000/products/cache";
+				// const response = await axios.get(url);
 
-				if (!response.data?.products) {
-					throw new Error("No products retrieved");
-				}
+				// if (!response.data?.products) {
+				// 	throw new Error("No products retrieved");
+				// }
 
 				// -- Update products
-				setProducts(response.data.products);
+				setProducts(products);
 			} catch (error) {
 				console.error("Error ", error);
 			}

@@ -10,9 +10,9 @@ import "../../pages/backoffice.css";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { UserType } from "../../dto/UserDto";
+import { createUser } from "../../services/userService";
 
 const CreateUser = () => {
 	/** Informations associated with account creation: mail, password and user role */
@@ -25,17 +25,10 @@ const CreateUser = () => {
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const url = "http://localhost:8000/user/create";
-
 		const fetchData = async () => {
 			try {
-				if (!mail || !password) {
-					throw new Error("Missing field");
-				}
-				const response = await axios.post(url, { mail, password, userRole });
-				if (response.data) {
-					toast(`Utilisateur de type ${userRole} créé `);
-				}
+				createUser(mail, password, userRole);
+				toast(`Utilisateur de type ${userRole} créé `);
 			} catch (error: any) {
 				toast.error(`Erreur dans la création d'un nouvel utilisateur`, {});
 				throw new Error("Vous n'êtes pas autorisé à vous connecter.");

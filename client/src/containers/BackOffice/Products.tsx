@@ -1,25 +1,15 @@
 /** Backoffice Products Container : display all products with filter */
-
-// TODO : "factoriser les interfaces en doublon (exemple: product)"
 import { faBoxOpen, faHashtag, faTag } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 // Components
 import Input from "../../components/Input";
 import BackofficeProductCard from "./BackofficeProductCard";
 import Modal from "../../components/Modal";
 import PageFooter from "./PageFooter";
-import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-
-interface Product {
-	_id: string;
-	name: string;
-	company: string;
-	co2: number;
-}
+import { fetchProducts } from "../../services/productService";
+import { ProductWithCO2 } from "../../dto/ProductDto";
 
 type BackofficeProductComponentsProps = {
 	archivedProducts?: boolean;
@@ -66,46 +56,25 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 	const [maxNumberOfPages, setMaxNumberOfPages] = useState<number>(1);
 
 	// On update of filter params, update user data to display
-	const [products, setProducts] = useState<Product[]>();
+	const [products, setProducts] = useState<ProductWithCO2[]>();
 	useEffect(() => {
 		const fetchAndFilterProductsData = async (params: {
 			name: string;
 			company: string;
 		}) => {
 			try {
-				const url = archivedProducts
-					? "http://localhost:8000/products/archived"
-					: "http://localhost:8000/products";
-
-				// -- Is user connected as admin
-				const adminToken = Cookies.get("adminToken");
-				if (!adminToken) {
-					throw new Error("Not authorized to access list of users.");
-				}
-
-				const response = await axios.get(url, {
-					headers: { authorization: `Bearer ${adminToken}` },
-					params: {
-						name: params.name,
-						company: params.company,
-						limit: limitPerPage,
-						page: page,
-						archived: archivedProducts,
-					},
-				});
-
-				if (!response.data?.products) {
-					throw new Error("No products retrieved");
-				}
-
-				// -- Update products
-				const products = response.data.products;
-				setProducts(products);
+				const productsData = await fetchProducts(
+					params.name,
+					params.company,
+					limitPerPage,
+					page,
+					archivedProducts
+				);
+				setProducts(productsData.products);
 
 				// -- Update max number of pages for footer
-				const count = response.data.count;
 				const maxNumberOfPages =
-					products.length > 0 ? Math.ceil(count / limitPerPage) : 1;
+					productsData.count > 0 ? Math.ceil(productsData.count / limitPerPage) : 1;
 				setMaxNumberOfPages(maxNumberOfPages);
 
 				// -- Allow display of products

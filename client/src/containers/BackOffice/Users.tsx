@@ -1,9 +1,7 @@
 /** Backoffice Users Container : display all users with filter */
-
 import "../../pages/backoffice.css";
 import { faHashtag, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 // Components
 import UserCard from "../UserCard";
@@ -11,10 +9,9 @@ import Input from "../../components/Input";
 import DateInput from "../../components/DateInput";
 import PageFooter from "./PageFooter";
 import Modal from "../../components/Modal";
-import Cookies from "js-cookie";
 
-// Toast service
 import { ToastContainer, toast } from "react-toastify";
+import { fetchUsers } from "../../services/userService";
 
 interface User {
 	id: number;
@@ -77,36 +74,19 @@ const Users = () => {
 			finish_date: Date | null;
 		}) => {
 			try {
-				const url = "http://localhost:8000/users";
-
-				// -- Is user connected as admin
-				const adminToken = Cookies.get("adminToken");
-				if (!adminToken) {
-					throw new Error("Not authorized to access list of users.");
-				}
-
-				const response = await axios.get(url, {
-					headers: { authorization: `Bearer ${adminToken}` },
-					params: {
-						mail: params.mail,
-						start_date: params.start_date,
-						finish_date: params.finish_date,
-						limit: limitPerPage,
-						page: page,
-					},
-				});
-
-				if (!response.data) {
-					throw new Error("No users retrieved");
-				}
-
 				// -- Update users
-				const users = response.data.users;
-				setUsers(users);
+				const usersData = await fetchUsers(
+					params.mail,
+					params.start_date,
+					params.finish_date,
+					limitPerPage,
+					page
+				);
+				setUsers(usersData.users);
 
 				// -- Update max number of pages for footer
-				const count = response.data.count;
-				const maxNumberOfPages = users.length > 0 ? Math.ceil(count / limitPerPage) : 1;
+				const count = usersData.count;
+				const maxNumberOfPages = count > 0 ? Math.ceil(count / limitPerPage) : 1;
 				setMaxNumberOfPages(maxNumberOfPages);
 
 				// -- Allow display of users
