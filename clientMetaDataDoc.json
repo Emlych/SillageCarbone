@@ -1,0 +1,942 @@
+{
+	"./client/src/components/Button.tsx": [
+		{
+			"description": "Custom button component",
+			"methods": [],
+			"displayName": "Button",
+			"props": {
+				"buttonText": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"buttonType": {
+					"required": true,
+					"tsType": {
+						"name": "union",
+						"raw": "\"button\" | \"submit\" | \"reset\"",
+						"elements": [
+							{ "name": "literal", "value": "\"button\"" },
+							{ "name": "literal", "value": "\"submit\"" },
+							{ "name": "literal", "value": "\"reset\"" }
+						]
+					},
+					"description": ""
+				},
+				"callback": {
+					"required": false,
+					"tsType": {
+						"name": "MouseEventHandler",
+						"elements": [{ "name": "HTMLButtonElement" }],
+						"raw": "MouseEventHandler<HTMLButtonElement>"
+					},
+					"description": ""
+				},
+				"disabled": {
+					"required": false,
+					"tsType": { "name": "boolean" },
+					"description": ""
+				},
+				"alert": { "required": false, "tsType": { "name": "boolean" }, "description": "" }
+			}
+		}
+	],
+	"./client/src/App.tsx": [{ "description": "", "methods": [], "displayName": "App" }],
+	"./client/src/components/CarousselCard.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "CarousselCard",
+			"props": {
+				"product": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "object",
+						"raw": "{\n\t_id: number;\n\tname: string;\n\tcompany: string;\n\tco2: number;\n}",
+						"signature": {
+							"properties": [
+								{ "key": "_id", "value": { "name": "number", "required": true } },
+								{ "key": "name", "value": { "name": "string", "required": true } },
+								{ "key": "company", "value": { "name": "string", "required": true } },
+								{ "key": "co2", "value": { "name": "number", "required": true } }
+							]
+						}
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/Backoffice/UserCard.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "UserCard",
+			"props": {
+				"mail": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"creation_date": {
+					"required": true,
+					"tsType": { "name": "Date" },
+					"description": ""
+				},
+				"openDeleteAccountModal": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "(mail: string) => void",
+						"signature": {
+							"arguments": [{ "type": { "name": "string" }, "name": "mail" }],
+							"return": { "name": "void" }
+						}
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/Dropdown.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Dropdown",
+			"props": {
+				"options": {
+					"required": true,
+					"tsType": {
+						"name": "union",
+						"raw": "Map<number | T, T> | null",
+						"elements": [
+							{
+								"name": "Map",
+								"elements": [
+									{
+										"name": "union",
+										"raw": "number | T",
+										"elements": [{ "name": "number" }, { "name": "T" }]
+									},
+									{ "name": "T" }
+								],
+								"raw": "Map<number | T, T>"
+							},
+							{ "name": "null" }
+						]
+					},
+					"description": ""
+				},
+				"handleSelectInput": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/CardItem.tsx": [
+		{
+			"description": "Custom CardItem component",
+			"methods": [],
+			"displayName": "CardItem",
+			"props": {
+				"text": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"faIcon": {
+					"required": true,
+					"tsType": {
+						"name": "FontAwesomeIconProps[\"icon\"]",
+						"raw": "FontAwesomeIconProps[\"icon\"]"
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/Input.tsx": [
+		{
+			"description": "Custom Input component",
+			"methods": [],
+			"displayName": "Input",
+			"props": {
+				"faIcon": {
+					"required": true,
+					"tsType": {
+						"name": "FontAwesomeIconProps[\"icon\"]",
+						"raw": "FontAwesomeIconProps[\"icon\"]"
+					},
+					"description": ""
+				},
+				"placeholderText": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"data-testid": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"onChange": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "(\n\tevent: React.ChangeEvent<HTMLInputElement>,\n\ttype?: \"name\" | \"start-date\" | \"finish-date\"\n) => void",
+						"signature": {
+							"arguments": [
+								{
+									"type": {
+										"name": "ReactChangeEvent",
+										"raw": "React.ChangeEvent<HTMLInputElement>",
+										"elements": [{ "name": "HTMLInputElement" }]
+									},
+									"name": "event"
+								},
+								{
+									"type": {
+										"name": "union",
+										"raw": "\"name\" | \"start-date\" | \"finish-date\"",
+										"elements": [
+											{ "name": "literal", "value": "\"name\"" },
+											{ "name": "literal", "value": "\"start-date\"" },
+											{ "name": "literal", "value": "\"finish-date\"" }
+										]
+									},
+									"name": "type"
+								}
+							],
+							"return": { "name": "void" }
+						}
+					},
+					"description": ""
+				},
+				"value": {
+					"required": false,
+					"tsType": {
+						"name": "union",
+						"raw": "string | number",
+						"elements": [{ "name": "string" }, { "name": "number" }]
+					},
+					"description": ""
+				},
+				"type": {
+					"required": false,
+					"tsType": {
+						"name": "union",
+						"raw": "\"text\" | \"password\" | \"number\" | \"email\"",
+						"elements": [
+							{ "name": "literal", "value": "\"text\"" },
+							{ "name": "literal", "value": "\"password\"" },
+							{ "name": "literal", "value": "\"number\"" },
+							{ "name": "literal", "value": "\"email\"" }
+						]
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/DateInput.tsx": [
+		{
+			"description": "Custom Input component",
+			"methods": [],
+			"displayName": "DateInput",
+			"props": {
+				"value": { "required": true, "tsType": { "name": "Date" }, "description": "" },
+				"type": {
+					"required": true,
+					"tsType": {
+						"name": "union",
+						"raw": "\"start-date\" | \"finish-date\"",
+						"elements": [
+							{ "name": "literal", "value": "\"start-date\"" },
+							{ "name": "literal", "value": "\"finish-date\"" }
+						]
+					},
+					"description": ""
+				},
+				"onChange": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "(\n\tevent: React.ChangeEvent<HTMLInputElement>,\n\ttype: \"name\" | \"start-date\" | \"finish-date\"\n) => void",
+						"signature": {
+							"arguments": [
+								{
+									"type": {
+										"name": "ReactChangeEvent",
+										"raw": "React.ChangeEvent<HTMLInputElement>",
+										"elements": [{ "name": "HTMLInputElement" }]
+									},
+									"name": "event"
+								},
+								{
+									"type": {
+										"name": "union",
+										"raw": "\"name\" | \"start-date\" | \"finish-date\"",
+										"elements": [
+											{ "name": "literal", "value": "\"name\"" },
+											{ "name": "literal", "value": "\"start-date\"" },
+											{ "name": "literal", "value": "\"finish-date\"" }
+										]
+									},
+									"name": "type"
+								}
+							],
+							"return": { "name": "void" }
+						}
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/PageFooter.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "PageFooter",
+			"props": {
+				"page": { "required": true, "tsType": { "name": "number" }, "description": "" },
+				"maxNumberOfPages": {
+					"required": true,
+					"tsType": { "name": "number" },
+					"description": ""
+				},
+				"setPage": {
+					"required": true,
+					"tsType": {
+						"name": "ReactDispatch",
+						"raw": "React.Dispatch<React.SetStateAction<number>>",
+						"elements": [
+							{
+								"name": "ReactSetStateAction",
+								"raw": "React.SetStateAction<number>",
+								"elements": [{ "name": "number" }]
+							}
+						]
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/components/Home/ArticleCard.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "ArticleCard",
+			"props": {
+				"title": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"text": { "required": true, "tsType": { "name": "string" }, "description": "" }
+			}
+		}
+	],
+	"./client/src/components/SideNavigation.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "SideNavigation",
+			"props": {
+				"menuItems": {
+					"required": true,
+					"tsType": {
+						"name": "Array",
+						"elements": [
+							{
+								"name": "signature",
+								"type": "object",
+								"raw": "{\n\ttext: string;\n\tlevel: number;\n\tonClick: () => void;\n\ticon?: FontAwesomeIconProps[\"icon\"];\n}",
+								"signature": {
+									"properties": [
+										{ "key": "text", "value": { "name": "string", "required": true } },
+										{ "key": "level", "value": { "name": "number", "required": true } },
+										{
+											"key": "onClick",
+											"value": {
+												"name": "signature",
+												"type": "function",
+												"raw": "() => void",
+												"signature": { "arguments": [], "return": { "name": "void" } },
+												"required": true
+											}
+										},
+										{
+											"key": "icon",
+											"value": {
+												"name": "FontAwesomeIconProps[\"icon\"]",
+												"raw": "FontAwesomeIconProps[\"icon\"]",
+												"required": false
+											}
+										}
+									]
+								}
+							}
+						],
+						"raw": "{\n\ttext: string;\n\tlevel: number;\n\tonClick: () => void;\n\ticon?: FontAwesomeIconProps[\"icon\"];\n}[]"
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Account/ModifyAccount.tsx": [
+		{ "description": "", "methods": [], "displayName": "ModifyPassword" }
+	],
+	"./client/src/containers/Account/DeleteAccount.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "DeleteAccount",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/ActionOnProduct.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "ActionOnProduct",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"_id": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"actionType": {
+					"required": true,
+					"tsType": {
+						"name": "union",
+						"raw": "\"archive\" | \"delete\" | \"unarchive\"",
+						"elements": [
+							{ "name": "literal", "value": "\"archive\"" },
+							{ "name": "literal", "value": "\"delete\"" },
+							{ "name": "literal", "value": "\"unarchive\"" }
+						]
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/AdminDeleteAccount.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "AdminDeleteAccount",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"mail": { "required": true, "tsType": { "name": "string" }, "description": "" }
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/CreateProduct.tsx": [
+		{ "description": "", "methods": [], "displayName": "CreateProduct" }
+	],
+	"./client/src/containers/BackOffice/BackofficeProductCard.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "BackofficeProductCard",
+			"props": {
+				"_id": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"product_name": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"company": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"co2": { "required": true, "tsType": { "name": "number" }, "description": "" },
+				"actionType": {
+					"required": true,
+					"tsType": {
+						"name": "union",
+						"raw": "\"archive\" | \"delete\"",
+						"elements": [
+							{ "name": "literal", "value": "\"archive\"" },
+							{ "name": "literal", "value": "\"delete\"" }
+						]
+					},
+					"description": ""
+				},
+				"openConfirmActionModal": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "(\n\t_id: string,\n\tactionType: \"archive\" | \"delete\" | \"unarchive\"\n) => void",
+						"signature": {
+							"arguments": [
+								{ "type": { "name": "string" }, "name": "_id" },
+								{
+									"type": {
+										"name": "union",
+										"raw": "\"archive\" | \"delete\" | \"unarchive\"",
+										"elements": [
+											{ "name": "literal", "value": "\"archive\"" },
+											{ "name": "literal", "value": "\"delete\"" },
+											{ "name": "literal", "value": "\"unarchive\"" }
+										]
+									},
+									"name": "actionType"
+								}
+							],
+							"return": { "name": "void" }
+						}
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/CreateUser.tsx": [
+		{ "description": "", "methods": [], "displayName": "CreateUser" }
+	],
+	"./client/src/containers/BackOffice/ProductDetail.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "ProductDetail",
+			"props": {
+				"_id": { "required": true, "tsType": { "name": "string" }, "description": "" }
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/Backoffice_components.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "BackofficeComponents",
+			"props": {
+				"componentKey": {
+					"required": true,
+					"tsType": {
+						"name": "union",
+						"raw": "| \"users\"\n| \"create-user\"\n| \"products\"\n| \"create-product\"\n| \"archived-products\"\n| \"product-keys\"",
+						"elements": [
+							{ "name": "literal", "value": "\"users\"" },
+							{ "name": "literal", "value": "\"create-user\"" },
+							{ "name": "literal", "value": "\"products\"" },
+							{ "name": "literal", "value": "\"create-product\"" },
+							{ "name": "literal", "value": "\"archived-products\"" },
+							{ "name": "literal", "value": "\"product-keys\"" }
+						]
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/Backoffice_navigation.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Navigation",
+			"props": {
+				"setComponentKey": {
+					"required": true,
+					"tsType": {
+						"name": "ReactDispatch",
+						"raw": "React.Dispatch<React.SetStateAction<BackOfficeComponentKey>>",
+						"elements": [
+							{
+								"name": "ReactSetStateAction",
+								"raw": "React.SetStateAction<BackOfficeComponentKey>",
+								"elements": [
+									{
+										"name": "union",
+										"raw": "| \"users\"\n| \"create-user\"\n| \"products\"\n| \"create-product\"\n| \"archived-products\"\n| \"product-keys\"",
+										"elements": [
+											{ "name": "literal", "value": "\"users\"" },
+											{ "name": "literal", "value": "\"create-user\"" },
+											{ "name": "literal", "value": "\"products\"" },
+											{ "name": "literal", "value": "\"create-product\"" },
+											{ "name": "literal", "value": "\"archived-products\"" },
+											{ "name": "literal", "value": "\"product-keys\"" }
+										]
+									}
+								]
+							}
+						]
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/Products.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Products",
+			"props": {
+				"archivedProducts": {
+					"required": false,
+					"tsType": { "name": "boolean" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/BackOffice/ProductTags.tsx": [
+		{ "description": "", "methods": [], "displayName": "ProductTags" }
+	],
+	"./client/src/containers/BackOffice/Users.tsx": [
+		{ "description": "", "methods": [], "displayName": "Users" }
+	],
+	"./client/src/containers/Header/CollapseNav.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "CollapseNav",
+			"props": {
+				"toggleBurgerMenu": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"handleDeconnexion": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "() => void",
+						"signature": { "arguments": [], "return": { "name": "void" } }
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Header/Header.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Header",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Header/HeaderBigScreen.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "HeaderBigScreen",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"handleDeconnexion": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "() => void",
+						"signature": { "arguments": [], "return": { "name": "void" } }
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Header/HeaderSmallScreen.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "HeaderSmallScreen",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"handleDeconnexion": {
+					"required": true,
+					"tsType": {
+						"name": "signature",
+						"type": "function",
+						"raw": "() => void",
+						"signature": { "arguments": [], "return": { "name": "void" } }
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Home/Caroussel.container.tsx": [
+		{ "description": "", "methods": [], "displayName": "CarouselHome" }
+	],
+	"./client/src/containers/Modal/Login.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Login",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"mail": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"setMail": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"password": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"setPassword": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"hiddenPassword": {
+					"required": true,
+					"tsType": { "name": "boolean" },
+					"description": ""
+				},
+				"setHiddenPassword": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"errorMessage": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"setErrorMessage": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"setComponentKeyName": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Modal/ForgottenPassword.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "ForgottenPassword",
+			"props": {
+				"mail": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"setMail": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/SearchProduct/Autocomplete.container.tsx": [
+		{
+			"description": "Component that contains :\n- Text input\n- Dropdown list of suggestions for autocompletion",
+			"methods": [],
+			"displayName": "Autocomplete"
+		}
+	],
+	"./client/src/containers/Product/Product_Card.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "ProductCard",
+			"props": {
+				"product": {
+					"required": true,
+					"tsType": { "name": "DetailedProduct" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Modal/Signup.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Signup",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"mail": { "required": true, "tsType": { "name": "string" }, "description": "" },
+				"setMail": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"password": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"setPassword": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"confirmPassword": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"setConfirmPassword": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"hiddenPassword": {
+					"required": true,
+					"tsType": { "name": "boolean" },
+					"description": ""
+				},
+				"setHiddenPassword": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"hiddenConfirmPassword": {
+					"required": true,
+					"tsType": { "name": "boolean" },
+					"description": ""
+				},
+				"setHiddenConfirmPassword": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"errorMessage": {
+					"required": true,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"setComponentKeyName": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/Product/Caroussel.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Caroussel",
+			"props": {
+				"products": {
+					"required": true,
+					"tsType": {
+						"name": "Array",
+						"elements": [
+							{
+								"name": "signature",
+								"type": "object",
+								"raw": "{\n\t_id: number;\n\tname: string;\n\tcompany: string;\n\tco2: number;\n}",
+								"signature": {
+									"properties": [
+										{ "key": "_id", "value": { "name": "number", "required": true } },
+										{ "key": "name", "value": { "name": "string", "required": true } },
+										{ "key": "company", "value": { "name": "string", "required": true } },
+										{ "key": "co2", "value": { "name": "number", "required": true } }
+									]
+								}
+							}
+						],
+						"raw": "CarousselProduct[]"
+					},
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/containers/SearchProduct/SearchHero.container.tsx": [
+		{ "description": "", "methods": [], "displayName": "SearchHero" }
+	],
+	"./client/src/pages/Account.page.tsx": [
+		{ "description": "", "methods": [], "displayName": "Account" }
+	],
+	"./client/src/pages/Backoffice.page.tsx": [
+		{ "description": "", "methods": [], "displayName": "Backoffice" }
+	],
+	"./client/src/pages/Modal.tsx": [
+		{
+			"description": "",
+			"methods": [],
+			"displayName": "Modal",
+			"props": {
+				"toggleModal": {
+					"required": true,
+					"tsType": { "name": "Function" },
+					"description": ""
+				},
+				"accountModalKey": {
+					"required": false,
+					"tsType": {
+						"name": "union",
+						"raw": "| \"change-password\"\n| \"delete-account\"\n| \"admin-delete-account\"\n| \"archive-product\"\n| \"delete-product\"\n| \"unarchive-product\"\n| \"product-detail\"",
+						"elements": [
+							{ "name": "literal", "value": "\"change-password\"" },
+							{ "name": "literal", "value": "\"delete-account\"" },
+							{ "name": "literal", "value": "\"admin-delete-account\"" },
+							{ "name": "literal", "value": "\"archive-product\"" },
+							{ "name": "literal", "value": "\"delete-product\"" },
+							{ "name": "literal", "value": "\"unarchive-product\"" },
+							{ "name": "literal", "value": "\"product-detail\"" }
+						]
+					},
+					"description": ""
+				},
+				"mailToDelete": {
+					"required": false,
+					"tsType": { "name": "string" },
+					"description": ""
+				},
+				"productId": {
+					"required": false,
+					"tsType": { "name": "string" },
+					"description": ""
+				}
+			}
+		}
+	],
+	"./client/src/pages/Product.page.tsx": [
+		{ "description": "", "methods": [], "displayName": "Product" }
+	],
+	"./client/src/pages/ErrorProduct.tsx": [
+		{ "description": "", "methods": [], "displayName": "ErrorProduct" }
+	],
+	"./client/src/pages/Home.page.tsx": [
+		{ "description": "", "methods": [], "displayName": "Home" }
+	]
+}
