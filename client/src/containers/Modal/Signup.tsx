@@ -5,6 +5,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { createToken } from "../../utils/data-utils";
 import { createUser } from "../../services/userService";
+import { isPasswordStrong } from "../../utils/format-data-utils";
 
 type SignupProps = {
 	toggleModal: Function;
@@ -37,12 +38,6 @@ const Signup = ({
 	errorMessage,
 	setComponentKeyName,
 }: SignupProps) => {
-	const [canSubmit, setCanSubmit] = useState(false);
-
-	useEffect(() => {
-		setCanSubmit(confirmPassword === password);
-	}, [password, confirmPassword]);
-
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -58,6 +53,10 @@ const Signup = ({
 			}
 		};
 		fetchData();
+	};
+
+	const samePasswords = (password: string, passwordToConfirm: string): boolean => {
+		return password === passwordToConfirm;
 	};
 
 	return (
@@ -111,9 +110,15 @@ const Signup = ({
 				/>
 			</div>
 
-			{!canSubmit && <p className="warning">{errorMessage}</p>}
+			{/* {!canSubmit && <p className="warning">{errorMessage}</p>} */}
 
-			<Button buttonText="Créer un compte" buttonType="submit" disabled={!canSubmit} />
+			<Button
+				buttonText="Créer un compte"
+				buttonType="submit"
+				disabled={
+					!isPasswordStrong(password) && !samePasswords(password, confirmPassword)
+				}
+			/>
 
 			<p className="modal-navigateTo" onClick={() => setComponentKeyName("login")}>
 				Si vous avez déjà un compte, se connecter.
