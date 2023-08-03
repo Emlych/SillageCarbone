@@ -17,14 +17,18 @@ cloudinary.config({
 });
 
 // Interfaces
-interface ProductFilters {
+interface AdminProductFilters {
 	name: RegExp;
 	company: RegExp;
 	type_id?: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId> | null;
 	_id?: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
 	archived?: Boolean;
 }
-
+interface UserProductFilters {
+	type_id: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId> | null;
+	_id: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
+	archived: Boolean;
+}
 /** User role is admin */
 const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -53,7 +57,7 @@ router.get("/product/:_id", async (req: Request, res: Response) => {
 		const productId = req.params._id;
 		const product = await Product.findById(productId);
 		if (!product) {
-			throw new Error("Product not found.");
+			return res.status(404).json({ error: "Product not found." });
 		}
 		return res.status(200).json({ product: product });
 	} catch (error: any) {
@@ -66,7 +70,7 @@ router.get("/products", isAdmin, async (req: Request, res: Response) => {
 	console.info("Route: /products");
 	try {
 		// Retrieve request queries to fill filtersObject with all used filters
-		const requestFilters: ProductFilters = {
+		const requestFilters: AdminProductFilters = {
 			name: new RegExp("", "i"),
 			company: new RegExp("", "i"),
 			archived: false,
@@ -120,6 +124,59 @@ router.get("/products", isAdmin, async (req: Request, res: Response) => {
 	}
 });
 
+/** Get all products with filter route */
+router.get("/products/caroussel", async (req: Request, res: Response) => {
+	console.info("Route: /products/caroussel");
+	try {
+		// Retrieve request queries to fill filtersObject with all used filters
+		const requestFilters: UserProductFilters = {
+			_id: new RegExp("", "i"),
+			type_id: new RegExp("", "i"),
+			archived: false,
+		};
+		const requestQuery = req.query;
+
+		if (requestQuery) {
+			// -- Apply filters
+
+			if (requestQuery.type && String(requestQuery.type).length > 0) {
+				//requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
+
+				// -- Find the ProductType based on the name
+				const productType = await ProductType.findOne({
+					name: new RegExp(`${requestQuery.type}`, "i"),
+				});
+
+				if (productType) {
+					requestFilters.type_id = new Types.ObjectId(productType._id);
+				} else {
+					requestFilters.type_id = null;
+				}
+			}
+			// -- Optional filter to exclude a specific _id
+			if (requestQuery.excludeId) {
+				requestFilters._id = { $ne: req.query.excludeId };
+			}
+
+			// -- Limit data with page and max items per page
+			let page = parseInt(requestQuery.page as string) ?? 1;
+			let maxItemPerPage = parseInt(requestQuery.limit as string) ?? 2;
+
+			// -- Retrieve products
+			const products = await Product.find(requestFilters)
+				.skip((page - 1) * maxItemPerPage)
+				.limit(maxItemPerPage);
+
+			// -- Number of retrieved products
+			const count = await Product.countDocuments(requestFilters);
+
+			// -- Send response to front
+			res.json({ count: count, products: products });
+		}
+	} catch (error: any) {
+		res.status(400).json({ message: error.message });
+	}
+});
 /** Get all products without filter route */
 router.get("/products/cache", async (req: Request, res: Response) => {
 	console.info("Route: /products/cache");
@@ -138,7 +195,7 @@ router.get("/products/archived", isAdmin, async (req: Request, res: Response) =>
 	console.info("Route: /products/archived");
 	try {
 		// Retrieve request queries to fill filtersObject with all used filters
-		const requestFilters: ProductFilters = {
+		const requestFilters: AdminProductFilters = {
 			name: new RegExp("", "i"),
 			company: new RegExp("", "i"),
 			archived: true,

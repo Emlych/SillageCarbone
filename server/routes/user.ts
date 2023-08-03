@@ -307,22 +307,22 @@ router.delete("/user/admin/delete", isAdmin, async (req: Request, res: Response)
 });
 
 /** Provide mail to return creation date of a user route */
-router.get("/user/mail", async (req: Request, res: Response) => {
-	console.info("Route: /product/mail");
-
+router.get("/user", async (req: Request, res: Response) => {
 	try {
-		// -- Check if id was provided
-		const userMail = req.body.mail;
-		if (!userMail) {
-			throw new Error("No mail provided");
+		console.info("Route : /user");
+		console.info("params ", req.params);
+		console.info("query ", req.query);
+
+		if (req.query.userMail) {
+			console.info("request query ", req.query.userMail);
+			// -- Retrieve users
+			const users = await User.find({ mail: req.query.userMail });
+
+			// -- Send response to front
+			res.json({ user: users[0] });
 		}
-		const searchedUser = await User.findOne({ mail: userMail });
-		if (!searchedUser) {
-			throw new Error("User not found.");
-		}
-		return res.status(200).json({ creation_date: searchedUser.creation_date });
 	} catch (error: any) {
-		return res.status(400).json({ error: error.message });
+		res.status(400).json({ message: error.message });
 	}
 });
 

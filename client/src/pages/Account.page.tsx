@@ -1,15 +1,16 @@
 import "./account.css";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import Button from "../components/Button";
 import Modal from "./Modal";
 import { fetchUserByMail } from "../services/userService";
+import { User } from "../dto/UserDto";
+// import { fetchUserByMail } from "../services/userService";
 
 const Account = () => {
 	// -- Retrieve user mail using cookie token
-	const userMail = Cookies.get("userMailToken");
-
-	const [accountDate, setAccountDate] = useState("");
+	// const userMail = Cookies.get("userMailToken");
+	const [user, setUser] = useState<User[]>();
+	//const [accountDate, setAccountDate] = useState("");
 
 	// -- Change password modal
 	const [changePasswordModalIsOpen, setChangePasswordModalIsOpen] = useState(false);
@@ -17,18 +18,18 @@ const Account = () => {
 	const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
 	useEffect(() => {
-		const fetchAccountCreationDate = async () => {
+		const fetchUserData = async () => {
 			try {
-				if (!userMail) {
-					throw new Error("No mail");
-				}
-				const creationDate = await fetchUserByMail(userMail);
-				setAccountDate(creationDate);
-			} catch (error: any) {
-				throw new Error(error.message);
+				// -- Update users
+				const userData = await fetchUserByMail();
+				setUser(userData.user);
+				console.log("user ", userData.user);
+			} catch (error) {
+				// toast.error("Erreur dans la récupération des données utilisateur.");
+				console.error("Error ", error);
 			}
 		};
-		fetchAccountCreationDate();
+		fetchUserData();
 	}, []);
 
 	return (
@@ -37,10 +38,10 @@ const Account = () => {
 				<h2>Gestion du compte</h2>
 				<div className="account-container">
 					<h3>Informations utilisateur</h3>
-					<p>Mail user : {userMail} </p>
+					<p>Mail user : </p>
 					<label htmlFor="newsletter">Inscription à la newsletter </label>
 					<input type="checkbox" name="newsletter" id="" />
-					<p>Date de création du compte : {accountDate}</p>
+					<p>Date de création du compte :</p>
 				</div>
 				<div className="account-container">
 					<h3>Gestion du mot de passe</h3>
@@ -67,7 +68,7 @@ const Account = () => {
 			{/* Modal for password change */}
 			{changePasswordModalIsOpen && (
 				<Modal
-					toggleModal={() => setChangePasswordModalIsOpen(!changePasswordModalIsOpen)} //! TODO a voir s'il faut remodifier
+					toggleModal={() => setChangePasswordModalIsOpen(!changePasswordModalIsOpen)}
 					accountModalKey="change-password"
 				/>
 			)}

@@ -78,7 +78,7 @@ export const loginUser = async (
 		if (!response.data) {
 			throw new Error("Connexion error");
 		}
-		return response.data;
+		return response.data.searchedUser;
 	} catch (error: any) {
 		throw new Error(error.message);
 	}
@@ -188,15 +188,25 @@ export const deleteUserAsAdmin = async (mail: string) => {
 	}
 };
 
-export const fetchUserByMail = async (mail: string) => {
-	const url = `http://localhost:8000/user/mail`;
+export const fetchUserByMail = async () => {
+	console.info("inside fetchUserByMail");
+
+	const url = `http://localhost:8000/user`;
 	try {
-		const response = await axios.get(url);
-		const productData = response.data;
-		if (!productData) {
-			throw new Error("No product was found");
+		const userMail = Cookies.get("userMailToken");
+		if (!userMail) {
+			throw new Error("Not authorized access to user account.");
 		}
-		return response.data.product;
+		console.info("url ", url);
+		const response = await axios.get(url, { params: { userMail } });
+
+		const searchedUser = response.data;
+		if (!searchedUser) {
+			throw new Error("No user found");
+		}
+		console.log("searcher user data ", searchedUser);
+
+		return response.data.user; // Modify the return value to fetch the creation_date property
 	} catch (error: any) {
 		throw new Error(error.message);
 	}

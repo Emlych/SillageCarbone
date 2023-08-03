@@ -3,11 +3,19 @@ import Cookies from "js-cookie";
 import { ProductWithCO2 } from "../dto/ProductDto";
 import { Transportation } from "../dto/TransportationDto";
 
+/**
+ * Fetch product data by its _id
+ * @param _id
+ * @returns a promise
+ */
 export const fetchProductById = async (_id: string) => {
+	// -- API endpoint url based on the provided product ID
 	const url = `http://localhost:8000/product/${_id}`;
 	try {
 		const response = await axios.get(url);
 		const productData = response.data;
+
+		// -- Product data null or undefined
 		if (!productData) {
 			throw new Error("No product was found");
 		}
@@ -17,8 +25,15 @@ export const fetchProductById = async (_id: string) => {
 	}
 };
 
+/**
+ * Fetch similar products based on product type and excludeId
+ * @param productType
+ * @param excludeId : don't retrieve the product already displayed
+ * @returns
+ */
 export const fetchSimilarProducts = async (productType: string, excludeId: string) => {
-	const url = `http://localhost:8000/products/`;
+	// -- API endpoint url to all products
+	const url = `http://localhost:8000/products/caroussel`;
 	try {
 		const response = await axios.get(url, {
 			params: { type: productType, excludeId, limit: 3, page: 1 },
