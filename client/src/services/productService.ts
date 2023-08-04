@@ -99,8 +99,8 @@ export const fetchProducts = async (
 		const count = response.data.count;
 
 		return { products, count };
-	} catch (error) {
-		throw new Error("Error fetching products.");
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 
@@ -152,8 +152,8 @@ export const createProduct = async (
 			throw new Error("User could not be created");
 		}
 		return response.data;
-	} catch (error) {
-		throw new Error("User could not be created");
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 
@@ -242,8 +242,8 @@ export const createNewTransportation = async (
 			throw new Error("User could not be created");
 		}
 		return response.data;
-	} catch (error) {
-		throw new Error("User could not be created");
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 
@@ -258,7 +258,7 @@ export const fetchTransportations = async (): Promise<Transportation[]> => {
 		}
 
 		return response.data.transportations;
-	} catch (error) {
-		throw new Error("Error fetching products.");
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
