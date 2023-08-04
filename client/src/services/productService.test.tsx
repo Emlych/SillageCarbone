@@ -1,7 +1,11 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import Cookies from "js-cookie";
-import { fetchProductById, fetchSimilarProducts } from "./productService";
+import {
+	fetchProductById,
+	fetchProductsForCache,
+	fetchSimilarProducts,
+} from "./productService";
 
 const mock = new MockAdapter(axios);
 
@@ -39,7 +43,7 @@ describe("fetchProductById", () => {
 		);
 	});
 
-	it("Throw an error on network error", async () => {
+	it("Network error", async () => {
 		const productId = "product-id";
 
 		mock.onGet(`http://localhost:8000/product/${productId}`).networkError();
@@ -67,7 +71,7 @@ describe("fetchSimilarProducts", () => {
 		expect(result).toEqual(mockResponse.products);
 	});
 
-	it("Throw an status code error 404 when no similar products are retrieved", async () => {
+	it("Throw an status code error 404 when no similar products retrieved", async () => {
 		const productType = "some-product-type";
 		const excludeId = "excluded-product-id";
 
@@ -80,7 +84,7 @@ describe("fetchSimilarProducts", () => {
 		);
 	});
 
-	it("Rhrow an error on network error", async () => {
+	it("Throw an error on network error", async () => {
 		const productType = "some-product-type";
 		const excludeId = "excluded-product-id";
 
@@ -89,14 +93,44 @@ describe("fetchSimilarProducts", () => {
 
 		// Expect the fetchSimilarProducts function to throw an error with the specified message
 		await expect(fetchSimilarProducts(productType, excludeId)).rejects.toThrow(
-			"Network Error"
+			"Request failed with status code 404"
 		);
 	});
 });
 
-// describe("fetchProductsForCache", () => {
-// 	// Tests for fetchProductsForCache
-// });
+describe("fetchProductsForCache", () => {
+	it("Fetch products successfully and return the products", async () => {
+		const mockProducts = [
+			{ _id: "1", name: "Product 1", company: "Company 1" },
+			{ _id: "2", name: "Product 2", company: "Company 2" },
+		];
+
+		// Mock the response with products data
+		mock
+			.onGet("http://localhost:8000/products/cache")
+			.reply(200, { products: mockProducts });
+
+		const products = await fetchProductsForCache();
+
+		expect(products).toEqual(mockProducts);
+	});
+
+	it("should throw an error when no products retrieved", async () => {
+		// Mock the response with an empty object (no products data)
+		mock.onGet("http://localhost:8000/products/cache").reply(404, {});
+
+		await expect(fetchProductsForCache()).rejects.toThrow(
+			"Request failed with status code 404"
+		);
+	});
+
+	it("Handle network errors and throw an error with the correct message", async () => {
+		// Mock a network error for the API call
+		mock.onGet("http://localhost:8000/products/cache").networkError();
+
+		await expect(fetchProductsForCache()).rejects.toThrow("Network Error");
+	});
+});
 
 // describe("fetchProducts", () => {
 // 	// Tests for fetchProducts

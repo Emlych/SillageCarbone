@@ -183,7 +183,11 @@ router.get("/products/cache", async (req: Request, res: Response) => {
 	try {
 		if (req.query) {
 			const products = await Product.find({}, "_id name company");
-			res.json({ products: products });
+			if (!products) {
+				return res.status(404).json({ error: "No products foud." });
+			}
+
+			res.status(200).json({ products: products });
 		}
 	} catch (error: any) {
 		res.status(400).json({ message: error.message });

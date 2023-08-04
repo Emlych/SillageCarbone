@@ -57,8 +57,8 @@ export const fetchProductsForCache = async () => {
 			throw new Error("No products retrieved");
 		}
 		return response.data.products;
-	} catch (error) {
-		console.error("Error ", error);
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 
