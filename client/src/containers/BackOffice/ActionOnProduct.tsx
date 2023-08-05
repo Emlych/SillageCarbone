@@ -1,10 +1,12 @@
 import Button from "../../components/Button";
 import { archiveProduct, deleteProduct } from "../../services/productService";
 
+export type ActionType = "archive" | "delete" | "unarchive";
+
 export type ActionOnProductProps = {
 	toggleModal: Function;
 	_id: string; //id of product to delete
-	actionType: "archive" | "delete" | "unarchive";
+	actionType: ActionType;
 };
 const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps) => {
 	/** On form submission, delete, archive or unarchive product */
