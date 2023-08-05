@@ -10,6 +10,7 @@ import Modal from "../../pages/Modal";
 import { ToastContainer, toast } from "react-toastify";
 import { fetchProducts } from "../../services/productService";
 import { ProductWithCO2 } from "../../dto/ProductDto";
+import SmallModal from "../../pages/SmallModal";
 
 type BackofficeProductComponentsProps = {
 	archivedProducts?: boolean;
@@ -124,6 +125,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 
 			<p>Filtrer par : </p>
 
+			{/* Filter products */}
 			<div className="filter">
 				<div className="filter-search-name-container">
 					{/* Filter by user name */}
@@ -208,7 +210,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 
 					{/* Modal for product deletion */}
 					{archiveModalIsOpen && (
-						<Modal
+						<SmallModal
 							toggleModal={() => toggleActionModal("archive")}
 							accountModalKey="archive-product"
 							productId={idProductWithAction}
@@ -216,7 +218,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 					)}
 					{/* Modal for product deletion */}
 					{deleteModalIsOpen && (
-						<Modal
+						<SmallModal
 							toggleModal={() => toggleActionModal("delete")}
 							accountModalKey="delete-product"
 							productId={idProductWithAction}
@@ -224,7 +226,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 					)}
 					{/* Modal for product unarchive */}
 					{unarchiveModalIsOpen && (
-						<Modal
+						<SmallModal
 							toggleModal={() => toggleActionModal("unarchive")}
 							accountModalKey="unarchive-product"
 							productId={idProductWithAction}

@@ -7,7 +7,6 @@ import ForgottenPassword from "../containers/Modal/ForgottenPassword";
 import ModifyPassword from "../containers/Account/ModifyAccount";
 import DeleteAccount from "../containers/Account/DeleteAccount";
 import AdminDeleteAccount from "../containers/BackOffice/AdminDeleteAccount";
-import ActionOnProduct from "../containers/BackOffice/ActionOnProduct";
 
 type ComponentKey = "signup" | "login" | "forgotten-password" | "product-detail";
 
@@ -17,9 +16,6 @@ type ModalProps = {
 		| "change-password"
 		| "delete-account"
 		| "admin-delete-account"
-		| "archive-product"
-		| "delete-product"
-		| "unarchive-product"
 		| "product-detail";
 	mailToDelete?: string;
 	productId?: string;
@@ -49,34 +45,8 @@ const Modal = ({
 				return <DeleteAccount toggleModal={toggleModal} />;
 			} else if (mailToDelete && accountModalKey === "admin-delete-account") {
 				return <AdminDeleteAccount toggleModal={toggleModal} mail={mailToDelete} />;
-			} else if (productId) {
-				if (accountModalKey === "archive-product") {
-					return (
-						<ActionOnProduct
-							toggleModal={toggleModal}
-							_id={productId}
-							actionType="archive"
-						/>
-					);
-				} else if (accountModalKey === "delete-product") {
-					return (
-						<ActionOnProduct
-							toggleModal={toggleModal}
-							_id={productId}
-							actionType="delete"
-						/>
-					);
-				} else if (accountModalKey === "unarchive-product") {
-					return (
-						<ActionOnProduct
-							toggleModal={toggleModal}
-							_id={productId}
-							actionType="unarchive"
-						/>
-					);
-				} else if (accountModalKey === "product-detail") {
-					return <ProductDetail _id={productId} />;
-				}
+			} else if (productId && accountModalKey === "product-detail") {
+				return <ProductDetail _id={productId} />;
 			}
 		} else {
 			// -- Modal dealed from Header toggleModal

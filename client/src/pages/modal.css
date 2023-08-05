@@ -41,6 +41,17 @@
 	background-color: #fff;
 	padding: 2em;
 }
+/* Small modal box */
+.small__modal__content {
+	position: relative;
+	margin: 5vh auto;
+	width: 65%;
+	min-width: 320px;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 2em;
+	padding-bottom: 3em;
+}
 
 /** Buttons (close and back) on top */
 .modal__top-icons {
@@ -122,6 +133,9 @@
 .product-modal-button {
 	display: flex;
 	justify-content: space-between;
+}
+.small__modal__content .account-button-container {
+	padding-top: 1em;
 }
 
 /** Account deletion modal */
