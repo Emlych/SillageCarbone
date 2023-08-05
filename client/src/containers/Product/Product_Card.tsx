@@ -27,16 +27,16 @@ const ProductCard = ({ product }: { product: DetailedProduct }) => {
 					<CardItem text={product.company} faIcon={faWarehouse} />
 					<CardItem text={`${product.co2} eq CO2`} faIcon={faSmog} />
 					<CardItem
-						text={`Port d'origine: ${product.origin_harbour}`}
+						text={`Port d'origine: ${product.origin_harbour.city} (${product.origin_harbour.country})`}
 						faIcon={faLocationDot}
 					/>
 					<CardItem
-						text={`Port d'arrivée: ${product.destination_harbour}`}
+						text={`Port d'arrivée: ${product.destination_harbour.city} (${product.destination_harbour.country})`}
 						faIcon={faLocationDot}
 					/>
 					<CardItem text={`Distance parcourue: ${product.distance}km`} faIcon={faRoute} />
 
-					<CardItem text={`Transport: ${product.transportation}`} faIcon={faShip} />
+					<CardItem text={`Transport: ${product.transportation.name}`} faIcon={faShip} />
 				</div>
 
 				{/* Display product image and favorite button */}

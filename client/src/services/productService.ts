@@ -19,6 +19,7 @@ export const fetchProductById = async (_id: string): Promise<any> => {
 		if (!productData) {
 			throw new Error("No product was found");
 		}
+
 		return response.data.product;
 	} catch (error: any) {
 		throw new Error(error.message);

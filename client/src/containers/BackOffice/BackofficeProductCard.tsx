@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import CardItem from "../../components/CardItem";
 import "./backofficeProductCard.css";
 import { capitalizeFirstLetter } from "../../utils/format-data-utils";
-import { faBoxOpen, faTag } from "@fortawesome/free-solid-svg-icons";
+import { faBoxOpen, faTag, faWarehouse } from "@fortawesome/free-solid-svg-icons";
 
 interface BackofficeProductCardProps {
 	_id: string;
@@ -30,7 +30,7 @@ const BackofficeProductCard = ({
 	return (
 		<div className="backofficeProductCard">
 			<CardItem text={productName} faIcon={faBoxOpen} />
-			<CardItem text={productCompany} faIcon={faTag} />
+			<CardItem text={productCompany} faIcon={faWarehouse} />
 			<CardItem text={`${co2} eq CO2`} faIcon={faTag} />
 			<div className="usercard-button">
 				{actionType === "delete" && (

@@ -17,31 +17,31 @@ export interface DetailedProduct {
 	name: string;
 	company: string;
 	co2: number;
-	type: string;
+	productType: { _id: string; name: string };
 	description: string;
 	imgUrl: string;
 	creation_date: Date;
-	transportation: string;
+	transportation: { _id: string; name: string };
 	distance: number;
-	origin_harbour: string;
-	destination_harbour: string;
-	intermediate_harbour?: string[];
+	origin_harbour: { _id: string; city: string; country: string };
+	destination_harbour: { _id: string; city: string; country: string };
+	intermediate_harbour?: string[]; // For v2 implementation
 }
 
-export type DetailedProductType = {
-	_id: number;
-	name: string;
-	company: string;
-	co2: number;
-	type: string;
-	description: string;
-	imgUrl: string;
-	transportation: string;
-	distance: number;
-	origin_harbour: string;
-	destination_harbour: string;
-	intermediate_harbour?: string[];
-};
+// export type DetailedProductType = {
+// 	_id: number;
+// 	name: string;
+// 	company: string;
+// 	co2: number;
+// 	type: string;
+// 	description: string;
+// 	imgUrl: string;
+// 	transportation: string;
+// 	distance: number;
+// 	origin_harbour: string;
+// 	destination_harbour: string;
+// 	intermediate_harbour?: string[];
+// };
 
 export type CarousselProduct = {
 	_id: number;

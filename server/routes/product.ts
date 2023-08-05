@@ -52,13 +52,27 @@ router.get("/product/:_id", async (req: Request, res: Response) => {
 	try {
 		// -- Check if id was provided
 		const productId = req.params._id;
-		const product = await Product.findOne({ _id: productId }).populate({
-			path: "productType",
-			select: "name",
-		});
+		const product = await Product.findOne({ _id: productId })
+			.populate({
+				path: "productType",
+				select: "name",
+			})
+			.populate({
+				path: "origin_harbour",
+				select: "city country",
+			})
+			.populate({
+				path: "destination_harbour",
+				select: "city country",
+			})
+			.populate({
+				path: "transportation",
+				select: "name",
+			});
 		if (!product) {
 			return res.status(404).json({ error: "Product not found." });
 		}
+		console.info("product is ", product);
 		return res.status(200).json({ product: product });
 	} catch (error: any) {
 		return res.status(400).json({ error: error.message });
