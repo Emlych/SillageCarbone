@@ -204,7 +204,6 @@ export const fetchUserByMail = async () => {
 		if (!searchedUser) {
 			throw new Error("No user found");
 		}
-		console.log("searcher user data ", searchedUser);
 
 		return response.data.user; // Modify the return value to fetch the creation_date property
 	} catch (error: any) {

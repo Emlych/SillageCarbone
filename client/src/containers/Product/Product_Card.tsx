@@ -1,3 +1,4 @@
+// Component ProductCard displayed in product page
 import "./productcard.css";
 import { useState } from "react";
 import { capitalizeFirstLetter } from "../../utils/format-data-utils";
@@ -13,12 +14,14 @@ import {
 import { DetailedProduct } from "../../dto/ProductDto";
 
 const ProductCard = ({ product }: { product: DetailedProduct }) => {
+	// State to track whether the product is marked as favorite (version 2)
 	const [isFav, setIsFav] = useState(false);
 	const productName = capitalizeFirstLetter(product.name);
 
 	return (
 		<div className="productCard">
 			<div className="productCard-container">
+				{/* Display product information */}
 				<div className="product-info">
 					<h2 className="product-name">{productName}</h2>
 					<CardItem text={product.company} faIcon={faWarehouse} />
@@ -36,6 +39,7 @@ const ProductCard = ({ product }: { product: DetailedProduct }) => {
 					<CardItem text={`Transport: ${product.transportation}`} faIcon={faShip} />
 				</div>
 
+				{/* Display product image and favorite button */}
 				<div className="image-and-button">
 					<div className="product-picture">
 						<img src={product.imgUrl} alt="" />

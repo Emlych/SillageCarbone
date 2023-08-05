@@ -1,11 +1,14 @@
+// Component to display caroussel
 import CarousselCard from "../../components/CarousselCard";
 import "../../styling/caroussel.css";
 import { useNavigate } from "react-router-dom";
 import { CarousselProduct } from "../../dto/ProductDto";
 
 const Caroussel = ({ products }: { products: CarousselProduct[] }) => {
-	//	Redirect to new product page
+	//-- Enable navigation
 	const navigate = useNavigate();
+
+	/** Function to navigate to the individual product page */
 	const navigateToProduct = (id: number) => {
 		navigate(`/product/${id}`);
 	};
@@ -14,6 +17,7 @@ const Caroussel = ({ products }: { products: CarousselProduct[] }) => {
 		<div className="caroussel">
 			<div>ALTERNATIVES</div>
 			<div className="carousselCards">
+				{/* Mapping through the products array to render each product card */}
 				{products.map((product) => (
 					<div key={product._id} onClick={() => navigateToProduct(product._id)}>
 						<CarousselCard product={product} />
