@@ -32,7 +32,7 @@ const Product = () => {
 				}
 				const productData = await fetchProductById(_id);
 				setProduct(productData);
-				setProductType(productData.type);
+				setProductType(productData.productType.name);
 				setExcludeId(productData._id);
 				setIsLoading(false);
 			} catch (error: any) {

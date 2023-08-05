@@ -185,8 +185,10 @@ describe("createProduct", () => {
 			name: "Product 1",
 			company: "Company 1",
 			type: "Type 1",
-			originHarbour: "Origin Harbour",
-			destinationHarbour: "Destination Harbour",
+			originCity: "Origin City",
+			originCountry: "Origin Country",
+			destinationCity: "Destination City",
+			destinationCountry: "Destination Country",
 			transportation: "Transportation 1",
 			description: "Description of the product",
 		};
@@ -198,8 +200,10 @@ describe("createProduct", () => {
 			"Product 1",
 			"Company 1",
 			"Type 1",
-			"Origin Harbour",
-			"Destination Harbour",
+			"Origin City Harbour",
+			"Origin Country Harbour",
+			"Destination City Harbour",
+			"Destination Cuountry Harbour",
 			"Transportation 1",
 			"Description of the product"
 		);
@@ -214,7 +218,9 @@ describe("createProduct", () => {
 				"Company 1",
 				"Type 1",
 				"",
-				"Destination Harbour",
+				"",
+				"Destination City Harbour",
+				"",
 				"Transportation 1"
 			)
 		).rejects.toThrow("Missing field");
@@ -231,8 +237,10 @@ describe("createProduct", () => {
 				"Product 1",
 				"Company 1",
 				"Type 1",
-				"Origin Harbour",
-				"Destination Harbour",
+				"Origin Harbour City",
+				"Origin Harbour Country",
+				"Destination Harbour City",
+				"Destination Harbour Country",
 				"Transportation 1"
 			)
 		).rejects.toThrow("Not authorized to access list of users.");
@@ -247,8 +255,10 @@ describe("createProduct", () => {
 				"Product 1",
 				"Company 1",
 				"Type 1",
-				"Origin Harbour",
-				"Destination Harbour",
+				"Origin City Harbour",
+				"Origin Country Harbour",
+				"Destination City Harbour",
+				"Destination Country Harbour",
 				"Transportation 1"
 			)
 		).rejects.toThrow("Request failed with status code 404");
@@ -263,8 +273,10 @@ describe("createProduct", () => {
 				"Product 1",
 				"Company 1",
 				"Type 1",
-				"Origin Harbour",
-				"Destination Harbour",
+				"Origin City Harbour",
+				"Origin Country Harbour",
+				"Destination City Harbour",
+				"Destination Country Harbour",
 				"Transportation 1"
 			)
 		).rejects.toThrow("Network Error");

@@ -8,7 +8,7 @@ import { Transportation } from "../dto/TransportationDto";
  * @param _id
  * @returns a promise
  */
-export const fetchProductById = async (_id: string) => {
+export const fetchProductById = async (_id: string): Promise<any> => {
 	// -- API endpoint url based on the provided product ID
 	const url = `http://localhost:8000/product/${_id}`;
 	try {
@@ -36,7 +36,7 @@ export const fetchSimilarProducts = async (productType: string, excludeId: strin
 	const url = `http://localhost:8000/products/caroussel`;
 	try {
 		const response = await axios.get(url, {
-			params: { type: productType, excludeId, limit: 3, page: 1 },
+			params: { type: productType, excludeId },
 		});
 		if (!response.data?.products) {
 			throw new Error("No products retrieved");
@@ -108,11 +108,13 @@ export const createProduct = async (
 	name: string,
 	company: string,
 	type: string,
-	originHarbour: string,
-	destinationHarbour: string,
+	originCity: string,
+	originCountry: string,
+	destinationCity: string,
+	destinationCountry: string,
 	transportation: string,
 	description?: string
-): Promise<{ _id: string; mail: string; token: string }> => {
+): Promise<{ success: boolean; data: { name: string; company: string } }> => {
 	const url = "http://localhost:8000/product/create";
 
 	try {
@@ -120,8 +122,10 @@ export const createProduct = async (
 			!name ||
 			!company ||
 			!type ||
-			!originHarbour ||
-			!destinationHarbour ||
+			!originCity ||
+			!originCountry ||
+			!destinationCity ||
+			!destinationCountry ||
 			!transportation
 		) {
 			throw new Error("Missing field");
@@ -140,8 +144,10 @@ export const createProduct = async (
 				name,
 				company,
 				type,
-				originHarbour,
-				destinationHarbour,
+				originCity,
+				originCountry,
+				destinationCity,
+				destinationCountry,
 				transportation,
 				description,
 			},
@@ -149,9 +155,10 @@ export const createProduct = async (
 		);
 
 		if (!response.data) {
-			throw new Error("User could not be created");
+			throw new Error("Product could not be created");
 		}
-		return response.data;
+		// Return the response data in an object with a success flag
+		return { success: true, data: response.data };
 	} catch (error: any) {
 		throw new Error(error.message);
 	}

@@ -4,27 +4,27 @@ const ProductSchema = new Schema({
 	name: { type: String, maxLength: 50, required: true },
 	company: { type: String, maxLength: 50, required: true },
 	co2: { type: Number, min: 1, required: true },
-	type: {
-		type: String,
+	productType: {
+		type: Schema.Types.ObjectId,
 		required: true,
 		ref: "ProductType",
 	},
 	description: { type: String, maxLength: 500 },
 	imgUrl: { type: mongoose.Schema.Types.Mixed, default: {} },
 	transportation: {
-		type: String,
+		type: Schema.Types.ObjectId,
 		ref: "Transportation",
 		required: true,
 	},
 	distance: { type: Number, required: true, minimum: 1 },
 	origin_harbour: {
-		type: String,
+		type: Schema.Types.ObjectId,
 		required: true,
 		ref: "Harbour",
 		maxLength: 50,
 	},
 	destination_harbour: {
-		type: String,
+		type: Schema.Types.ObjectId,
 		required: true,
 		ref: "Harbour",
 		maxLength: 50,

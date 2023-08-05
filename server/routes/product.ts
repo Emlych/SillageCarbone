@@ -5,6 +5,7 @@ import Product from "../models/Product";
 import ProductType from "../models/ProductType";
 import Transportation from "../models/Transportation";
 import User from "../models/User";
+import Harbour from "../models/Harbour";
 
 const router = express.Router();
 const cloudinary = require("cloudinary").v2;
@@ -24,11 +25,7 @@ interface AdminProductFilters {
 	_id?: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
 	archived?: Boolean;
 }
-interface UserProductFilters {
-	type_id: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId> | null;
-	_id: mongoose.FilterQuery<mongoose.Schema.Types.ObjectId>;
-	archived: Boolean;
-}
+
 /** User role is admin */
 const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -55,7 +52,10 @@ router.get("/product/:_id", async (req: Request, res: Response) => {
 	try {
 		// -- Check if id was provided
 		const productId = req.params._id;
-		const product = await Product.findById(productId);
+		const product = await Product.findOne({ _id: productId }).populate({
+			path: "productType",
+			select: "name",
+		});
 		if (!product) {
 			return res.status(404).json({ error: "Product not found." });
 		}
@@ -86,8 +86,6 @@ router.get("/products", isAdmin, async (req: Request, res: Response) => {
 				requestFilters.company = new RegExp(`${requestQuery.company}`, "i");
 			}
 			if (requestQuery.type && String(requestQuery.type).length > 0) {
-				//requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
-
 				// -- Find the ProductType based on the name
 				const productType = await ProductType.findOne({
 					name: new RegExp(`${requestQuery.type}`, "i"),
@@ -128,50 +126,40 @@ router.get("/products", isAdmin, async (req: Request, res: Response) => {
 router.get("/products/caroussel", async (req: Request, res: Response) => {
 	console.info("Route: /products/caroussel");
 	try {
-		// Retrieve request queries to fill filtersObject with all used filters
-		const requestFilters: UserProductFilters = {
-			_id: new RegExp("", "i"),
-			type_id: new RegExp("", "i"),
-			archived: false,
-		};
 		const requestQuery = req.query;
+		if (!requestQuery) {
+			throw new Error("Missing queries");
+		}
 
-		if (requestQuery) {
-			// -- Apply filters
+		if (
+			requestQuery.type &&
+			String(requestQuery.type).length > 0 &&
+			requestQuery.excludeId
+		) {
+			// -- Find the ProductType based on the name
+			const productType = await ProductType.findOne({
+				name: new RegExp(`${requestQuery.type}`, "i"), // voir pour retirer les regex non nécessaire (voir dangereux?)
+			});
 
-			if (requestQuery.type && String(requestQuery.type).length > 0) {
-				//requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
-
-				// -- Find the ProductType based on the name
-				const productType = await ProductType.findOne({
-					name: new RegExp(`${requestQuery.type}`, "i"),
-				});
-
-				if (productType) {
-					requestFilters.type_id = new Types.ObjectId(productType._id);
-				} else {
-					requestFilters.type_id = null;
-				}
-			}
-			// -- Optional filter to exclude a specific _id
-			if (requestQuery.excludeId) {
-				requestFilters._id = { $ne: req.query.excludeId };
+			if (!productType) {
+				throw new Error("This product type doesn't exist");
 			}
 
-			// -- Limit data with page and max items per page
-			let page = parseInt(requestQuery.page as string) ?? 1;
-			let maxItemPerPage = parseInt(requestQuery.limit as string) ?? 2;
+			// -- Retrieve array of products ids (filter out excluded id)
+			const similarProductsIds = productType.productsIds.filter(
+				(id) => String(id) !== String(requestQuery.excludeId)
+			);
 
-			// -- Retrieve products
-			const products = await Product.find(requestFilters)
-				.skip((page - 1) * maxItemPerPage)
-				.limit(maxItemPerPage);
-
-			// -- Number of retrieved products
-			const count = await Product.countDocuments(requestFilters);
+			// -- From array of ids, retrieve all products
+			const products: any[] = await Promise.all(
+				similarProductsIds.map(async (id) => {
+					return await Product.findById(id);
+				})
+			);
 
 			// -- Send response to front
-			res.json({ count: count, products: products });
+			console.info("products array ", products);
+			res.json({ count: similarProductsIds.length, products: products });
 		}
 	} catch (error: any) {
 		res.status(400).json({ message: error.message });
@@ -215,8 +203,6 @@ router.get("/products/archived", isAdmin, async (req: Request, res: Response) =>
 				requestFilters.company = new RegExp(`${requestQuery.company}`, "i");
 			}
 			if (requestQuery.type && String(requestQuery.type).length > 0) {
-				//requestFilters.type = new RegExp(`${requestQuery.type}`, "i");
-
 				// -- Find the ProductType based on the name
 				const productType = await ProductType.findOne({
 					name: new RegExp(`${requestQuery.type}`, "i"),
@@ -226,9 +212,6 @@ router.get("/products/archived", isAdmin, async (req: Request, res: Response) =>
 					requestFilters.type_id = new Types.ObjectId(productType._id);
 				} else {
 					requestFilters.type_id = null;
-					// // If the ProductType doesn't exist, return an empty response
-					// res.json({ count: 0, products: [] });
-					// return;
 				}
 			}
 
@@ -263,8 +246,10 @@ router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 			!req.body.company ||
 			!req.body.type ||
 			!req.body.transportation ||
-			!req.body.originHarbour ||
-			!req.body.destinationHarbour
+			!req.body.originCity ||
+			!req.body.originCountry ||
+			!req.body.destinationCity ||
+			!req.body.destinationCountry
 		) {
 			throw new Error("Missing field(s)");
 		}
@@ -274,7 +259,7 @@ router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 		if (!productType) {
 			const newType = new ProductType({
 				name: req.body.type,
-				productId: [],
+				productsIds: [],
 				creation_date: new Date(),
 				archived: false,
 			});
@@ -284,17 +269,14 @@ router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 		// -- Check if transportation already exists, if not create it
 		let transportation = await Transportation.findOne({ name: req.body.transportation });
 		if (!transportation) {
-			//TODO code à supprimer une fois la rubrique "transport créée"
 			const newTransportation = new Transportation({
 				name: req.body.transportation,
-				productId: [],
+				productsIds: [],
 				creation_date: new Date(),
 				archived: false,
 			});
-			console.info("new type", newTransportation);
 			transportation = newTransportation;
 		}
-
 		// -- Define distance
 		// Depending on start and finish harbour calculate distance
 		let defaultDistance = 12430;
@@ -303,17 +285,49 @@ router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 		const transportationCoef = transportation.carbonCoefficient;
 		const co2 = transportationCoef * defaultDistance;
 
+		// -- Check if transportation already exists, if not create it
+		let originHarbour = await Harbour.findOne({
+			city: req.body.originCity,
+			country: req.body.originCountry,
+		});
+		if (!originHarbour) {
+			const newHarbour = new Harbour({
+				city: req.body.originCity,
+				country: req.body.originCountry,
+				productsIds: [],
+				creation_date: new Date(),
+				archived: false,
+			});
+			originHarbour = newHarbour;
+		}
+
+		// -- Check if transportation already exists, if not create it
+		let destinationHarbour = await Harbour.findOne({
+			city: req.body.destinationCity,
+			country: req.body.destinationCountry,
+		});
+		if (!destinationHarbour) {
+			const newHarbour = new Harbour({
+				city: req.body.destinationCity,
+				country: req.body.destinationCountry,
+				productsIds: [],
+				creation_date: new Date(),
+				archived: false,
+			});
+			destinationHarbour = newHarbour;
+		}
+
 		// -- Create new product
 		const newProduct = new Product({
 			name: req.body.name,
 			company: req.body.company,
 			co2,
-			type: productType,
+			productType,
 			description: req.body.description ?? "",
-			transportation: req.body.transportation,
+			transportation,
 			distance: defaultDistance,
-			origin_harbour: req.body.originHarbour,
-			destination_harbour: req.body.destinationHarbour,
+			origin_harbour: originHarbour,
+			destination_harbour: destinationHarbour,
 			creation_date: new Date(),
 		});
 
@@ -325,16 +339,23 @@ router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
 			// });
 		}
 
-		// -- Push id of product inside productType
+		// -- Push id of product inside productType, transportation, originHarbour
 		productType.productsIds.push(newProduct._id);
+		transportation.productsIds.push(newProduct._id);
+		originHarbour.productsIds.push(newProduct._id);
+		destinationHarbour.productsIds.push(newProduct._id);
 
 		// -- Save
 		await productType.save();
+		await transportation.save();
+		await originHarbour.save();
+		await destinationHarbour.save();
 		await newProduct.save();
 
 		res.status(200).json({
 			_id: newProduct._id,
-			product_name: newProduct.name,
+			name: newProduct.name,
+			company: newProduct.company,
 			co2: newProduct.co2,
 		});
 	} catch (error: any) {

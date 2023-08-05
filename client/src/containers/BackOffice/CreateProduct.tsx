@@ -26,8 +26,10 @@ const CreateProduct = () => {
 	const [company, setCompany] = useState("");
 	const [type, setType] = useState("");
 	const [description, setDescription] = useState("");
-	const [originHarbour, setOriginHarbour] = useState("");
-	const [destinationHarbour, setDestinationHarbour] = useState("");
+	const [originCity, setOriginCity] = useState("");
+	const [originCountry, setOriginCountry] = useState("");
+	const [destinationCity, setDestinationCity] = useState("");
+	const [destinationCountry, setDestinationCountry] = useState("");
 	const [transportation, setTransportation] = useState(TransportationType.Container);
 
 	/** On form submission, send user data to server */
@@ -36,17 +38,25 @@ const CreateProduct = () => {
 
 		const fetchData = async () => {
 			try {
-				createProduct(
+				const result = await createProduct(
 					name,
 					company,
 					type,
-					originHarbour,
-					destinationHarbour,
+					originCity,
+					originCountry,
+					destinationCity,
+					destinationCountry,
 					transportation,
 					description
 				);
-				toast(`Création du produit ${name} - ${company} `);
-				initForm();
+
+				if (result.success) {
+					const { name, company } = result.data;
+					toast(`Création du produit ${name} - ${company}`);
+					initForm();
+				} else {
+					throw new Error("Product could not be created");
+				}
 			} catch (error) {
 				toast.error(`Erreur dans la création du produit`);
 			}
@@ -60,8 +70,10 @@ const CreateProduct = () => {
 		setCompany("");
 		setType("");
 		setDescription("");
-		setOriginHarbour("");
-		setDestinationHarbour("");
+		setOriginCity("");
+		setOriginCountry("");
+		setDestinationCity("");
+		setDestinationCountry("");
 		setTransportation(TransportationType.Container);
 	};
 
@@ -128,26 +140,51 @@ const CreateProduct = () => {
 					type="text"
 				/>
 
-				<Input
-					faIcon={faLocationDot}
-					placeholderText="Port d'origine"
-					value={originHarbour}
-					data-testid="port-origine"
-					onChange={(event) => {
-						setOriginHarbour(event.target.value);
-					}}
-					type="text"
-				/>
-				<Input
-					faIcon={faLocationDot}
-					placeholderText="Port d'arrivée"
-					value={destinationHarbour}
-					data-testid="port-arrivee"
-					onChange={(event) => {
-						setDestinationHarbour(event.target.value);
-					}}
-					type="text"
-				/>
+				<div className="product-form">
+					<Input
+						faIcon={faLocationDot}
+						placeholderText="Ville d'origine"
+						value={originCity}
+						data-testid="port-origine"
+						onChange={(event) => {
+							setOriginCity(event.target.value);
+						}}
+						type="text"
+					/>
+					<Input
+						faIcon={faLocationDot}
+						placeholderText="Pays d'origine"
+						value={originCountry}
+						data-testid="port-origine"
+						onChange={(event) => {
+							setOriginCountry(event.target.value);
+						}}
+						type="text"
+					/>
+				</div>
+
+				<div className="product-form">
+					<Input
+						faIcon={faLocationDot}
+						placeholderText="Ville d'arrivée"
+						value={destinationCity}
+						data-testid="port-origine"
+						onChange={(event) => {
+							setDestinationCity(event.target.value);
+						}}
+						type="text"
+					/>
+					<Input
+						faIcon={faLocationDot}
+						placeholderText="Pays d'origine"
+						value={destinationCountry}
+						data-testid="port-origine"
+						onChange={(event) => {
+							setDestinationCountry(event.target.value);
+						}}
+						type="text"
+					/>
+				</div>
 
 				<div
 					className="custom-input"
