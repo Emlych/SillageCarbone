@@ -38,12 +38,12 @@ const isConnectedUser = async (req: Request, res: Response, next: NextFunction) 
 const validateAndSanitizeInputs = [
 	// -- mail format, can't be empty
 	body("mail").isEmail().normalizeEmail().escape().withMessage("Invalid mail format"),
-	// -- password at least 5 chars long
-	body("password").isLength({ min: 8 }).withMessage("Password doesn't respect format"),
+	// -- password at least 12 chars long
+	body("password").isLength({ min: 12 }).withMessage("Password doesn't respect format"),
 	(req: Request, res: Response, next: NextFunction) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			console.info("rrors ", errors);
+			console.error("Validation errors:", errors.array());
 			return res.status(400).json({ errors: errors.array() });
 		}
 		next();

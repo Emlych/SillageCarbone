@@ -34,8 +34,8 @@ export const fetchUsers = async (
 		const users = response.data.users;
 		const count = response.data.count;
 		return { users, count };
-	} catch (error) {
-		throw new Error("Error fetching users.");
+	} catch (error: any) {
+		throw new Error(error.message);
 	}
 };
 

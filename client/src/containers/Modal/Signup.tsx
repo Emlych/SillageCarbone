@@ -1,6 +1,6 @@
 import { faEnvelope, faEye, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { createToken } from "../../utils/data-utils";

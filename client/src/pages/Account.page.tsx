@@ -4,7 +4,6 @@ import Button from "../components/Button";
 import Modal from "./Modal";
 import { fetchUserByMail } from "../services/userService";
 import { User } from "../dto/UserDto";
-// import { fetchUserByMail } from "../services/userService";
 
 const Account = () => {
 	// -- Retrieve user mail using cookie token
