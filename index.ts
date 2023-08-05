@@ -21,11 +21,11 @@ mongoose
 	});
 //mongoose.connect(process.env.MONGODB_URI);
 
-const userRoutes = require("./routes/user");
+const userRoutes = require("./server/routes/user");
 sillageApp.use(userRoutes);
-const productRoutes = require("./routes/product");
+const productRoutes = require("./server/routes/product");
 sillageApp.use(productRoutes);
-const transportationRoutes = require("./routes/transportation");
+const transportationRoutes = require("./server/routes/transportation");
 sillageApp.use(transportationRoutes);
 
 /** Page not found */
@@ -35,5 +35,5 @@ sillageApp.all("*", (req, res) => {
 
 /** Start the server (Returns http.Server on port 8000) */
 sillageApp.listen(8000, () => {
-	console.log("Listening to Sillage Carbone application on 8000");
+	console.info("Listening to Sillage Carbone application on 8000");
 });
