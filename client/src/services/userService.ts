@@ -189,23 +189,21 @@ export const deleteUserAsAdmin = async (mail: string) => {
 };
 
 export const fetchUserByMail = async () => {
-	console.info("inside fetchUserByMail");
-
 	const url = `http://localhost:8000/user`;
 	try {
 		const userMail = Cookies.get("userMailToken");
 		if (!userMail) {
 			throw new Error("Not authorized access to user account.");
 		}
-		console.info("url ", url);
 		const response = await axios.get(url, { params: { userMail } });
 
 		const searchedUser = response.data;
 		if (!searchedUser) {
 			throw new Error("No user found");
 		}
+		const user = response.data.user;
 
-		return response.data.user; // Modify the return value to fetch the creation_date property
+		return { mail: user.mail, creation_date: user.creation_date };
 	} catch (error: any) {
 		throw new Error(error.message);
 	}

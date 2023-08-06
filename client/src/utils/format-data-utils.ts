@@ -32,6 +32,37 @@ export const formatDate = (
 	return formattedDate as formattedDate;
 };
 
+/** Format date to specified format (yyyy-mm-dd or dd-mm-yyyy)
+ * @params date (string and not Date constructor) to convert
+ * @params format of date to convert into
+ */
+export function formatDateFromString(
+	date: string, //2023-08-06T19:23:37.923Z"
+	stringFormat: "dd-mm-yyyy" | "yyyy-mm-dd"
+): string | undefined {
+	// -- Cover cases of unknown string format
+	if (stringFormat !== "yyyy-mm-dd" && stringFormat !== "dd-mm-yyyy") {
+		console.error("This date format ", stringFormat, "is not taken in charge yet");
+		return undefined;
+	}
+
+	// -- Remove everything after T   ->  //2023-08-06
+	const truncateDate = date.substring(0, date.indexOf("T"));
+
+	if (stringFormat === "yyyy-mm-dd") {
+		return truncateDate;
+	}
+	if (stringFormat === "dd-mm-yyyy") {
+		const parts = truncateDate.split("-");
+
+		const day = parts[2];
+		const month = parts[1];
+		const year = parts[0];
+
+		return `${day}-${month}-${year}`;
+	}
+}
+
 /** Set text to lowercase, replace all accents by equivalent letter without accents and without space */
 export const formatTextToString = (text: string): string => {
 	// Filter out special characters

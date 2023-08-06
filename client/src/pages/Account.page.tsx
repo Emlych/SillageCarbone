@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Modal from "./Modal";
 import { fetchUserByMail } from "../services/userService";
-import { User } from "../dto/UserDto";
+import { formatDateFromString } from "../utils/format-data-utils";
 
 const Account = () => {
 	// -- Retrieve user mail using cookie token
-	// const userMail = Cookies.get("userMailToken");
-	const [user, setUser] = useState<User[]>();
-	//const [accountDate, setAccountDate] = useState("");
+	const [userMail, setUserMail] = useState("");
+	const [accountDate, setAccountDate] = useState("");
 
 	// -- Change password modal
 	const [changePasswordModalIsOpen, setChangePasswordModalIsOpen] = useState(false);
@@ -21,8 +20,8 @@ const Account = () => {
 			try {
 				// -- Update users
 				const userData = await fetchUserByMail();
-				setUser(userData.user);
-				console.log("user ", userData.user);
+				setUserMail(userData.mail);
+				setAccountDate(userData.creation_date);
 			} catch (error) {
 				// toast.error("Erreur dans la récupération des données utilisateur.");
 				console.error("Error ", error);
@@ -37,10 +36,12 @@ const Account = () => {
 				<h2>Gestion du compte</h2>
 				<div className="account-container">
 					<h3>Informations utilisateur</h3>
-					<p>Mail user : </p>
+					<p>Mail user : {userMail} </p>
 					<label htmlFor="newsletter">Inscription à la newsletter </label>
 					<input type="checkbox" name="newsletter" id="" />
-					<p>Date de création du compte :</p>
+					<p>
+						Date de création du compte : {formatDateFromString(accountDate, "dd-mm-yyyy")}
+					</p>
 				</div>
 				<div className="account-container">
 					<h3>Gestion du mot de passe</h3>

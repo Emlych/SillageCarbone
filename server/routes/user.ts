@@ -308,18 +308,14 @@ router.delete("/user/admin/delete", isAdmin, async (req: Request, res: Response)
 
 /** Provide mail to return creation date of a user route */
 router.get("/user", async (req: Request, res: Response) => {
+	console.info("Route : /user");
 	try {
-		console.info("Route : /user");
-		console.info("params ", req.params);
-		console.info("query ", req.query);
-
 		if (req.query.userMail) {
-			console.info("request query ", req.query.userMail);
-			// -- Retrieve users
-			const users = await User.find({ mail: req.query.userMail });
+			// -- Retrieve user
+			const user = await User.findOne({ mail: req.query.userMail });
 
 			// -- Send response to front
-			res.json({ user: users[0] });
+			res.json({ user: user });
 		}
 	} catch (error: any) {
 		res.status(400).json({ message: error.message });
