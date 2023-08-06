@@ -391,6 +391,49 @@ router.delete("/product/delete", isAdmin, async (req: Request, res: Response) =>
 		if (!searchedProduct) {
 			throw new Error("No product found");
 		}
+		const productId = searchedProduct._id;
+
+		// -- Delete from productsIds in Transportation
+		const transportation = await Transportation.findById(searchedProduct.transportation);
+		if (!transportation) {
+			throw new Error("Could not retrieve transportation");
+		}
+		transportation.productsIds = transportation.productsIds.filter(
+			(id) => !id.equals(productId)
+		);
+		await transportation.save();
+
+		// -- Delete from productsIds in ProductType
+		const productType = await ProductType.findById(searchedProduct.productType);
+		if (!productType) {
+			throw new Error("Could not retrieve product type");
+		}
+		productType.productsIds = productType.productsIds.filter(
+			(id) => !id.equals(productId)
+		);
+		await productType.save();
+
+		// -- Delete from productsIds in Harbours (origin)
+		const harbourOrigin = await Harbour.findById(searchedProduct.origin_harbour);
+		if (!harbourOrigin) {
+			throw new Error("Could not retrieve origin harbour");
+		}
+		harbourOrigin.productsIds = harbourOrigin.productsIds.filter(
+			(id) => !id.equals(productId)
+		);
+		await harbourOrigin.save();
+
+		// -- Delete from productsIds in Harbours (destination)
+		const harbourDestination = await Harbour.findById(
+			searchedProduct.destination_harbour
+		);
+		if (!harbourDestination) {
+			throw new Error("Could not retrieve origin harbour");
+		}
+		harbourDestination.productsIds = harbourDestination.productsIds.filter(
+			(id) => !id.equals(productId)
+		);
+		await harbourDestination.save();
 
 		// -- Delete product
 		await Product.deleteOne({ _id: req.body._id });
