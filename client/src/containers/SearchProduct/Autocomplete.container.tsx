@@ -99,16 +99,18 @@ const Autocomplete = () => {
 			<p>Entrer le nom et la marque d'un produit</p>
 
 			{/* Search bar with search icon */}
-			<div className="autocomplete-searchbar">
-				<label htmlFor="mail">
+			<form className="autocomplete-searchbar">
+				<label htmlFor="product-search">
 					<FontAwesomeIcon icon={faSearch} aria-label="Rechercher un produit" />
 				</label>
 				<div>
 					{/* Field for text input */}
 					<input
+						id="product-search" // Link to label for accessibility
 						placeholder="Rechercher un produit"
 						value={searchedProduct}
 						onChange={handleSearchInput}
+						aria-label="Rechercher un produit"
 					/>
 
 					{/* List of all items by div - dropdown menu UI */}
@@ -116,7 +118,7 @@ const Autocomplete = () => {
 						<Dropdown<string> {...MapContentNumberStringProps} />
 					)}
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 };
