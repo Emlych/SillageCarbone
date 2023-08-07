@@ -44,7 +44,7 @@ const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProp
 			<div id="header-right">
 				{/* Deconnexion or Connexion */}
 				{userToken || adminToken ? (
-					<div
+					<button
 						className="link-deconnexion"
 						onClick={() => {
 							handleDeconnexion();
@@ -53,15 +53,15 @@ const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProp
 						data-testid="link-deconnexion"
 					>
 						Déconnexion
-					</div>
+					</button>
 				) : (
-					<div
+					<button
 						className="connexion-nav"
 						onClick={() => toggleModal()}
 						data-testid="link-connexion"
 					>
 						Connexion
-					</div>
+					</button>
 				)}
 			</div>
 		</nav>

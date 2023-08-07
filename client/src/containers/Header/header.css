@@ -37,6 +37,13 @@ ul {
 
 	#header-right .link-deconnexion {
 		color: rgb(70, 148, 173);
+		border: none;
+		text-decoration: none;
+		background-color: white;
+		font-size: 1rem;
+		text-align: center;
+		-webkit-appearance: none;
+		-moz-appearance: none;
 	}
 
 	#header-right:hover {
