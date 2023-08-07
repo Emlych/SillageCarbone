@@ -32,6 +32,7 @@ const Account = () => {
 
 	return (
 		<div className="account">
+			{/* Three blocks on account's information, modify password and delete account */}
 			<div>
 				<h2>Gestion du compte</h2>
 				<div className="account-container">
@@ -76,7 +77,7 @@ const Account = () => {
 			{/* Modal for account deletion */}
 			{deleteModalIsOpen && (
 				<Modal
-					toggleModal={() => setDeleteModalIsOpen(!changePasswordModalIsOpen)} //! TODO a voir s'il faut remodifier
+					toggleModal={() => setDeleteModalIsOpen(!deleteModalIsOpen)}
 					accountModalKey="delete-account"
 				/>
 			)}
