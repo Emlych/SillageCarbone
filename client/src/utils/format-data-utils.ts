@@ -36,10 +36,10 @@ export const formatDate = (
  * @params date (string and not Date constructor) to convert
  * @params format of date to convert into
  */
-export function formatDateFromString(
+export const formatDateFromString = (
 	date: string, //2023-08-06T19:23:37.923Z"
 	stringFormat: "dd-mm-yyyy" | "yyyy-mm-dd"
-): string | undefined {
+): string | undefined => {
 	// -- Cover cases of unknown string format
 	if (stringFormat !== "yyyy-mm-dd" && stringFormat !== "dd-mm-yyyy") {
 		console.error("This date format ", stringFormat, "is not taken in charge yet");
@@ -61,7 +61,7 @@ export function formatDateFromString(
 
 		return `${day}-${month}-${year}`;
 	}
-}
+};
 
 /** Set text to lowercase, replace all accents by equivalent letter without accents and without space */
 export const formatTextToString = (text: string): string => {
@@ -112,4 +112,10 @@ export const isPasswordStrong = (password: string): boolean => {
 	const hasUpperCase = /[A-Z]/.test(password);
 	const hasLowerCase = /[a-z]/.test(password);
 	return isLongEnough && hasUpperCase && hasLowerCase;
+};
+
+/** Is string in email format ? */
+export const isEmailFormat = (email: string): boolean => {
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	return emailRegex.test(email);
 };

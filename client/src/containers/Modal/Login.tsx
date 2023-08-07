@@ -5,7 +5,8 @@ import Input from "../../components/Input";
 import { createToken } from "../../utils/data-utils";
 import { UserType } from "../../dto/UserDto";
 import { loginUser } from "../../services/userService";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
+import { isEmailFormat } from "../../utils/format-data-utils";
 
 export type LoginProps = {
 	toggleModal: Function;
@@ -15,8 +16,6 @@ export type LoginProps = {
 	setPassword: Function;
 	hiddenPassword: boolean;
 	setHiddenPassword: Function;
-	errorMessage: string;
-	setErrorMessage: Function;
 	setComponentKeyName: Function;
 };
 const Login = ({
@@ -27,25 +26,35 @@ const Login = ({
 	setPassword,
 	hiddenPassword,
 	setHiddenPassword,
-	errorMessage,
-	setErrorMessage,
 	setComponentKeyName,
 }: LoginProps) => {
+	/** States */
+	const [errorMessage, setErrorMessage] = useState("");
+
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
+		// Check mail format and that password is filled before fetching Data.
+		if (password.length === 0) {
+			// Already covered by default html5 behaviour so won't be used normally
+			setErrorMessage("Veuillez fournir un mot de passe.");
+			return;
+		}
+		if (!isEmailFormat(mail)) {
+			// Already covered by default html5 behaviour so won't be used normally
+			setErrorMessage("Veuillez fournir une adresse mail valide.");
+			return;
+		}
+
 		const fetchData = async () => {
 			try {
-				loginUser(mail, password).then((searchedUser) => {
-					const isAdmin = searchedUser.userType === UserType.Admin;
-					createToken(searchedUser.token, searchedUser.mail, isAdmin);
-					toggleModal();
-				});
-			} catch (error: any) {
-				if (error.response.status === 400 || error.response.status === 401)
-					setErrorMessage("Mauvais email/mot de passe");
-				throw new Error("Unauthorized connexion");
+				const searchedUser = await loginUser(mail, password);
+				const isAdmin = searchedUser.userType === UserType.Admin;
+				createToken(searchedUser.token, searchedUser.mail, isAdmin);
+				toggleModal();
+			} catch (error) {
+				setErrorMessage("Email ou mot de passe incorrect(s).");
 			}
 		};
 		fetchData();
@@ -89,8 +98,9 @@ const Login = ({
 				Mot de passe oublié ?
 			</p>
 
-			{/* Set error message if wrong password: depends on */}
+			{/* Set error message  */}
 			<p className="warning">{errorMessage}</p>
+
 			<Button buttonText="Se connecter" buttonType="submit" />
 			<p className="modal-navigateTo" onClick={() => setComponentKeyName("signup")}>
 				Pas de compte? Créer un compte.

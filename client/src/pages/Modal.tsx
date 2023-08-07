@@ -33,7 +33,6 @@ const Modal = ({
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [hiddenPassword, setHiddenPassword] = useState(true);
 	const [hiddenConfirmPassword, setHiddenConfirmPassword] = useState(true);
-	const [errorMessage, setErrorMessage] = useState("");
 
 	const [componentKeyName, setComponentKeyName] = useState<ComponentKey>("login");
 
@@ -65,7 +64,6 @@ const Modal = ({
 							setHiddenPassword={setHiddenPassword}
 							hiddenConfirmPassword={hiddenConfirmPassword}
 							setHiddenConfirmPassword={setHiddenConfirmPassword}
-							errorMessage={errorMessage}
 							setComponentKeyName={setComponentKeyName}
 						/>
 					);
@@ -79,8 +77,6 @@ const Modal = ({
 							setPassword={setPassword}
 							hiddenPassword={hiddenPassword}
 							setHiddenPassword={setHiddenPassword}
-							errorMessage={errorMessage}
-							setErrorMessage={setErrorMessage}
 							setComponentKeyName={setComponentKeyName}
 						/>
 					);
