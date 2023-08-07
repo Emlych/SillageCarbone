@@ -35,7 +35,8 @@ ul {
 		padding-left: 15px;
 	}
 
-	#header-right .link-deconnexion {
+	#header-right .link-deconnexion,
+	#header-right .connexion-nav {
 		color: rgb(70, 148, 173);
 		border: none;
 		text-decoration: none;
