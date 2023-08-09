@@ -86,6 +86,7 @@ const CreateProduct = () => {
 		}
 	};
 
+	/** Retrieve all transportations */
 	// User Roles are created of UserType enum
 	const transports = new Map<TransportationType, TransportationType>();
 	Object.values(TransportationType).forEach((value) => {

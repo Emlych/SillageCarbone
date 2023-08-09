@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ToastContainer, toast } from "react-toastify";
 import {
 	createNewTransportation,
+	deleteTransportation,
 	fetchTransportations,
 } from "../../services/productService";
 import { Transportation } from "../../dto/TransportationDto";
@@ -58,6 +59,20 @@ const ProductTags = () => {
 		};
 		fetchAndFilterProductsData();
 	}, []);
+
+	/** Delete Transportation */
+	const deleteTransportationService = async (_id: string, name: string) => {
+		try {
+			const result = await deleteTransportation(_id);
+			if (result.success) {
+				toast(`Transport ${name} supprimé `);
+			} else {
+				toast.error(`${result.data.message}`);
+			}
+		} catch (error) {
+			toast.error(`Erreur dans la suppression du type de transport: ${name}`);
+		}
+	};
 
 	return (
 		<div>
@@ -132,7 +147,7 @@ const ProductTags = () => {
 								<div className="icon-container">
 									<FontAwesomeIcon
 										icon={faTrash}
-										onClick={() => console.log("delete transport", item._id)}
+										onClick={() => deleteTransportationService(item._id, item.name)}
 									/>
 								</div>
 							</div>

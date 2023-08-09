@@ -278,3 +278,32 @@ export const fetchTransportations = async (): Promise<Transportation[]> => {
 		throw new Error(error.message);
 	}
 };
+
+export const deleteTransportation = async (_id: string) => {
+	const url = "http://localhost:8000/transportation/delete";
+
+	try {
+		// -- No id registered (needs to be investigated)
+		if (!_id) {
+			throw new Error("Missing transportation id");
+		}
+		// -- Is user connected as admin
+		const adminToken = Cookies.get("adminToken");
+		if (!adminToken) {
+			throw new Error("Missing authorization");
+		}
+
+		// -- Send delete request
+		const response = await axios.delete(url, {
+			headers: { authorization: `Bearer ${adminToken}` },
+			data: { _id },
+		});
+		if (!response.data) {
+			throw new Error("Error in deletion of transportation.");
+		}
+
+		return { success: response.data.canDelete, data: response.data };
+	} catch (error: any) {
+		throw new Error(error.message);
+	}
+};

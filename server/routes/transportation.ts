@@ -8,14 +8,12 @@ const router = express.Router();
 /** User role is admin */
 const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		console.info("req ", req.headers);
 		const adminTokenRegistered = req.headers.authorization;
 		if (adminTokenRegistered) {
 			const isAdmin = await User.find({
 				token: adminTokenRegistered.replace("Bearer ", ""),
 			});
 			if (isAdmin) {
-				console.info("go to next");
 				next();
 			} else {
 				throw new Error("Unauthorized to access these informations");
@@ -101,19 +99,24 @@ router.delete("/transportation/delete", isAdmin, async (req: Request, res: Respo
 			transportation: transportationId,
 		});
 		if (productsUsingTransportation.length > 0) {
-			console.info("Products use this transportation ", productsUsingTransportation);
-			return res.status(400).json({
-				error:
-					"Please delete products or modify their means of transportation before deleting this transportation.",
-			});
+			if (productsUsingTransportation.length === 1) {
+				return res.status(200).json({
+					canDelete: false,
+					message: `Utilisé par ${productsUsingTransportation[0].name} -  ${productsUsingTransportation[0].company} `,
+				});
+			} else {
+				return res.status(200).json({
+					canDelete: false,
+					message: "Utilisé par plusieurs produits",
+				});
+			}
 		} else {
 			// -- No products are using this transportation, so delete it
-			console.info("Can delete this transportation");
 			await Transportation.deleteOne({ _id: req.body._id });
-			return res.status(200).json("Transportation deleted");
+			return res.status(200).json({ canDelete: true, message: "Transportation deleted" });
 		}
 	} catch (error: any) {
-		return res.status(500).json({ error: error.message });
+		return res.status(500).json({ canDelete: false, error: error.message });
 	}
 });
 module.exports = router;
