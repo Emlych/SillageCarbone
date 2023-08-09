@@ -259,7 +259,15 @@ export const fetchTransportations = async (): Promise<Transportation[]> => {
 	const url = "http://localhost:8000/transportations";
 
 	try {
-		const response = await axios.get(url);
+		// -- Is user connected as admin
+		const adminToken = Cookies.get("adminToken");
+		if (!adminToken) {
+			throw new Error("Not authorized to access list of users.");
+		}
+
+		const response = await axios.get(url, {
+			headers: { authorization: `Bearer ${adminToken}` },
+		});
 
 		if (!response.data?.transportations) {
 			throw new Error("No transportations retrieved");
