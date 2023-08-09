@@ -37,6 +37,7 @@ const ProductTags = () => {
 					createNewTransportation(newTransportation, carbonCoef);
 					toast(`Transport ${newTransportation} créé `);
 					initForm();
+					window.location.reload();
 				} else {
 					throw new Error("Check type of carbonCoef");
 				}
@@ -66,6 +67,7 @@ const ProductTags = () => {
 			const result = await deleteTransportation(_id);
 			if (result.success) {
 				toast(`Transport ${name} supprimé `);
+				window.location.reload();
 			} else {
 				toast.error(`${result.data.message}`);
 			}

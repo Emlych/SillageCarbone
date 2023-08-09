@@ -13,52 +13,59 @@ type NavigationProps = {
 	setComponentKey: React.Dispatch<React.SetStateAction<BackOfficeComponentKey>>;
 };
 const Navigation = ({ setComponentKey }: NavigationProps) => {
+	// -- Update url fragment identifier
+	const handleNavItemClick = (key: BackOfficeComponentKey) => {
+		setComponentKey(key);
+		window.location.hash = key;
+	};
+
+	// -- List of items to display in menu
 	const menuItems = [
 		{
 			text: "Comptes utilisateurs",
 			level: 1,
-			onClick: () => setComponentKey("users"),
+			onClick: () => handleNavItemClick("users"),
 		},
 		{
 			text: "Gestion des comptes",
 			level: 2,
 			icon: faUsers,
-			onClick: () => setComponentKey("users"),
+			onClick: () => handleNavItemClick("users"),
 		},
 		{
 			text: "Créer un compte",
 			level: 2,
 			icon: faUserPlus,
-			onClick: () => setComponentKey("create-user"),
+			onClick: () => handleNavItemClick("create-user"),
 		},
 		{
 			text: "Produits",
 			level: 1,
-			onClick: () => setComponentKey("products"),
+			onClick: () => handleNavItemClick("products"),
 		},
 		{
 			text: "Gestion des produits",
 			level: 2,
 			icon: faBoxOpen,
-			onClick: () => setComponentKey("products"),
+			onClick: () => handleNavItemClick("products"),
 		},
 		{
 			text: "Créer un produit",
 			level: 2,
 			icon: faSquarePlus,
-			onClick: () => setComponentKey("create-product"),
+			onClick: () => handleNavItemClick("create-product"),
 		},
 		{
 			text: "Produits archivés",
 			level: 2,
 			icon: faBoxArchive,
-			onClick: () => setComponentKey("archived-products"),
+			onClick: () => handleNavItemClick("archived-products"),
 		},
 		{
 			text: "Gestion des catégories",
 			level: 2,
 			icon: faTags,
-			onClick: () => setComponentKey("product-keys"),
+			onClick: () => handleNavItemClick("product-keys"),
 		},
 	];
 

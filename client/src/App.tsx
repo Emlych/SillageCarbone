@@ -41,8 +41,8 @@ function App() {
 					{/* Product not found page */}
 					<Route path="/product/notfound" element={<ErrorProduct />} />
 
-					{/* Back office for admin - only with admin token */}
-					<Route path="/backoffice" element={<Backoffice />} />
+					{/* Back office for admin - only with admin token - route can match any additional path segments (fragment identifier) */}
+					<Route path="/backoffice/*" element={<Backoffice />} />
 
 					{/* Account for connected users - only with admin token */}
 					<Route path="/account" element={<Account />} />
