@@ -13,9 +13,9 @@ import {
 import { Transportation } from "../../dto/TransportationDto";
 
 const ProductTags = () => {
-	// States
+	//-- States for transportation
 	const [newTransportation, setNewTransportation] = useState("");
-	const [carbonCoef, setCarbonCoef] = useState(1);
+	const [carbonCoef, setCarbonCoef] = useState<number | string>(1);
 	const [allTransportations, setAllTransportations] = useState<Transportation[] | null>(
 		null
 	);
@@ -32,9 +32,13 @@ const ProductTags = () => {
 
 		const fetchData = async () => {
 			try {
-				createNewTransportation(newTransportation, carbonCoef);
-				toast(`Transport ${newTransportation}  créé `);
-				initForm();
+				if (typeof carbonCoef === "number") {
+					createNewTransportation(newTransportation, carbonCoef);
+					toast(`Transport ${newTransportation} créé `);
+					initForm();
+				} else {
+					throw new Error("Check type of carbonCoef");
+				}
 			} catch (error) {
 				toast.error(`Erreur dans la création d'un nouveau transport`);
 			}
@@ -62,9 +66,9 @@ const ProductTags = () => {
 				<h3>Types de transports</h3>
 
 				<form data-test-id="manage-tags" onSubmit={createTransportation}>
-					<div className="">
-						{/* Filter by user name */}
-						<div className="tags-label">Type de transport:</div>
+					<div>
+						{/* Type of transporation */}
+						<label className="tags-label">Type de transport:</label>
 
 						<Input
 							faIcon={faShip}
@@ -75,28 +79,46 @@ const ProductTags = () => {
 							type="text"
 						/>
 					</div>
-					<div className="">
-						{/* Filter by user name */}
-						<div className="tags-label">Coefficient carbone</div>
+
+					<div>
+						{/* Carbon coefficient */}
+						<label className="tags-label">Coefficient carbone</label>
 
 						<Input
 							faIcon={faSmog}
 							placeholderText="Coefficient Carbone"
 							value={carbonCoef}
 							data-testid="carbonCoef"
-							onChange={(event) => setCarbonCoef(Number(event.target.value))}
+							onChange={(event) => {
+								if (event.target.value.length === 0) {
+									setCarbonCoef("");
+								} else {
+									let inputValue = event.target.value;
+									if (event.target.value.includes(".")) {
+										// Replace comma with dot
+										inputValue.replace(".", ",");
+									}
+									const newValue = parseFloat(inputValue);
+									setCarbonCoef(newValue);
+								}
+							}}
 							type="number"
+							step="0.01"
 						/>
 					</div>
 					<div className="button-container">
-						<Button buttonText="Valider" buttonType="submit" />
+						<Button
+							buttonText="Valider"
+							buttonType="submit"
+							disabled={typeof carbonCoef !== "number"}
+						/>
 					</div>
 				</form>
 
 				{/* One line per existing transportation */}
 				{allTransportations &&
 					allTransportations.map((item, index) => (
-						<div className="transportation-line">
+						<div className="transportation-line" key={index}>
 							<div>
 								{item.name} - coef:{item.carbonCoefficient}
 							</div>
