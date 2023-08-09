@@ -11,6 +11,7 @@ type InputProps = {
 	) => void;
 	value?: string | number;
 	type?: "text" | "password" | "number" | "email";
+	step?: string;
 };
 
 /** Custom Input component  */
@@ -21,6 +22,7 @@ const Input = ({
 	"data-testid": dataTestId,
 	onChange,
 	type,
+	step,
 }: InputProps) => {
 	return (
 		<div className="custom-input">
@@ -35,6 +37,7 @@ const Input = ({
 				onChange={onChange}
 				type={type}
 				required
+				step={step}
 			/>
 		</div>
 	);
