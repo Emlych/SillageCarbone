@@ -30,6 +30,9 @@
 	/* Need dropdown to overlap on caroussel */
 	z-index: 99;
 }
+.dropdown-menu:hover {
+	cursor: pointer;
+}
 .dropdown-result {
 	margin-top: 8px;
 	margin-bottom: 8px;

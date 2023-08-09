@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	faBoxOpen,
 	faCommentDots,
@@ -13,12 +13,7 @@ import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dropdown, { DropdownProps } from "../../components/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
-import { createProduct } from "../../services/productService";
-
-export enum TransportationType {
-	Container = "container",
-	Sailing = "sailing",
-}
+import { createProduct, fetchTransportations } from "../../services/productService";
 
 const CreateProduct = () => {
 	/** Product data */
@@ -30,7 +25,8 @@ const CreateProduct = () => {
 	const [originCountry, setOriginCountry] = useState("");
 	const [destinationCity, setDestinationCity] = useState("");
 	const [destinationCountry, setDestinationCountry] = useState("");
-	const [transportation, setTransportation] = useState(TransportationType.Container);
+	const [transportation, setTransportation] = useState("");
+	const [dropdownTransport, setDropdownTransport] = useState<Map<string, string>>();
 
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
@@ -74,7 +70,7 @@ const CreateProduct = () => {
 		setOriginCountry("");
 		setDestinationCity("");
 		setDestinationCountry("");
-		setTransportation(TransportationType.Container);
+		setTransportation("");
 	};
 
 	// Enable closing dropdown on clicking outside of dropdown
@@ -86,15 +82,26 @@ const CreateProduct = () => {
 		}
 	};
 
-	/** Retrieve all transportations */
-	// User Roles are created of UserType enum
-	const transports = new Map<TransportationType, TransportationType>();
-	Object.values(TransportationType).forEach((value) => {
-		transports.set(value, value);
-	});
-	const MapContentTransportationProps: DropdownProps<TransportationType> = {
-		options: transports,
-		handleSelectInput: (transportation: TransportationType) => {
+	/** Retrieve all transportations on page load*/
+	useEffect(() => {
+		const fetchAndFilterProductsData = async () => {
+			try {
+				const allTransportations = await fetchTransportations();
+				const transports = new Map<string, string>();
+				for (const transportation of allTransportations) {
+					transports.set(transportation.name, transportation.name);
+				}
+				setDropdownTransport(transports);
+			} catch (error) {
+				toast.error(`Erreur dans l'extraction des moyens de transport`);
+			}
+		};
+		fetchAndFilterProductsData();
+	}, []);
+
+	const MapContentTransportationProps: DropdownProps<string> = {
+		options: dropdownTransport ?? null,
+		handleSelectInput: (transportation: string) => {
 			setTransportation(transportation);
 			setShowDropdown(false);
 		},
@@ -188,17 +195,16 @@ const CreateProduct = () => {
 				</div>
 
 				<div
-					className="custom-input"
+					className="select-transportation-input"
 					ref={dropdownRef}
 					onClick={() => setShowDropdown(!showDropdown)}
 				>
 					<label>
 						<FontAwesomeIcon icon={faShip} />
 					</label>
-
-					{showDropdown && (
-						<Dropdown<TransportationType> {...MapContentTransportationProps} />
-					)}
+					<div>
+						{showDropdown && <Dropdown<string> {...MapContentTransportationProps} />}
+					</div>
 
 					<div>{transportation}</div>
 				</div>

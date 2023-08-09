@@ -19,3 +19,26 @@
 	width: 100%;
 	height: 100%;
 }
+
+.custom-input input:hover {
+	cursor: pointer;
+}
+
+.select-transportation-input {
+	display: flex;
+	margin-bottom: 25px;
+	border: 2px solid lightgray;
+	border-radius: 5px;
+}
+
+.select-transportation-input label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 10px;
+	background-color: lightblue;
+}
+
+.select-transportation-input:hover {
+	cursor: pointer;
+}

@@ -1,18 +1,17 @@
 /** Dropdown UI component with select content (options) */
-
-import { TransportationType } from "../containers/BackOffice/CreateProduct";
 import { UserType } from "../dto/UserDto";
 
 export type DropdownProps<T> = {
 	options: Map<number | T, T> | null;
 	handleSelectInput: Function;
 };
-const Dropdown = <T extends string | UserType | TransportationType>({
+const Dropdown = <T extends string | UserType>({
 	options,
 	handleSelectInput,
 }: DropdownProps<T>) => {
 	// Hide dropdown if empty or for conditions handled outside of Dropdown component (exemple when press on "esc" or click outside of dropdown)
 	if (!options || options.size === 0) return null;
+	console.log("options to display ", options);
 
 	return (
 		<div className="dropdown-menu" data-testid="dropdown">
