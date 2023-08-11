@@ -16,10 +16,7 @@
 .account h3 {
 	margin-bottom: 15px;
 }
-.account p,
-.account input {
-	margin-bottom: 10px;
-}
+
 .account .button-container {
 	display: flex;
 	justify-content: flex-end;
