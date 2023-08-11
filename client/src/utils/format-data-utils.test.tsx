@@ -2,6 +2,7 @@ import {
 	capitalizeFirstLetter,
 	formatDate,
 	formatTextToString,
+	isEmailFormat,
 	isPasswordStrong,
 } from "./format-data-utils";
 
@@ -70,5 +71,26 @@ describe("Format Data Utils Function", () => {
 		const strongPassword = "MOTDEPASSE123456789motdepasse";
 		const isStrong = isPasswordStrong(strongPassword);
 		expect(isStrong).toEqual(true);
+	});
+
+	// Email format
+	test("String not respecting the email format (no @)", () => {
+		const wrongFormat = "jjo.com";
+		const isEmail = isEmailFormat(wrongFormat);
+		expect(isEmail).toEqual(false);
+	});
+
+	// Email format
+	test("String not respecting the email format (no dot)", () => {
+		const wrongFormat = "jjo@com";
+		const isEmail = isEmailFormat(wrongFormat);
+		expect(isEmail).toEqual(false);
+	});
+
+	// Email format
+	test("String respecting the email format", () => {
+		const wrongFormat = "jjo@test.com";
+		const isEmail = isEmailFormat(wrongFormat);
+		expect(isEmail).toEqual(true);
 	});
 });
