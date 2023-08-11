@@ -1,11 +1,11 @@
-import { faEnvelope, faEye, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faEye, faEyeSlash, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { createToken } from "../../utils/data-utils";
 import { createUser } from "../../services/userService";
-import { isEmailFormat, isPasswordStrong } from "../../utils/format-data-utils";
+import { isFormCorrect } from "../../utils/format-data-utils";
 
 type SignupProps = {
 	toggleModal: Function;
@@ -39,35 +39,6 @@ const Signup = ({
 	/** States */
 	const [errorMessage, setErrorMessage] = useState("");
 
-	/** Handle form error: check password and mail format */
-	const isFormCorrect = (): boolean => {
-		if (password.length === 0 || confirmPassword.length === 0) {
-			// Fields not empty - Already covered by default html5 behaviour so won't be used normally
-			setErrorMessage("Veuillez fournir un mot de passe.");
-			return false;
-		}
-		if (!isEmailFormat(mail)) {
-			// Format mail respected - Already covered by default html5 behaviour so won't be used normally
-			setErrorMessage("Veuillez fournir une adresse mail valide.");
-			return false;
-		}
-		if (!isPasswordStrong(password)) {
-			// Weak password
-			setErrorMessage(
-				"Le mot de passe est trop faible. Il doit contenir au moins 12 caractères, une majuscule, une minuscule et un chiffre"
-			);
-			return false;
-		}
-		if (!samePasswords(password, confirmPassword)) {
-			// Password and confirm password should be the same
-			setErrorMessage(
-				"Le mot de passe à confirmer doit être identique au mot de passe fourni."
-			);
-			return false;
-		}
-		return true;
-	};
-
 	/** On form submission, send user data to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -84,11 +55,12 @@ const Signup = ({
 		};
 
 		// -- Fetch data only if form is correct (avoid unecessary operations server side)
-		if (isFormCorrect()) fetchData();
-	};
-
-	const samePasswords = (password: string, passwordToConfirm: string): boolean => {
-		return password === passwordToConfirm;
+		const canSubmit = isFormCorrect(password, confirmPassword, mail, undefined);
+		if (canSubmit.isCorrect) {
+			fetchData();
+		} else {
+			setErrorMessage(canSubmit.errorMessage);
+		}
 	};
 
 	return (
@@ -106,7 +78,7 @@ const Signup = ({
 
 			<div className="modal-password-input">
 				<FontAwesomeIcon
-					icon={faEye}
+					icon={hiddenPassword ? faEye : faEyeSlash}
 					onClick={() => setHiddenPassword(!hiddenPassword)}
 					data-testid="eye-icon"
 					className="password-eye-icon"
@@ -125,7 +97,7 @@ const Signup = ({
 
 			<div className="modal-password-input">
 				<FontAwesomeIcon
-					icon={faEye}
+					icon={hiddenConfirmPassword ? faEye : faEyeSlash}
 					onClick={() => setHiddenConfirmPassword(!hiddenConfirmPassword)}
 					data-testid="eye-icon"
 					className="password-eye-icon"

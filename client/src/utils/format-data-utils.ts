@@ -119,3 +119,50 @@ export const isEmailFormat = (email: string): boolean => {
 	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	return emailRegex.test(email);
 };
+
+/**
+ * Check if form can be submitted (no empty fields, equal text inputs, correct formats)
+ * @param newPassword
+ * @param confirmPassword
+ * @param mail optionnal
+ * @param actualPassword optionnal
+ * @returns
+ */
+export const isFormCorrect = (
+	newPassword: string,
+	confirmPassword: string,
+	mail?: string,
+	actualPassword?: string
+): { errorMessage: string; isCorrect: boolean } => {
+	let errorMessage = "";
+	let isCorrect = true;
+
+	if (
+		newPassword.length === 0 ||
+		confirmPassword.length === 0 ||
+		(actualPassword && actualPassword.length === 0)
+	) {
+		// Fields not empty - Already covered by default html5 behaviour so won't be used normally
+		errorMessage = "Veuillez fournir un mot de passe.";
+		isCorrect = false;
+	}
+
+	if (mail && !isEmailFormat(mail)) {
+		// Format mail respected - Already covered by default html5 behaviour so won't be used normally
+		errorMessage = "Veuillez fournir une adresse mail valide.";
+		isCorrect = false;
+	}
+	if (!isPasswordStrong(newPassword)) {
+		// Weak password
+		errorMessage =
+			"Le mot de passe est trop faible. Il doit contenir au moins 12 caractères, une majuscule, une minuscule et un chiffre";
+		isCorrect = false;
+	}
+	if (newPassword !== confirmPassword) {
+		// Password and confirm password should be the same
+		errorMessage =
+			"Le mot de passe à confirmer doit être identique au mot de passe fourni.";
+		isCorrect = false;
+	}
+	return { errorMessage, isCorrect };
+};

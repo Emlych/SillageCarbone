@@ -247,7 +247,11 @@ router.put(
 
 			// -- Register change
 			await searchedUser.save();
-			res.status(200).json({ message: `Password udpate for ${req.body.mail}` });
+			res.status(200).json({
+				message: `Password udpate for ${req.body.mail}`,
+				mail: searchedUser.mail,
+				token: searchedUser.token,
+			});
 		} catch (error: any) {
 			res.status(400).json({ message: error.message });
 		}

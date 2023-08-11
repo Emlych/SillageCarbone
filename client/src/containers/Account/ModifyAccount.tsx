@@ -1,11 +1,11 @@
-import { faEye, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faLock, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { updateUser } from "../../services/userService";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-
-// TODO factoriser en un autre composant encore
+import { isFormCorrect } from "../../utils/format-data-utils";
+import { createToken } from "../../utils/data-utils";
 
 const ModifyPassword = () => {
 	const [actualPassword, setActualPassword] = useState("");
@@ -16,26 +16,38 @@ const ModifyPassword = () => {
 	const [hiddenNewPassword, setHiddenNewPassword] = useState(true);
 	const [hiddenConfirmPassword, setHiddenConfirmPassword] = useState(true);
 
+	const [errorMessage, setErrorMessage] = useState("");
+
 	// -- When password has been changed, validRequest will be passed to true
 	const [validRequest, setValidRequest] = useState(false);
 
+	/** On form submission, send actual and new password to server */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 		const fetchData = async () => {
 			try {
-				updateUser(actualPassword, newPassword);
-				setValidRequest(true);
+				updateUser(actualPassword, newPassword).then((userData) => {
+					setValidRequest(true);
+					createToken(userData.token, userData.mail, false);
+				});
 			} catch (error: any) {
 				alert("User password could not be changed.");
 				throw new Error("Could not modify password");
 			}
 		};
-		fetchData();
-	};
 
-	/** Return true if password and password to confirm are the same */ //TODO change into function for strong password
-	const comparePasswords = (password: string, confirmPassword: string): boolean => {
-		return password === confirmPassword;
+		// -- Fetch data only if form is correct (avoid unecessary operations server side)
+		const canSubmit = isFormCorrect(
+			newPassword,
+			confirmNewPassword,
+			undefined,
+			actualPassword
+		);
+		if (canSubmit.isCorrect) {
+			fetchData();
+		} else {
+			setErrorMessage(canSubmit.errorMessage);
+		}
 	};
 
 	return (
@@ -52,7 +64,7 @@ const ModifyPassword = () => {
 					<p className="modal-message">Mot de passe actuel : </p>
 					<div className="modal-password-input">
 						<FontAwesomeIcon
-							icon={faEye}
+							icon={hiddenActualPassword ? faEye : faEyeSlash}
 							onClick={() => setHiddenActualPassword(!hiddenActualPassword)}
 							data-testid="eye-icon"
 							className="password-eye-icon"
@@ -70,7 +82,7 @@ const ModifyPassword = () => {
 					<p className="modal-message">Nouveau mot de passe : </p>
 					<div className="modal-password-input">
 						<FontAwesomeIcon
-							icon={faEye}
+							icon={hiddenNewPassword ? faEye : faEyeSlash}
 							onClick={() => setHiddenNewPassword(!hiddenNewPassword)}
 							data-testid="eye-icon"
 							className="password-eye-icon"
@@ -88,7 +100,7 @@ const ModifyPassword = () => {
 					<p className="modal-message">Confirmer le nouveau mot de passe : </p>
 					<div className="modal-password-input">
 						<FontAwesomeIcon
-							icon={faEye}
+							icon={hiddenConfirmPassword ? faEye : faEyeSlash}
 							onClick={() => setHiddenConfirmPassword(!hiddenConfirmPassword)}
 							data-testid="eye-icon"
 							className="password-eye-icon"
@@ -102,15 +114,10 @@ const ModifyPassword = () => {
 							type={hiddenConfirmPassword ? "password" : "text"}
 						/>
 					</div>
+					{/* Set error message  */}
+					<p className="warning">{errorMessage}</p>
 
-					<Button
-						buttonText="Modifier le mot de passe"
-						buttonType="submit"
-						disabled={
-							!comparePasswords(newPassword, confirmNewPassword) &&
-							actualPassword.length > 0
-						}
-					/>
+					<Button buttonText="Modifier le mot de passe" buttonType="submit" />
 				</form>
 			)}
 		</div>
