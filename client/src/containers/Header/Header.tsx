@@ -2,16 +2,19 @@ import "./header.css";
 import { deleteToken } from "../../utils/data-utils";
 import HeaderBigScreen from "./HeaderBigScreen";
 import HeaderSmallScreen from "./HeaderSmallScreen";
+import { useNavigate } from "react-router-dom";
 
 export type HeaderConnexionProps = {
 	toggleModal: Function;
 };
 
 const Header = ({ toggleModal }: HeaderConnexionProps) => {
+	const navigate = useNavigate();
+
 	/** Remove token to disconnect user and reload page for header to update */
 	const handleDeconnexion = () => {
 		deleteToken();
-		window.location.reload();
+		navigate("/");
 	};
 	return (
 		<header>

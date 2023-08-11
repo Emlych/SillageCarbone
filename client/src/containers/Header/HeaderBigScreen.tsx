@@ -1,6 +1,5 @@
 /** Header navigation for bigger screen. */
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./header.css";
 import Cookies from "js-cookie";
 
@@ -10,8 +9,6 @@ export type HeaderBigScreenProps = {
 };
 
 const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProps) => {
-	const navigate = useNavigate();
-
 	/** Retrieve existing token */
 	const userToken = Cookies.get("userToken");
 	const adminToken = Cookies.get("adminToken");
@@ -48,7 +45,6 @@ const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProp
 						className="link-deconnexion"
 						onClick={() => {
 							handleDeconnexion();
-							navigate("/");
 						}}
 						data-testid="link-deconnexion"
 					>
