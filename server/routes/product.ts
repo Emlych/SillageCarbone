@@ -1,15 +1,39 @@
 import express, { NextFunction, Request, Response } from "express";
 import mongoose, { Types } from "mongoose";
+import multer from "multer";
+
 //Models
 import Product from "../models/Product";
 import ProductType from "../models/ProductType";
 import Transportation from "../models/Transportation";
 import User from "../models/User";
 import Harbour from "../models/Harbour";
+import { error } from "console";
 
 const router = express.Router();
-const cloudinary = require("cloudinary").v2;
 
+// -- Multer: handle uploading of files (images) posted, process and manage it before sending it to Cloudinary
+const multerStorage = multer.memoryStorage();
+const imageFilter = (request: Request, file: Express.Multer.File, callback: any) => {
+	if (
+		file.mimetype == "image/png" ||
+		file.mimetype == "image/jpg" ||
+		file.mimetype == "image/jpeg"
+	) {
+		// -- Check image format type, otherwise throw error
+		callback(null, true);
+	} else {
+		callback(null, false);
+		return callback(
+			new Error("Incompatible format, only accept .png, .jpg and .jpeg"),
+			false
+		);
+	}
+};
+const multerUpload = multer({ storage: multerStorage, fileFilter: imageFilter }); // create Multer instance and initialize it with storage option
+
+// -- Cloudinary
+const cloudinary = require("cloudinary").v2;
 //Credentials for cloudinary
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -69,6 +93,7 @@ router.get("/product/:_id", async (req: Request, res: Response) => {
 				path: "transportation",
 				select: "name",
 			});
+		console.info("product ", product);
 		if (!product) {
 			return res.status(404).json({ error: "Product not found." });
 		}
@@ -249,132 +274,152 @@ router.get("/products/archived", isAdmin, async (req: Request, res: Response) =>
 });
 
 /** Create a product route */
-router.post("/product/create", isAdmin, async (req: Request, res: Response) => {
-	console.info("Route: /product/create");
-	try {
-		// -- Check if mandatory body were provided
-		if (
-			!req.body ||
-			!req.body.name ||
-			!req.body.company ||
-			!req.body.type ||
-			!req.body.transportation ||
-			!req.body.originCity ||
-			!req.body.originCountry ||
-			!req.body.destinationCity ||
-			!req.body.destinationCountry
-		) {
-			throw new Error("Missing field(s)");
-		}
+router.post(
+	"/product/create",
+	isAdmin,
+	multerUpload.array("picture", 1),
+	async (req: Request, res: Response) => {
+		console.info("Route: /product/create");
+		try {
+			// -- Check if mandatory body were provided
+			if (
+				!req.body ||
+				!req.body.name ||
+				!req.body.company ||
+				!req.body.type ||
+				!req.body.transportation ||
+				!req.body.originCity ||
+				!req.body.originCountry ||
+				!req.body.destinationCity ||
+				!req.body.destinationCountry
+			) {
+				throw new Error("Missing field(s)");
+			}
 
-		// -- Check if product type already exists, if not create it
-		let productType = await ProductType.findOne({ name: req.body.type });
-		if (!productType) {
-			const newType = new ProductType({
-				name: req.body.type,
-				productsIds: [],
-				creation_date: new Date(),
-				archived: false,
-			});
-			productType = newType;
-		}
+			// -- Check if product type already exists, if not create it
+			let productType = await ProductType.findOne({ name: req.body.type });
+			if (!productType) {
+				const newType = new ProductType({
+					name: req.body.type,
+					productsIds: [],
+					creation_date: new Date(),
+					archived: false,
+				});
+				productType = newType;
+			}
 
-		// -- Check if transportation already exists, if not create it
-		let transportation = await Transportation.findOne({ name: req.body.transportation });
-		if (!transportation) {
-			const newTransportation = new Transportation({
+			// -- Check if transportation already exists, if not create it
+			let transportation = await Transportation.findOne({
 				name: req.body.transportation,
-				productsIds: [],
-				creation_date: new Date(),
-				archived: false,
 			});
-			transportation = newTransportation;
-		}
-		// -- Define distance
-		// Depending on start and finish harbour calculate distance
-		let defaultDistance = 12430;
+			if (!transportation) {
+				const newTransportation = new Transportation({
+					name: req.body.transportation,
+					productsIds: [],
+					creation_date: new Date(),
+					archived: false,
+				});
+				transportation = newTransportation;
+			}
 
-		// -- Calculate co2 transportation coefficient
-		const transportationCoef = transportation.carbonCoefficient;
-		const co2 = transportationCoef * defaultDistance;
+			// -- Define distance
+			// Depending on start and finish harbour calculate distance
+			let defaultDistance = 12430;
 
-		// -- Check if transportation already exists, if not create it
-		let originHarbour = await Harbour.findOne({
-			city: req.body.originCity,
-			country: req.body.originCountry,
-		});
-		if (!originHarbour) {
-			const newHarbour = new Harbour({
+			// -- Calculate co2 transportation coefficient
+			const transportationCoef = transportation.carbonCoefficient;
+			const co2 = transportationCoef * defaultDistance;
+
+			// -- Check if transportation already exists, if not create it
+			let originHarbour = await Harbour.findOne({
 				city: req.body.originCity,
 				country: req.body.originCountry,
-				productsIds: [],
-				creation_date: new Date(),
-				archived: false,
 			});
-			originHarbour = newHarbour;
-		}
+			if (!originHarbour) {
+				const newHarbour = new Harbour({
+					city: req.body.originCity,
+					country: req.body.originCountry,
+					productsIds: [],
+					creation_date: new Date(),
+					archived: false,
+				});
+				originHarbour = newHarbour;
+			}
 
-		// -- Check if transportation already exists, if not create it
-		let destinationHarbour = await Harbour.findOne({
-			city: req.body.destinationCity,
-			country: req.body.destinationCountry,
-		});
-		if (!destinationHarbour) {
-			const newHarbour = new Harbour({
+			// -- Check if transportation already exists, if not create it
+			let destinationHarbour = await Harbour.findOne({
 				city: req.body.destinationCity,
 				country: req.body.destinationCountry,
-				productsIds: [],
-				creation_date: new Date(),
-				archived: false,
 			});
-			destinationHarbour = newHarbour;
+			if (!destinationHarbour) {
+				const newHarbour = new Harbour({
+					city: req.body.destinationCity,
+					country: req.body.destinationCountry,
+					productsIds: [],
+					creation_date: new Date(),
+					archived: false,
+				});
+				destinationHarbour = newHarbour;
+			}
+
+			// -- Create new product
+			const newProduct = new Product({
+				name: req.body.name,
+				company: req.body.company,
+				co2,
+				productType,
+				description: req.body.description ?? "",
+				transportation,
+				distance: defaultDistance,
+				origin_harbour: originHarbour,
+				destination_harbour: destinationHarbour,
+				creation_date: new Date(),
+			});
+
+			// -- Push id of product inside productType, transportation, originHarbour
+			productType.productsIds.push(newProduct._id);
+			transportation.productsIds.push(newProduct._id);
+			originHarbour.productsIds.push(newProduct._id);
+			destinationHarbour.productsIds.push(newProduct._id);
+
+			// -- Save
+			await productType.save();
+			await transportation.save();
+			await originHarbour.save();
+			await destinationHarbour.save();
+
+			// Upload photo on cloudinary
+			if (Array.isArray(req.files) && req.files.length > 0) {
+				const b64 = Buffer.from(req.files[0].buffer).toString("base64");
+				const dataURI = "data:" + req.files[0].mimetype + ";base64," + b64;
+
+				cloudinary.uploader
+					.upload(dataURI, { public_id: `sillage/${newProduct._id}` })
+					.then((uploadedImage: any) => {
+						// If an image was uploaded, assign the URL to the product
+						newProduct.imgUrl = uploadedImage.url;
+					})
+					.then(() => {
+						newProduct.save();
+					})
+					.catch((error: any) => {
+						console.info("error ", error);
+					});
+			} else {
+				await newProduct.save();
+			}
+
+			res.status(200).json({
+				_id: newProduct._id,
+				name: newProduct.name,
+				company: newProduct.company,
+				co2: newProduct.co2,
+			});
+		} catch (error: any) {
+			return res.status(400).json({ error: error.message });
 		}
-
-		// -- Create new product
-		const newProduct = new Product({
-			name: req.body.name,
-			company: req.body.company,
-			co2,
-			productType,
-			description: req.body.description ?? "",
-			transportation,
-			distance: defaultDistance,
-			origin_harbour: originHarbour,
-			destination_harbour: destinationHarbour,
-			creation_date: new Date(),
-		});
-
-		// Upload photo on cloudinary
-		if (req.files) {
-			// const pictureToUpload = req.files.picture.path;
-			// const result = await cloudinary.uploader.upload(pictureToUpload, {
-			// 	public_id: ``,
-			// });
-		}
-
-		// -- Push id of product inside productType, transportation, originHarbour
-		productType.productsIds.push(newProduct._id);
-		transportation.productsIds.push(newProduct._id);
-		originHarbour.productsIds.push(newProduct._id);
-		destinationHarbour.productsIds.push(newProduct._id);
-
-		// -- Save
-		await productType.save();
-		await transportation.save();
-		await originHarbour.save();
-		await destinationHarbour.save();
-		await newProduct.save();
-
-		res.status(200).json({
-			_id: newProduct._id,
-			name: newProduct.name,
-			company: newProduct.company,
-			co2: newProduct.co2,
-		});
-	} catch (error: any) {
-		return res.status(400).json({ error: error.message });
 	}
-});
+);
 
 /** Delete a product route */
 router.delete("/product/delete", isAdmin, async (req: Request, res: Response) => {
