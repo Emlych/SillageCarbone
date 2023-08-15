@@ -72,6 +72,7 @@
 /* Modal box */
 .modal__content {
 	min-width: 320px;
+	overflow-y: scroll;
 }
 
 /* All modals */
