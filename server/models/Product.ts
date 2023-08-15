@@ -10,7 +10,6 @@ const ProductSchema = new Schema({
 		ref: "ProductType",
 	},
 	description: { type: String, maxLength: 500 },
-	imgUrl: { type: mongoose.Schema.Types.Mixed, default: {} },
 	transportation: {
 		type: Schema.Types.ObjectId,
 		ref: "Transportation",
@@ -32,6 +31,7 @@ const ProductSchema = new Schema({
 	creation_date: { type: Date, required: true },
 	modification_date: { type: Date },
 	archived: { type: Boolean, default: false },
+	imgUrl: { type: String },
 });
 
 const Product = mongoose.model("Product", ProductSchema);

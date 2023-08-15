@@ -114,7 +114,8 @@ export const createProduct = async (
 	destinationCity: string,
 	destinationCountry: string,
 	transportation: string,
-	description?: string
+	description?: string,
+	picture?: File
 ): Promise<{ success: boolean; data: { name: string; company: string } }> => {
 	const url = "http://localhost:8000/product/create";
 
@@ -138,22 +139,27 @@ export const createProduct = async (
 			throw new Error("Not authorized to access list of users.");
 		}
 
+		console.log("picture looks like ", picture);
+		const formData = new FormData();
+		formData.append("name", name);
+		formData.append("company", company);
+		formData.append("type", type);
+		formData.append("originCity", originCity);
+		formData.append("originCountry", originCountry);
+		formData.append("destinationCity", destinationCity);
+		formData.append("destinationCountry", destinationCountry);
+		formData.append("transportation", transportation);
+		if (description) formData.append("description", description);
+		if (picture) formData.append("picture", picture);
+
 		// send product to server
-		const response = await axios.post(
-			url,
-			{
-				name,
-				company,
-				type,
-				originCity,
-				originCountry,
-				destinationCity,
-				destinationCountry,
-				transportation,
-				description,
+		const response = await axios.post(url, formData, {
+			headers: {
+				authorization: `Bearer ${adminToken}`,
+				"Content-Type": "multipart/form-data",
 			},
-			{ headers: { authorization: `Bearer ${adminToken}` } }
-		);
+		});
+		console.log("response data ", response.data);
 
 		if (!response.data) {
 			throw new Error("Product could not be created");

@@ -1,4 +1,5 @@
 import "../../pages/modal.css";
+import "./productDetail.css";
 import CardItem from "../../components/CardItem";
 import {
 	faCalendar,
@@ -54,34 +55,47 @@ const ProductDetail = ({ _id }: ProductDetailProps) => {
 			{!isLoading && product && (
 				<div>
 					<h2 className="product-name">{product.name}</h2>
-					<CardItem text={`Marque : ${product.company}`} faIcon={faWarehouse} />
-					<CardItem text={`${product.co2}eq CO2`} faIcon={faSmog} />
-					<CardItem
-						text={`Type de produit: ${product.productType.name}`}
-						faIcon={faTag}
-					/>
-					<CardItem
-						text={`Port d'origine: ${product.origin_harbour.city} (${product.origin_harbour.country})`}
-						faIcon={faLocationDot}
-					/>
-					<CardItem
-						text={`Port d'arrivée: ${product.destination_harbour.city} (${product.destination_harbour.country})`}
-						faIcon={faLocationDot}
-					/>
-					<CardItem text={`Distance parcourue: ${product.distance}`} faIcon={faRoute} />
-					{product.description && (
-						<CardItem
-							text={`Description: ${product.description}`}
-							faIcon={faCommentDots}
-						/>
-					)}
-					<CardItem
-						text={`Date de création de l'article : ${creationDate}`}
-						faIcon={faCalendar}
-					/>
-					<CardItem text={`Transport: ${product.transportation.name}`} faIcon={faShip} />
-					<div className="product-picture">
-						<img src="" alt="" />
+					<div className="product-detail">
+						{product.imgUrl?.length > 0 && (
+							<div className="product-picture">
+								<img src={product.imgUrl} alt={product.name} />
+							</div>
+						)}
+
+						<div>
+							<CardItem text={`Marque : ${product.company}`} faIcon={faWarehouse} />
+							<CardItem text={`${product.co2}eq CO2`} faIcon={faSmog} />
+							<CardItem
+								text={`Type de produit: ${product.productType.name}`}
+								faIcon={faTag}
+							/>
+							<CardItem
+								text={`Port d'origine: ${product.origin_harbour.city} (${product.origin_harbour.country})`}
+								faIcon={faLocationDot}
+							/>
+							<CardItem
+								text={`Port d'arrivée: ${product.destination_harbour.city} (${product.destination_harbour.country})`}
+								faIcon={faLocationDot}
+							/>
+							<CardItem
+								text={`Distance parcourue: ${product.distance}`}
+								faIcon={faRoute}
+							/>
+							{product.description && (
+								<CardItem
+									text={`Description: ${product.description}`}
+									faIcon={faCommentDots}
+								/>
+							)}
+							<CardItem
+								text={`Date de création de l'article : ${creationDate}`}
+								faIcon={faCalendar}
+							/>
+							<CardItem
+								text={`Transport: ${product.transportation.name}`}
+								faIcon={faShip}
+							/>
+						</div>
 					</div>
 				</div>
 			)}

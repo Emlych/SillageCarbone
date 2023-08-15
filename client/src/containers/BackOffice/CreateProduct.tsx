@@ -25,6 +25,7 @@ const CreateProduct = () => {
 	const [originCountry, setOriginCountry] = useState("");
 	const [destinationCity, setDestinationCity] = useState("");
 	const [destinationCountry, setDestinationCountry] = useState("");
+	const [picture, setPicture] = useState<File>();
 	const [transportation, setTransportation] = useState("");
 	const [dropdownTransport, setDropdownTransport] = useState<Map<string, string>>();
 
@@ -43,7 +44,8 @@ const CreateProduct = () => {
 					destinationCity,
 					destinationCountry,
 					transportation,
-					description
+					description,
+					picture
 				);
 
 				if (result.success) {
@@ -99,6 +101,7 @@ const CreateProduct = () => {
 		fetchAndFilterProductsData();
 	}, []);
 
+	/** Fill dropdown props with options and behaviour when input is selected */
 	const MapContentTransportationProps: DropdownProps<string> = {
 		options: dropdownTransport ?? null,
 		handleSelectInput: (transportation: string) => {
@@ -208,6 +211,20 @@ const CreateProduct = () => {
 
 					<div>{transportation}</div>
 				</div>
+
+				<label htmlFor="file" className="">
+					+ Ajouter une photo
+				</label>
+				<input
+					type="file"
+					name="file"
+					id="file"
+					onChange={(event) => {
+						if (event.target.files) {
+							setPicture(event.target.files[0]);
+						}
+					}}
+				/>
 
 				<Input
 					faIcon={faCommentDots}
