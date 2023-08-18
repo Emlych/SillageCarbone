@@ -138,7 +138,6 @@ export const createProduct = async (
 			throw new Error("Not authorized to access list of users.");
 		}
 
-		console.log("picture looks like ", picture);
 		const formData = new FormData();
 		formData.append("name", name);
 		formData.append("company", company);
@@ -158,7 +157,6 @@ export const createProduct = async (
 				"Content-Type": "multipart/form-data",
 			},
 		});
-		console.log("response data ", response.data);
 
 		if (!response.data) {
 			throw new Error("Product could not be created");
@@ -307,7 +305,7 @@ export const deleteTransportation = async (_id: string) => {
 			throw new Error("Error in deletion of transportation.");
 		}
 
-		return { success: response.data.canDelete, data: response.data };
+		return { success: response.data.canDelete, data: response.data }; //TODO change stupid first key
 	} catch (error: any) {
 		throw new Error(error.message);
 	}
