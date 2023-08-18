@@ -8,7 +8,6 @@ import ProductType from "../models/ProductType";
 import Transportation from "../models/Transportation";
 import User from "../models/User";
 import Harbour from "../models/Harbour";
-import { error } from "console";
 
 const router = express.Router();
 
