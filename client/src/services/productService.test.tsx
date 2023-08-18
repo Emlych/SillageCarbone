@@ -6,6 +6,7 @@ import {
 	createNewTransportation,
 	createProduct,
 	deleteProduct,
+	deleteTransportation,
 	fetchProductById,
 	fetchProducts,
 	fetchProductsForCache,
@@ -14,8 +15,9 @@ import {
 } from "./productService";
 
 const mock = new MockAdapter(axios);
-
 const mockAdminToken = "admin-token"; // Mock the admin token value
+
+const urlBase = "https://sillage-carbone-5c169e907e77.herokuapp.com";
 
 beforeEach(() => {
 	// -- Mock method Cookies.get to return the admin token
@@ -30,10 +32,8 @@ describe("fetchProductById", () => {
 	it("Fetch product by ID successfully", async () => {
 		const productId = "product-id";
 		const mockProduct = { _id: productId, name: "Product 1" };
-
-		mock.onGet(`http://localhost:8000/product/${productId}`).reply(200, {
-			product: mockProduct,
-		});
+		const url = `${urlBase}/product/${productId}`;
+		mock.onGet(url).reply(200, { product: mockProduct });
 
 		const result = await fetchProductById(productId);
 		expect(result).toEqual(mockProduct);
@@ -41,8 +41,8 @@ describe("fetchProductById", () => {
 
 	it("Throw a status code error 404 when no product found", async () => {
 		const productId = "non-existing-id";
-
-		mock.onGet(`http://localhost:8000/product/${productId}`).reply(404);
+		const url = `${urlBase}/product/${productId}`;
+		mock.onGet(url).reply(404);
 
 		await expect(fetchProductById(productId)).rejects.toThrow(
 			"Request failed with status code 404"
@@ -51,8 +51,8 @@ describe("fetchProductById", () => {
 
 	it("Network error", async () => {
 		const productId = "product-id";
-
-		mock.onGet(`http://localhost:8000/product/${productId}`).networkError();
+		const url = `${urlBase}/product/${productId}`;
+		mock.onGet(url).networkError();
 
 		await expect(fetchProductById(productId)).rejects.toThrow("Network Error");
 	});
@@ -62,7 +62,6 @@ describe("fetchSimilarProducts", () => {
 	it("Fetch similar products successfully", async () => {
 		const productType = "produit de la mer";
 		const excludeId = "p1";
-
 		// Mock response for the API call
 		const mockResponse = {
 			products: [
@@ -71,8 +70,8 @@ describe("fetchSimilarProducts", () => {
 				{ id: "3", name: "Product 3" },
 			],
 		};
-		mock.onGet("http://localhost:8000/products/caroussel").reply(200, mockResponse);
-
+		const url = `${urlBase}/products/caroussel`;
+		mock.onGet(url).reply(200, mockResponse);
 		const result = await fetchSimilarProducts(productType, excludeId);
 		expect(result).toEqual(mockResponse.products);
 	});
@@ -80,26 +79,25 @@ describe("fetchSimilarProducts", () => {
 	it("Throw an status code error 404 when no similar products retrieved", async () => {
 		const productType = "some-product-type";
 		const excludeId = "excluded-product-id";
+		const url = `${urlBase}/products/caroussel`;
 
 		// Mock the response with no products data
-		mock.onGet("/products/caroussel").reply(200, {});
-
+		mock.onGet(url).reply(200, {});
 		// Expect the fetchSimilarProducts function to throw an error with the specified message
 		await expect(fetchSimilarProducts(productType, excludeId)).rejects.toThrow(
-			"Request failed with status code 404"
+			"No products retrieved"
 		);
 	});
-
 	it("Throw an error on network error", async () => {
 		const productType = "some-product-type";
 		const excludeId = "excluded-product-id";
+		const url = `${urlBase}/products/caroussel`;
 
 		// Mock a network error for the API call
-		mock.onGet("/products/caroussel").networkError();
-
+		mock.onGet(url).networkError();
 		// Expect the fetchSimilarProducts function to throw an error with the specified message
 		await expect(fetchSimilarProducts(productType, excludeId)).rejects.toThrow(
-			"Request failed with status code 404"
+			"Network Error"
 		);
 	});
 });
@@ -110,30 +108,24 @@ describe("fetchProductsForCache", () => {
 			{ _id: "1", name: "Product 1", company: "Company 1" },
 			{ _id: "2", name: "Product 2", company: "Company 2" },
 		];
-
+		const url = `${urlBase}/products/cache`;
 		// Mock the response with products data
-		mock
-			.onGet("http://localhost:8000/products/cache")
-			.reply(200, { products: mockProducts });
-
+		mock.onGet(url).reply(200, { products: mockProducts });
 		const products = await fetchProductsForCache();
-
 		expect(products).toEqual(mockProducts);
 	});
-
 	it("Throw an error when no products retrieved", async () => {
+		const url = `${urlBase}/products/cache`;
 		// Mock the response with an empty object (no products data)
-		mock.onGet("http://localhost:8000/products/cache").reply(404, {});
-
+		mock.onGet(url).reply(404, {});
 		await expect(fetchProductsForCache()).rejects.toThrow(
 			"Request failed with status code 404"
 		);
 	});
-
 	it("Handle network errors and throw an error with the correct message", async () => {
+		const url = `${urlBase}/products/cache`;
 		// Mock a network error for the API call
-		mock.onGet("http://localhost:8000/products/cache").networkError();
-
+		mock.onGet(url).networkError();
 		await expect(fetchProductsForCache()).rejects.toThrow("Network Error");
 	});
 });
@@ -145,33 +137,30 @@ describe("fetchProducts", () => {
 			{ _id: "2", name: "Product 2", company: "Company 2" },
 		];
 		const mockCount = 2;
+		const url = `${urlBase}/products`;
 
 		// Mock the response with products data and count
-		mock
-			.onGet("http://localhost:8000/products")
-			.reply(200, { products: mockProducts, count: mockCount });
-
+		mock.onGet(url).reply(200, { products: mockProducts, count: mockCount });
 		const products = await fetchProducts("Product", "Company", 10, 1);
-
 		expect(products).toEqual({ products: mockProducts, count: mockCount });
 	});
 
 	it("Throw an error when no products retrieved", async () => {
+		const url = `${urlBase}/products`;
 		// Mock the response with an empty object (no products data)
-		mock.onGet("http://localhost:8000/products").reply(200, {});
-
+		mock.onGet(url).reply(200, {});
 		await expect(fetchProducts("Product", "Company", 10, 1)).rejects.toThrow(
 			"No products retrieved"
 		);
 	});
 
 	it("Throw an error when not authorized", async () => {
+		const url = `${urlBase}/products`;
 		// Mock the response with a 401 status code
 		Cookies.get = jest.fn().mockReturnValue(null);
 
 		// Mock the response with a 401 status code
-		mock.onGet("http://localhost:8000/products").reply(401);
-
+		mock.onGet(url).reply(401);
 		await expect(fetchProducts("Product", "Company", 10, 1)).rejects.toThrow(
 			"Not authorized to access list of users."
 		);
@@ -192,10 +181,9 @@ describe("createProduct", () => {
 			transportation: "Transportation 1",
 			description: "Description of the product",
 		};
-
+		const url = `${urlBase}/product/create`;
 		// Mock the response with the created product data
-		mock.onPost("http://localhost:8000/product/create").reply(200, mockProduct);
-
+		mock.onPost(url).reply(200, mockProduct);
 		const productInfo = await createProduct(
 			"Product 1",
 			"Company 1",
@@ -207,10 +195,12 @@ describe("createProduct", () => {
 			"Transportation 1",
 			"Description of the product"
 		);
-
-		expect(productInfo).toEqual(mockProduct);
+		const expectedResult = {
+			success: true,
+			data: mockProduct,
+		};
+		expect(productInfo).toEqual(expectedResult);
 	});
-
 	it("Throw an error when required fields are missing", async () => {
 		await expect(
 			createProduct(
@@ -225,13 +215,11 @@ describe("createProduct", () => {
 			)
 		).rejects.toThrow("Missing field");
 	});
-
 	it("Throw an error when not authorized", async () => {
 		// Mock the response with a 401 status code
 		Cookies.get = jest.fn().mockReturnValue(null);
-
-		mock.onPost("http://localhost:8000/product/create").reply(401);
-
+		const url = `${urlBase}/product/create`;
+		mock.onPost(url).reply(401);
 		await expect(
 			createProduct(
 				"Product 1",
@@ -245,11 +233,10 @@ describe("createProduct", () => {
 			)
 		).rejects.toThrow("Not authorized to access list of users.");
 	});
-
 	it("Throw an error when product creation fails", async () => {
+		const url = `${urlBase}/product/create`;
 		// Mock the response with an empty object (no product data)
-		mock.onPost("http://localhost:8000/product/create").reply(404, {});
-
+		mock.onPost(url).reply(404, {});
 		await expect(
 			createProduct(
 				"Product 1",
@@ -263,11 +250,10 @@ describe("createProduct", () => {
 			)
 		).rejects.toThrow("Request failed with status code 404");
 	});
-
 	it("Handle network errors and throw an error with the correct message", async () => {
+		const url = `${urlBase}/product/create`;
 		// Mock a network error for the API call
-		mock.onPost("http://localhost:8000/product/create").networkError();
-
+		mock.onPost(url).networkError();
 		await expect(
 			createProduct(
 				"Product 1",
@@ -289,48 +275,43 @@ describe("deleteProduct", () => {
 		const adminToken = "valid_admin_token";
 		const responseData = { message: "Product deleted successfully" };
 		Cookies.set("adminToken", adminToken);
-
+		const url = `${urlBase}/product/delete`;
 		// Mock the successful delete request
 		mock
-			.onDelete("http://localhost:8000/product/delete", {
+			.onDelete(url, {
 				headers: { authorization: `Bearer ${adminToken}` },
 				data: { _id: productId },
 			})
 			.reply(200, responseData);
-
 		const result = await deleteProduct(productId);
-
 		expect(result).toEqual(responseData);
 	});
-
 	it("Throw an error when product ID is missing", async () => {
-		mock.onGet(`http://localhost:8000/product/delete`).reply(404);
+		const url = `${urlBase}/product/delete`;
+		mock.onGet(url).reply(404);
 		await expect(deleteProduct("")).rejects.toThrow("Missing product id");
 	});
-
 	it("Throw an error when adminToken is missing", async () => {
 		const productId = "valid_product_id";
 		Cookies.get = jest.fn().mockReturnValue(null);
-		mock.onDelete("http://localhost:8000/product/delete", {
+		const url = `${urlBase}/product/delete`;
+		mock.onDelete(url, {
 			data: { _id: productId },
 		});
-
 		await expect(deleteProduct(productId)).rejects.toThrow("Missing authorization");
 	});
-
 	it("Throw an error when product deletion is unsuccessful", async () => {
 		const productId = "valid_product_id";
 		const adminToken = "valid_admin_token";
 		Cookies.set("adminToken", adminToken);
-
+		const url = `${urlBase}/product/delete`;
 		// Mock the unsuccessful delete request
 		mock
-			.onDelete("http://localhost:8000/product/delete", {
+			.onDelete(url, {
 				headers: { authorization: `Bearer ${adminToken}` },
 				data: { _id: productId },
 			})
 			.reply(500);
-
 		await expect(deleteProduct(productId)).rejects.toThrow(
 			"Request failed with status code 500"
 		);
@@ -340,16 +321,14 @@ describe("deleteProduct", () => {
 describe("archiveProduct", () => {
 	it("Throw an error when product ID is missing", async () => {
 		const archiveStatus = true;
-		mock.onGet(`http://localhost:8000/product/archive`).reply(404);
+		const url = `${urlBase}/product/archive`;
+		mock.onGet(url).reply(404);
 		await expect(archiveProduct("", archiveStatus)).rejects.toThrow("Missing product id");
 	});
-
 	it("Throw an error when adminToken is missing", async () => {
 		Cookies.get = jest.fn().mockReturnValue(null);
-
 		const productId = "valid_product_id";
 		const archiveStatus = true;
-
 		await expect(archiveProduct(productId, archiveStatus)).rejects.toThrow(
 			"Missing authorization"
 		);
@@ -365,46 +344,41 @@ describe("createNewTransportation", () => {
 			mail: "test@example.com",
 			token: "valid_token",
 		};
-
+		const url = `${urlBase}/product/transportation/create`;
 		// Mock the successful post request
 		mock
-			.onPost("http://localhost:8000/product/transportation/create", {
+			.onPost(url, {
 				transportation: newTransportation,
 				carbonCoefficient: carbonCoef,
 			})
 			.reply(200, responseData);
-
 		const result = await createNewTransportation(newTransportation, carbonCoef);
-
 		expect(result).toEqual(responseData);
 	});
-
 	it("Throw an error when newTransportation is missing", async () => {
 		const carbonCoef = 1.5;
 		await expect(createNewTransportation("", carbonCoef)).rejects.toThrow(
 			"Missing field"
 		);
 	});
-
 	it("Throw an error when carbonCoef is missing", async () => {
 		const newTransportation = "Car";
 		await expect(createNewTransportation(newTransportation, 0)).rejects.toThrow(
 			"Missing field"
 		);
 	});
-
 	it("Throw an error when transportation creation is unsuccessful", async () => {
 		const newTransportation = "Car";
 		const carbonCoef = 1.5;
+		const url = `${urlBase}/product/transportation/create`;
 
 		// Mock the unsuccessful post request
 		mock
-			.onPost("http://localhost:8000/product/transportation/create", {
+			.onPost(url, {
 				transportation: newTransportation,
 				carbonCoefficient: carbonCoef,
 			})
 			.reply(500);
-
 		await expect(createNewTransportation(newTransportation, carbonCoef)).rejects.toThrow(
 			"Request failed with status code 500"
 		);
@@ -419,26 +393,75 @@ describe("fetchTransportations", () => {
 				{ _id: "id2", name: "Bike", carbonCoefficient: 0.0 },
 			],
 		};
-
+		const url = `${urlBase}/transportations`;
 		// Mock the successful get request
-		mock.onGet("http://localhost:8000/transportations").reply(200, responseData);
-
+		mock.onGet(url).reply(200, responseData);
 		const result = await fetchTransportations();
 		expect(result).toEqual(responseData.transportations);
 	});
-
 	it("Throw an error when no transportations are retrieved", async () => {
+		const url = `${urlBase}/transportations`;
 		// Mock the successful get request with no transportations data
-		mock.onGet("http://localhost:8000/transportations").reply(200, {});
-
+		mock.onGet(url).reply(200, {});
 		await expect(fetchTransportations()).rejects.toThrow("No transportations retrieved");
 	});
-
 	it("Throw an error when fetching transportations is unsuccessful", async () => {
+		const url = `${urlBase}/transportations`;
 		// Mock the unsuccessful get request
-		mock.onGet("http://localhost:8000/transportations").reply(500);
-
+		mock.onGet(url).reply(500);
 		await expect(fetchTransportations()).rejects.toThrow(
+			"Request failed with status code 500"
+		);
+	});
+});
+
+describe("deleteTransportation", () => {
+	it("should delete a transportation successfully", async () => {
+		const url = `${urlBase}/transportation/delete`;
+		const transportId = "valid_transport_id";
+		const adminToken = "valid_admin_token";
+		const responseData = {
+			success: true,
+			data: { canDelete: true, message: "Transportation deleted" },
+		};
+		Cookies.set("adminToken", adminToken);
+		// Mock the successful delete request
+		mock
+			.onDelete(url, {
+				headers: { authorization: `Bearer ${adminToken}` },
+				data: { _id: transportId },
+			})
+			.reply(200, responseData);
+		const result = await deleteTransportation(transportId);
+		expect(result.data).toEqual(responseData);
+	});
+	it("Throw an error when transport ID is missing", async () => {
+		const url = `${urlBase}/transportation/delete`;
+		mock.onGet(url).reply(404);
+		await expect(deleteTransportation("")).rejects.toThrow("Missing transportation id");
+	});
+	it("Throw an error when adminToken is missing", async () => {
+		const transportId = "valid_transport_id";
+		Cookies.get = jest.fn().mockReturnValue(null);
+		const url = `${urlBase}/transportation/delete`;
+		mock.onDelete(url, {
+			data: { _id: transportId },
+		});
+		await expect(deleteProduct(transportId)).rejects.toThrow("Missing authorization");
+	});
+	it("Throw an error when transportation deletion is unsuccessful", async () => {
+		const transportId = "valid_transport_id";
+		const adminToken = "valid_admin_token";
+		Cookies.set("adminToken", adminToken);
+		const url = `${urlBase}/transportation/delete`;
+		// Mock the unsuccessful delete request
+		mock
+			.onDelete(url, {
+				headers: { authorization: `Bearer ${adminToken}` },
+				data: { _id: transportId },
+			})
+			.reply(500);
+		await expect(deleteTransportation(transportId)).rejects.toThrow(
 			"Request failed with status code 500"
 		);
 	});
