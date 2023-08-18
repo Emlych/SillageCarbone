@@ -3,6 +3,9 @@ import Cookies from "js-cookie";
 import { ProductWithCO2 } from "../dto/ProductDto";
 import { Transportation } from "../dto/TransportationDto";
 
+/** Backend url */
+const urlBase = "https://sillage-carbone-5c169e907e77.herokuapp.com";
+
 /**
  * Fetch product data by its _id
  * @param _id
@@ -10,7 +13,7 @@ import { Transportation } from "../dto/TransportationDto";
  */
 export const fetchProductById = async (_id: string): Promise<any> => {
 	// -- API endpoint url based on the provided product ID
-	const url = `http://localhost:8000/product/${_id}`;
+	const url = `${urlBase}/product/${_id}`;
 	try {
 		const response = await axios.get(url);
 		const productData = response.data;
@@ -34,7 +37,7 @@ export const fetchProductById = async (_id: string): Promise<any> => {
  */
 export const fetchSimilarProducts = async (productType: string, excludeId: string) => {
 	// -- API endpoint url to all products
-	const url = `http://localhost:8000/products/caroussel`;
+	const url = `${urlBase}/products/caroussel`;
 	try {
 		const response = await axios.get(url, {
 			params: { type: productType, excludeId },
@@ -49,11 +52,9 @@ export const fetchSimilarProducts = async (productType: string, excludeId: strin
 };
 
 export const fetchProductsForCache = async () => {
-	const url = "http://localhost:8000/products/cache";
-
+	const url = `${urlBase}/products/cache`;
 	try {
 		const response = await axios.get(url);
-
 		if (!response.data?.products) {
 			throw new Error("No products retrieved");
 		}
@@ -70,9 +71,7 @@ export const fetchProducts = async (
 	page: number,
 	archivedProducts?: boolean
 ): Promise<{ products: ProductWithCO2[]; count: number }> => {
-	const url = archivedProducts
-		? "http://localhost:8000/products/archived"
-		: "http://localhost:8000/products";
+	const url = archivedProducts ? `${urlBase}/products/archived` : `${urlBase}/products`;
 
 	try {
 		// -- Is user connected as admin
@@ -117,7 +116,7 @@ export const createProduct = async (
 	description?: string,
 	picture?: File
 ): Promise<{ success: boolean; data: { name: string; company: string } }> => {
-	const url = "http://localhost:8000/product/create";
+	const url = `${urlBase}/product/create`;
 
 	try {
 		if (
@@ -172,7 +171,7 @@ export const createProduct = async (
 };
 
 export const deleteProduct = async (_id: string) => {
-	const url = "http://localhost:8000/product/delete";
+	const url = `${urlBase}/product/delete`;
 
 	try {
 		// -- No id registered (needs to be investigated)
@@ -202,7 +201,7 @@ export const deleteProduct = async (_id: string) => {
 };
 
 export const archiveProduct = async (_id: string, archiveStatus: boolean) => {
-	const url = "http://localhost:8000/product/archive";
+	const url = `${urlBase}/product/archive`;
 
 	try {
 		// -- No id registered (needs to be investigated)
@@ -239,7 +238,7 @@ export const createNewTransportation = async (
 	newTransportation: string,
 	carbonCoef: number
 ): Promise<{ _id: string; mail: string; token: string }> => {
-	const url = "http://localhost:8000/product/transportation/create";
+	const url = `${urlBase}/product/transportation/create`;
 
 	try {
 		if (!newTransportation || !carbonCoef) {
@@ -262,7 +261,7 @@ export const createNewTransportation = async (
 };
 
 export const fetchTransportations = async (): Promise<Transportation[]> => {
-	const url = "http://localhost:8000/transportations";
+	const url = `${urlBase}/transportations`;
 
 	try {
 		// -- Is user connected as admin
@@ -286,7 +285,7 @@ export const fetchTransportations = async (): Promise<Transportation[]> => {
 };
 
 export const deleteTransportation = async (_id: string) => {
-	const url = "http://localhost:8000/transportation/delete";
+	const url = `${urlBase}/transportation/delete`;
 
 	try {
 		// -- No id registered (needs to be investigated)

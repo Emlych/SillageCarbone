@@ -2,6 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { User, UserType } from "../dto/UserDto";
 
+/** Backend url */
+const urlBase = "https://sillage-carbone-5c169e907e77.herokuapp.com";
+
 export const fetchUsers = async (
 	mail: string,
 	startDate: Date | null,
@@ -9,7 +12,7 @@ export const fetchUsers = async (
 	limitPerPage: number,
 	page: number
 ): Promise<{ users: User[]; count: number }> => {
-	const url = "http://localhost:8000/users";
+	const url = `${urlBase}/users`;
 
 	try {
 		const adminToken = Cookies.get("adminToken");
@@ -44,7 +47,7 @@ export const createUser = async (
 	password: string,
 	userRole: UserType = UserType.ConnectedUser
 ): Promise<{ _id: string; mail: string; token: string }> => {
-	const url = "http://localhost:8000/user/create";
+	const url = `${urlBase}/user/create`;
 
 	try {
 		if (!mail || !password) {
@@ -66,7 +69,7 @@ export const loginUser = async (
 	mail: string,
 	password: string
 ): Promise<{ mail: string; token: string; userType: UserType }> => {
-	const url = "http://localhost:8000/user/login";
+	const url = `${urlBase}/user/login`;
 
 	try {
 		// -- Check all fields were provided
@@ -85,7 +88,7 @@ export const loginUser = async (
 };
 
 export const updateUser = async (actualPassword: string, newPassword: string) => {
-	const url = "http://localhost:8000/user/change-password";
+	const url = `${urlBase}/user/change-password`;
 
 	try {
 		// -- Retrieve user mail using cookie token
@@ -124,7 +127,7 @@ export const updateUser = async (actualPassword: string, newPassword: string) =>
 };
 
 export const deleteUser = async (password: string) => {
-	const url = "http://localhost:8000/user/delete";
+	const url = `${urlBase}/user/delete`;
 
 	try {
 		// -- Retrieve user mail using cookie token
@@ -159,7 +162,7 @@ export const deleteUser = async (password: string) => {
 };
 
 export const deleteUserAsAdmin = async (mail: string) => {
-	const url = "http://localhost:8000/user/admin/delete";
+	const url = `${urlBase}/user/admin/delete`;
 
 	try {
 		// -- No mail registered (needs to be investigated)
@@ -189,7 +192,8 @@ export const deleteUserAsAdmin = async (mail: string) => {
 };
 
 export const fetchUserByMail = async () => {
-	const url = `http://localhost:8000/user`;
+	const url = `${urlBase}/user`;
+
 	try {
 		const userMail = Cookies.get("userMailToken");
 		if (!userMail) {

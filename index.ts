@@ -12,14 +12,19 @@ sillageApp.use(cors());
 /** Use middleware to parse incoming requests with JSON payloads */
 sillageApp.use(express.json());
 
+/* Check if MONGODB_URI is defined */
+if (!process.env.MONGODB_URI) {
+	throw new Error("MONGODB_URI environment variable is not defined.");
+}
+
 /** Connect to sillage-carbone db */
+//.connect("mongodb://127.0.0.1:27017/sillage-carbone")
 mongoose
-	.connect("mongodb://127.0.0.1:27017/sillage-carbone")
+	.connect(process.env.MONGODB_URI)
 	.then(() => console.info("Connected to database"))
 	.catch((error) => {
 		throw new Error("Could not connect to database");
 	});
-//mongoose.connect(process.env.MONGODB_URI);
 
 const userRoutes = require("./server/routes/user");
 sillageApp.use(userRoutes);
@@ -34,6 +39,6 @@ sillageApp.all("*", (req, res) => {
 });
 
 /** Start the server (Returns http.Server on port 8000) */
-sillageApp.listen(8000, () => {
+sillageApp.listen(process.env.PORT || 8000, () => {
 	console.info("Listening to Sillage Carbone application on 8000");
 });
