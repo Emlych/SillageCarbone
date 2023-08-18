@@ -37,7 +37,7 @@ export const formatDate = (
  * @params format of date to convert into
  */
 export const formatDateFromString = (
-	date: string, //2023-08-06T19:23:37.923Z"
+	date: string, //2023-08-06T19:23:37.923Z
 	stringFormat: "dd-mm-yyyy" | "yyyy-mm-dd"
 ): string | undefined => {
 	// -- Cover cases of unknown string format
@@ -140,29 +140,33 @@ export const isFormCorrect = (
 	if (
 		newPassword.length === 0 ||
 		confirmPassword.length === 0 ||
-		(actualPassword && actualPassword.length === 0)
+		(actualPassword !== undefined && actualPassword.length === 0)
 	) {
 		// Fields not empty - Already covered by default html5 behaviour so won't be used normally
 		errorMessage = "Veuillez fournir un mot de passe.";
 		isCorrect = false;
+		return { errorMessage, isCorrect };
 	}
 
 	if (mail && !isEmailFormat(mail)) {
 		// Format mail respected - Already covered by default html5 behaviour so won't be used normally
 		errorMessage = "Veuillez fournir une adresse mail valide.";
 		isCorrect = false;
+		return { errorMessage, isCorrect };
 	}
 	if (!isPasswordStrong(newPassword)) {
 		// Weak password
 		errorMessage =
 			"Le mot de passe est trop faible. Il doit contenir au moins 12 caractères, une majuscule, une minuscule et un chiffre";
 		isCorrect = false;
+		return { errorMessage, isCorrect };
 	}
 	if (newPassword !== confirmPassword) {
 		// Password and confirm password should be the same
 		errorMessage =
 			"Le mot de passe à confirmer doit être identique au mot de passe fourni.";
 		isCorrect = false;
+		return { errorMessage, isCorrect };
 	}
 	return { errorMessage, isCorrect };
 };

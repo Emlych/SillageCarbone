@@ -2,7 +2,7 @@ import { faEnvelope, faEye, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { createToken } from "../../utils/data-utils";
+import { createToken } from "../../utils/token-utils";
 import { UserType } from "../../dto/UserDto";
 import { loginUser } from "../../services/userService";
 import { ChangeEvent, useState } from "react";

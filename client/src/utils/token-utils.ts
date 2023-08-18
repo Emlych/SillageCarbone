@@ -1,4 +1,4 @@
-// this file will make the API calls to the server.
+// -- this file will make the API calls to the server.
 import Cookies from "js-cookie";
 
 /** On deconnexion / deletion delete all tokens*/

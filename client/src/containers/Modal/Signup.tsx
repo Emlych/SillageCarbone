@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { createToken } from "../../utils/data-utils";
+import { createToken } from "../../utils/token-utils";
 import { createUser } from "../../services/userService";
 import { isFormCorrect } from "../../utils/format-data-utils";
 

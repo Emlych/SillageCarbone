@@ -5,7 +5,7 @@ import { updateUser } from "../../services/userService";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { isFormCorrect } from "../../utils/format-data-utils";
-import { createToken } from "../../utils/data-utils";
+import { createToken } from "../../utils/token-utils";
 
 const ModifyPassword = () => {
 	const [actualPassword, setActualPassword] = useState("");

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { createToken, deleteToken } from "./data-utils";
+import { createToken, deleteToken } from "./token-utils";
 
 // Mock methods Cookies.remove and Cookies.set
 jest.mock("js-cookie", () => ({

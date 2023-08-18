@@ -1,7 +1,7 @@
 import { faEye, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { deleteToken } from "../../utils/data-utils";
+import { deleteToken } from "../../utils/token-utils";
 import { useNavigate } from "react-router-dom";
 import { deleteUser } from "../../services/userService";
 import { ToastContainer, toast } from "react-toastify";
