@@ -23,14 +23,10 @@ const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProp
 				{/* Depending on type of user (not connected / connected / admin) don't display the same informations */}
 				{userToken && (
 					<div>
-						<Link to={"/account"} className="link-account" data-testid="account-link">
+						<Link to={"/account"} className="link-account">
 							Compte
 						</Link>
-						<Link
-							to={"/favorites"}
-							className="link-favorites"
-							data-testid="favorites-link"
-						>
+						<Link to={"/favorites"} className="link-favorites">
 							Favoris
 						</Link>
 					</div>

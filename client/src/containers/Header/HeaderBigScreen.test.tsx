@@ -2,22 +2,35 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 import HeaderBigScreen, { HeaderBigScreenProps } from "./HeaderBigScreen";
+import { deleteToken } from "../../utils/token-utils";
+import { ReactNode } from "react";
 
 // Mock js cookie dependency
 jest.mock("js-cookie");
 
-// // Mock the useNavigate hook
+// Mock the useNavigate hook
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
+	// -- Import non-mocked library and use other functionalities and hooks
 	...jest.requireActual("react-router-dom"),
-	useNavigate: () => {
-		return mockNavigate;
-	},
+	// -- Mock the required hook
+	useNavigate: () => mockNavigate,
+	// -- Mock Link as an anchor tag
+	Link: ({ to, children }: { to: string; children: ReactNode }) => (
+		<a href={to} data-testid={to}>
+			{children}
+		</a>
+	),
 }));
 
 describe("HeaderBigScreen component", () => {
+	// Mock props
 	const toggleModal = jest.fn();
-	const handleDeconnexion = jest.fn();
+	const handleDeconnexion = () => {
+		deleteToken();
+		mockNavigate("/");
+	};
+	// Test tokens
 	const userToken = "user-token";
 	const adminToken = "admin-token";
 
@@ -60,63 +73,70 @@ describe("HeaderBigScreen component", () => {
 		const favoritesElement = screen.queryByText("Favoris");
 		expect(favoritesElement).toBeNull();
 
-		// Without token, the Deconnexion link is there
+		// Without token, the connexion link is there
 		const connexionElement = screen.getByTestId("link-connexion");
 		expect(connexionElement).toBeInTheDocument();
 	});
 
 	test("renders account and favorites links when userToken is present", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(userToken);
-
 		setup();
-
-		expect(screen.getByTestId("account-link")).toBeInTheDocument();
-		expect(screen.getByTestId("favorites-link")).toBeInTheDocument();
+		expect(screen.getByTestId("/account")).toBeInTheDocument();
+		expect(screen.getByTestId("/favorites")).toBeInTheDocument();
 	});
 
 	test("renders backoffice link when adminToken is present", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(adminToken);
-
 		setup();
-
 		expect(screen.getByText("Backoffice")).toBeInTheDocument();
 	});
 
 	test("calls handleDeconnexion and navigate to home when déconnexion link is clicked", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(userToken);
-
 		setup();
-
 		const deconnexionLink = screen.getByTestId("link-deconnexion");
 		fireEvent.click(deconnexionLink);
-		expect(handleDeconnexion).toHaveBeenCalledTimes(1);
+		expect(mockNavigate).toHaveBeenCalledTimes(1);
 		expect(mockNavigate).toHaveBeenCalledWith("/");
 	});
 
 	test("calls toggleModal when connexion link is clicked", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(undefined);
-
 		setup();
-
 		const connexionLink = screen.getByTestId("link-connexion");
 		fireEvent.click(connexionLink);
-
 		expect(toggleModal).toHaveBeenCalledTimes(1);
 	});
 
-	// // Navigate to account page
-	// test("When click on account Link, user will navigate to the account page", () => {
-	// 	(Cookies.get as jest.Mock).mockReturnValue(userToken);
-	// 	//(useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+	// Navigate to home page
+	test("When click on homepage Link, user will navigate to the home page", () => {
+		setup();
+		const href = "/";
+		const link = screen.getByTestId(href);
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", href);
+		fireEvent.click(link);
+	});
 
-	// 	setup();
+	// Navigate to account page
+	test("When click on account Link, user will navigate to the account page", () => {
+		(Cookies.get as jest.Mock).mockReturnValue(userToken);
+		setup();
+		const href = "/account";
+		const link = screen.getByTestId(href);
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", href);
+		fireEvent.click(link);
+	});
 
-	// 	const accountLink = screen.getByTestId("account-link");
-	// 	fireEvent.click(accountLink);
-
-	// 	expect(mockNavigate).toHaveBeenCalledTimes(1);
-	// 	expect(mockNavigate).toHaveBeenCalledWith("/account");
-
-	// 	// expect(mockNavigate).toHaveBeenCalledTimes(1);
-	// });
+	// Navigate to account page
+	test("When click on favorites Link, user will navigate to the favorites page", () => {
+		(Cookies.get as jest.Mock).mockReturnValue(userToken);
+		setup();
+		const href = "/favorites";
+		const link = screen.getByTestId(href);
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", href);
+		fireEvent.click(link);
+	});
 });
