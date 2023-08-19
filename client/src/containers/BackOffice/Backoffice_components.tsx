@@ -34,7 +34,15 @@ const BackofficeComponents = ({ componentKey }: BackofficeComponentsProps) => {
 		}
 	};
 
-	return <div className="backoffice-components">{renderSwitch(componentKey)}</div>;
+	return (
+		<div
+			className="backoffice-components"
+			data-testid="backoffice-components"
+			data-component-key={componentKey}
+		>
+			{renderSwitch(componentKey)}
+		</div>
+	);
 };
 
 export default BackofficeComponents;
