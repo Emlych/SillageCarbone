@@ -15,15 +15,13 @@ const SmallModal = ({
 }: ModalProps): JSX.Element => {
 	/** Define type of action that modal should do */
 	const productActionType = (accountModalKey: string): ActionType => {
-		if (accountModalKey === "archive-product") {
-			return "archive";
-		} else if (accountModalKey === "delete-product") {
+		if (accountModalKey === "delete-product") {
 			return "delete";
 		} else if (accountModalKey === "unarchive-product") {
 			return "unarchive";
+		} else {
+			return "archive";
 		}
-		//-- To avoid typing error
-		return "archive";
 	};
 
 	//-- Enable closing modal on clicking outside of modal
@@ -35,7 +33,7 @@ const SmallModal = ({
 	};
 
 	return (
-		<div className="modal" onClick={handleBackdropClick}>
+		<div className="modal" onClick={handleBackdropClick} data-testid="modal-backdrop">
 			<div className="small__modal__content" ref={modalRef}>
 				<div className="modal__top-icons">
 					<button className="modal__top-icon" onClick={() => toggleModal()}>
