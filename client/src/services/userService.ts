@@ -104,7 +104,7 @@ export const updateUser = async (actualPassword: string, newPassword: string) =>
 		}
 		// -- Is user connected as admin
 		const userToken = Cookies.get("userToken");
-		if (!userToken) {
+		if (!userToken || userToken.length === 0) {
 			throw new Error("Not authorized.");
 		}
 		// -- Send update request
@@ -118,7 +118,7 @@ export const updateUser = async (actualPassword: string, newPassword: string) =>
 			{ headers: { authorization: `Bearer ${userToken}` } }
 		);
 		if (!response.data) {
-			throw new Error("User could not be created");
+			throw new Error("User could not be updated");
 		}
 		return response.data;
 	} catch (error: any) {
