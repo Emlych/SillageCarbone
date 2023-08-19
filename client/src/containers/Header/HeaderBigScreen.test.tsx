@@ -1,9 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Cookies from "js-cookie";
-import HeaderBigScreen, { HeaderBigScreenProps } from "./HeaderBigScreen";
+import HeaderBigScreen from "./HeaderBigScreen";
 import { deleteToken } from "../../utils/token-utils";
 import { ReactNode } from "react";
+import { SpecificHeaderConnexionProps } from "./Header";
 
 // Mock js cookie dependency
 jest.mock("js-cookie");
@@ -35,8 +36,8 @@ describe("HeaderBigScreen component", () => {
 	const adminToken = "admin-token";
 
 	/** Render header big screen component */
-	const setup = (props: Partial<HeaderBigScreenProps> = {}) => {
-		const defaultProps: HeaderBigScreenProps = {
+	const setup = (props: Partial<SpecificHeaderConnexionProps> = {}) => {
+		const defaultProps: SpecificHeaderConnexionProps = {
 			toggleModal,
 			handleDeconnexion,
 		};

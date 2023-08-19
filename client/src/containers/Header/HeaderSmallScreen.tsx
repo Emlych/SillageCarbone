@@ -7,13 +7,12 @@ import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import CollapseNav from "./CollapseNav";
 import Cookies from "js-cookie";
+import { SpecificHeaderConnexionProps } from "./Header";
 
-export type HeaderConnexionProps = {
-	toggleModal: Function;
-	handleDeconnexion: () => void;
-};
-
-const HeaderSmallScreen = ({ toggleModal, handleDeconnexion }: HeaderConnexionProps) => {
+const HeaderSmallScreen = ({
+	toggleModal,
+	handleDeconnexion,
+}: SpecificHeaderConnexionProps) => {
 	/** Retrieve existing token */
 	const userToken = Cookies.get("userToken");
 

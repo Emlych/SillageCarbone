@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 export type HeaderConnexionProps = {
 	toggleModal: Function;
 };
+export type SpecificHeaderConnexionProps = HeaderConnexionProps & {
+	handleDeconnexion: () => void;
+};
 
 const Header = ({ toggleModal }: HeaderConnexionProps) => {
 	const navigate = useNavigate();

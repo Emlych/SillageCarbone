@@ -2,13 +2,12 @@
 import { Link } from "react-router-dom";
 import "./header.css";
 import Cookies from "js-cookie";
+import { SpecificHeaderConnexionProps } from "./Header";
 
-export type HeaderBigScreenProps = {
-	toggleModal: Function;
-	handleDeconnexion: () => void;
-};
-
-const HeaderBigScreen = ({ toggleModal, handleDeconnexion }: HeaderBigScreenProps) => {
+const HeaderBigScreen = ({
+	toggleModal,
+	handleDeconnexion,
+}: SpecificHeaderConnexionProps) => {
 	/** Retrieve existing token */
 	const userToken = Cookies.get("userToken");
 	const adminToken = Cookies.get("adminToken");
