@@ -16,10 +16,9 @@ export const fetchProductById = async (_id: string): Promise<any> => {
 	const url = `${urlBase}/product/${_id}`;
 	try {
 		const response = await axios.get(url);
-		const productData = response.data;
 
 		// -- Product data null or undefined
-		if (!productData) {
+		if (!response.data?.product) {
 			throw new Error("No product was found");
 		}
 
@@ -250,7 +249,7 @@ export const createNewTransportation = async (
 		});
 
 		if (!response.data) {
-			throw new Error("User could not be created");
+			throw new Error("Transportation could not be created");
 		}
 		return response.data;
 	} catch (error: any) {
@@ -265,7 +264,7 @@ export const fetchTransportations = async (): Promise<Transportation[]> => {
 		// -- Is user connected as admin
 		const adminToken = Cookies.get("adminToken");
 		if (!adminToken) {
-			throw new Error("Not authorized to access list of users.");
+			throw new Error("Not authorized to access list of transportations.");
 		}
 
 		const response = await axios.get(url, {
