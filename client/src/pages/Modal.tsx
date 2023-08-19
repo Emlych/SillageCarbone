@@ -49,41 +49,38 @@ const Modal = ({
 			}
 		} else {
 			// -- Modal dealed from Header toggleModal
-			switch (componentKeyName) {
-				case "signup":
-					return (
-						<Signup
-							toggleModal={toggleModal}
-							mail={mail}
-							setMail={setMail}
-							password={password}
-							setPassword={setPassword}
-							confirmPassword={confirmPassword}
-							setConfirmPassword={setConfirmPassword}
-							hiddenPassword={hiddenPassword}
-							setHiddenPassword={setHiddenPassword}
-							hiddenConfirmPassword={hiddenConfirmPassword}
-							setHiddenConfirmPassword={setHiddenConfirmPassword}
-							setComponentKeyName={setComponentKeyName}
-						/>
-					);
-				case "login":
-					return (
-						<Login
-							toggleModal={toggleModal}
-							mail={mail}
-							setMail={setMail}
-							password={password}
-							setPassword={setPassword}
-							hiddenPassword={hiddenPassword}
-							setHiddenPassword={setHiddenPassword}
-							setComponentKeyName={setComponentKeyName}
-						/>
-					);
-				case "forgotten-password":
-					return <ForgottenPassword mail={mail} setMail={setMail} />;
-				default:
-					break;
+			if (componentKeyName === "signup") {
+				return (
+					<Signup
+						toggleModal={toggleModal}
+						mail={mail}
+						setMail={setMail}
+						password={password}
+						setPassword={setPassword}
+						confirmPassword={confirmPassword}
+						setConfirmPassword={setConfirmPassword}
+						hiddenPassword={hiddenPassword}
+						setHiddenPassword={setHiddenPassword}
+						hiddenConfirmPassword={hiddenConfirmPassword}
+						setHiddenConfirmPassword={setHiddenConfirmPassword}
+						setComponentKeyName={setComponentKeyName}
+					/>
+				);
+			} else if (componentKeyName === "login") {
+				return (
+					<Login
+						toggleModal={toggleModal}
+						mail={mail}
+						setMail={setMail}
+						password={password}
+						setPassword={setPassword}
+						hiddenPassword={hiddenPassword}
+						setHiddenPassword={setHiddenPassword}
+						setComponentKeyName={setComponentKeyName}
+					/>
+				);
+			} else if (componentKeyName === "forgotten-password") {
+				return <ForgottenPassword mail={mail} setMail={setMail} />;
 			}
 		}
 	};
@@ -97,7 +94,7 @@ const Modal = ({
 	};
 
 	return (
-		<div className="modal" onClick={handleBackdropClick}>
+		<div className="modal" onClick={handleBackdropClick} data-testid="modal-backdrop">
 			<div className="modal__content" ref={modalRef}>
 				<div className="modal__top-icons">
 					<button

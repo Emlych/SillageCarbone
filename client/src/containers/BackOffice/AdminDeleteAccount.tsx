@@ -39,7 +39,7 @@ const AdminDeleteAccount = ({ toggleModal, mail }: AdminDeleteAccountProps) => {
 
 	return (
 		<form
-			data-testid="change-password-form"
+			data-testid="admin-delete-account-form"
 			onSubmit={handleFormSubmit}
 			className="change-password"
 		>

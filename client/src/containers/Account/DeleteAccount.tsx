@@ -38,7 +38,7 @@ const DeleteAccount = ({ toggleModal }: DeleteAccountProps) => {
 
 	return (
 		<form
-			data-testid="change-password-form"
+			data-testid="delete-account-form"
 			onSubmit={handleFormSubmit}
 			className="change-password"
 		>

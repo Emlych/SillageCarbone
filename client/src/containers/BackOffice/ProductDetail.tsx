@@ -51,7 +51,7 @@ const ProductDetail = ({ _id }: ProductDetailProps) => {
 	}, [_id]);
 
 	return (
-		<div>
+		<div data-testid="product-detail">
 			{!isLoading && product && (
 				<div>
 					<h2 className="product-name">{product.name}</h2>
