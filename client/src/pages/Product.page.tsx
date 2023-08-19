@@ -27,17 +27,15 @@ const Product = () => {
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
-				if (!_id) {
-					throw new Error("Missing id");
+				if (_id) {
+					const productData = await fetchProductById(_id);
+					setProduct(productData);
+					setProductType(productData.productType.name);
+					setExcludeId(productData._id);
+					setIsLoading(false);
 				}
-				const productData = await fetchProductById(_id);
-				setProduct(productData);
-				setProductType(productData.productType.name);
-				setExcludeId(productData._id);
-				setIsLoading(false);
 			} catch (error: any) {
 				toast.error(`Le produit recherché n'a pu être extrait de la base de données.`);
-				throw new Error(error.message);
 			}
 		};
 		fetchProduct();
