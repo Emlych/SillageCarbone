@@ -30,24 +30,20 @@ const Users = () => {
 	) => {
 		let newParams = { ...params };
 
-		switch (type) {
-			case "name":
-				newParams = { ...newParams, mail: event.target.value };
-				break;
-			case "start-date":
-				newParams = {
-					...newParams,
-					start_date: new Date(event.target.value),
-				};
-				break;
-			case "finish-date":
-				newParams = {
-					...newParams,
-					finish_date: new Date(event.target.value),
-				};
-				break;
-			default:
-				break;
+		if (type === "name") {
+			newParams = { ...newParams, mail: event.target.value };
+		}
+		if (type === "start-date") {
+			newParams = {
+				...newParams,
+				start_date: new Date(event.target.value),
+			};
+		}
+		if (type === "finish-date") {
+			newParams = {
+				...newParams,
+				finish_date: new Date(event.target.value),
+			};
 		}
 
 		setParams(newParams);
@@ -86,7 +82,6 @@ const Users = () => {
 				setIsLoading(false);
 			} catch (error) {
 				toast.error("Erreur dans la récupération des utilisateurs.");
-				console.error("Error ", error);
 			}
 		};
 		fetchAndFilterUsersData(params);
