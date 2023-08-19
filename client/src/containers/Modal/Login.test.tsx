@@ -24,7 +24,7 @@ describe("Login", () => {
 		setComponentKeyName: mockSetComponentKeyName,
 	};
 
-	test("Should update mail input value", () => {
+	it("Should update mail input value", () => {
 		render(<Login {...defaultProps} />);
 		const mailInput = screen.getByTestId("mail");
 		const mockMailValue = "test@example.com";
@@ -32,7 +32,7 @@ describe("Login", () => {
 		expect(mockSetMail).toHaveBeenCalledWith(mockMailValue);
 	});
 
-	test("Should update password input value", () => {
+	it("Should update password input value", () => {
 		render(<Login {...defaultProps} />);
 		const passwordInput = screen.getByTestId("password");
 		const mockPasswordValue = "password123";
@@ -40,7 +40,7 @@ describe("Login", () => {
 		expect(mockSetPassword).toHaveBeenCalledWith(mockPasswordValue);
 	});
 
-	test("Should toggle hiddenPassword state when eye icon is clicked", () => {
+	it("Should toggle hiddenPassword state when eye icon is clicked", () => {
 		render(<Login {...defaultProps} />);
 		const eyeIcon = screen.getByTestId("eye-icon");
 		fireEvent.click(eyeIcon);
@@ -48,7 +48,7 @@ describe("Login", () => {
 		expect(mockSetHiddenPassword).toHaveBeenCalledWith(true);
 	});
 
-	// test("Should call handleFormSubmit when form is submitted", () => {
+	// it("Should call handleFormSubmit when form is submitted", () => {
 	// 	// Mock the fetchUserData function to return a dummy user object
 	// 	mockFetchUserData.mockResolvedValue({ token: "dummyToken", userType: "admin" });
 
@@ -62,7 +62,7 @@ describe("Login", () => {
 	// 	expect(mockToggleModal).toHaveBeenCalledTimes(1);
 	// });
 
-	test('Should set component key name to "forgotten-password" when "Mot de passe oublié ?" is clicked', () => {
+	it('Should set component key name to "forgotten-password" when "Mot de passe oublié ?" is clicked', () => {
 		render(<Login {...defaultProps} />);
 		const forgotPasswordLink = screen.getByText("Mot de passe oublié ?");
 		fireEvent.click(forgotPasswordLink);
@@ -70,7 +70,7 @@ describe("Login", () => {
 		expect(mockSetComponentKeyName).toHaveBeenCalledWith("forgotten-password");
 	});
 
-	test('Should set component key name to "signup" when "Pas de compte? Créer un compte." is clicked', () => {
+	it('Should set component key name to "signup" when "Pas de compte? Créer un compte." is clicked', () => {
 		render(<Login {...defaultProps} />);
 		const createAccountLink = screen.getByText("Pas de compte? Créer un compte.");
 		fireEvent.click(createAccountLink);

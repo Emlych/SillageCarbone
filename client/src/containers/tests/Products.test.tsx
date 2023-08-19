@@ -1,7 +1,7 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import Products from "../BackOffice/Products";
 
-test("Products component renders correctly", () => {
+it("Products component renders correctly", () => {
 	render(<Products />);
 
 	// Check if the page title is rendered
@@ -16,7 +16,7 @@ test("Products component renders correctly", () => {
 	});
 });
 
-test("Filter by product name", () => {
+it("Filter by product name", () => {
 	render(<Products />);
 
 	// Find the search input
@@ -28,7 +28,7 @@ test("Filter by product name", () => {
 	// Check if the search input value has changed
 	expect(searchInput.value).toBe("jambon");
 });
-test("Filter by product company", () => {
+it("Filter by product company", () => {
 	render(<Products />);
 
 	// Find the search input
@@ -41,7 +41,7 @@ test("Filter by product company", () => {
 	expect(searchInput.value).toBe("compagnie du jambon");
 });
 
-test("Displays products filtered by name correctly", () => {
+it("Displays products filtered by name correctly", () => {
 	render(<Products />);
 
 	// Find the search input

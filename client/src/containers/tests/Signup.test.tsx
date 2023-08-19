@@ -29,7 +29,7 @@ describe("Signup", () => {
 		setComponentKeyName: mockSetComponentKeyName,
 	};
 
-	test("should update mail input value", () => {
+	it("should update mail input value", () => {
 		render(<Signup {...defaultProps} />);
 		const mailInput = screen.getByTestId("mail");
 		const mockMailValue = "test@example.com";
@@ -37,7 +37,7 @@ describe("Signup", () => {
 		expect(mockSetMail).toHaveBeenCalledWith(mockMailValue);
 	});
 
-	test("should update password input value", () => {
+	it("should update password input value", () => {
 		render(<Signup {...defaultProps} />);
 		const passwordInput = screen.getAllByTestId("password")[0];
 		const mockPasswordValue = "password123";
@@ -45,7 +45,7 @@ describe("Signup", () => {
 		expect(mockSetPassword).toHaveBeenCalledWith(mockPasswordValue);
 	});
 
-	test("should update confirm password input value", () => {
+	it("should update confirm password input value", () => {
 		render(<Signup {...defaultProps} />);
 		const confirmPasswordInput = screen.getAllByTestId("password")[1];
 		const mockConfirmPasswordValue = "password123";
@@ -55,7 +55,7 @@ describe("Signup", () => {
 		expect(mockSetConfirmPassword).toHaveBeenCalledWith(mockConfirmPasswordValue);
 	});
 
-	test("should toggle hiddenPassword state when password eye icon is clicked", () => {
+	it("should toggle hiddenPassword state when password eye icon is clicked", () => {
 		render(<Signup {...defaultProps} />);
 		const passwordEyeIcon = screen.getAllByTestId("eye-icon")[0];
 		fireEvent.click(passwordEyeIcon);
@@ -63,7 +63,7 @@ describe("Signup", () => {
 		expect(mockSetHiddenPassword).toHaveBeenCalledWith(true);
 	});
 
-	test("should toggle hiddenConfirmPassword state when confirm password eye icon is clicked", () => {
+	it("should toggle hiddenConfirmPassword state when confirm password eye icon is clicked", () => {
 		render(<Signup {...defaultProps} />);
 		const confirmPasswordEyeIcon = screen.getAllByTestId("eye-icon")[1];
 		fireEvent.click(confirmPasswordEyeIcon);
@@ -71,14 +71,14 @@ describe("Signup", () => {
 		expect(mockSetHiddenConfirmPassword).toHaveBeenCalledWith(true);
 	});
 
-	// test.skip("should call handleFormSubmit when form is submitted", () => {
+	// it.skip("should call handleFormSubmit when form is submitted", () => {
 	// 	render(<Signup {...defaultProps} />);
 	// 	const form = screen.getByTestId("signup-form");
 	// 	fireEvent.submit(form);
 	// 	expect(mockHandleFormSubmit).toHaveBeenCalledTimes(1);
 	// });
 
-	test('should set component key name to "login" when "Si vous avez déjà un compte, se connecter." is clicked', () => {
+	it('should set component key name to "login" when "Si vous avez déjà un compte, se connecter." is clicked', () => {
 		render(<Signup {...defaultProps} />);
 		const loginLink = screen.getByText("Si vous avez déjà un compte, se connecter.");
 		fireEvent.click(loginLink);

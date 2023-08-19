@@ -20,7 +20,7 @@ describe("Autocomplete component", () => {
 		);
 	}
 
-	test("no suggestions for user input of two characters", () => {
+	it("no suggestions for user input of two characters", () => {
 		renderAutocompleteComponent();
 		// Get the input element
 		const inputElement = screen.getByPlaceholderText("Rechercher un produit");
@@ -31,7 +31,7 @@ describe("Autocomplete component", () => {
 		expect(dropdownElement).toBeNull();
 	});
 
-	test("displays suggestions based on user input", () => {
+	it("displays suggestions based on user input", () => {
 		renderAutocompleteComponent();
 		// Get the input element
 		const inputElement = screen.getByPlaceholderText("Rechercher un produit");
@@ -43,7 +43,7 @@ describe("Autocomplete component", () => {
 		expect(suggestionElement).toBeInTheDocument();
 	});
 
-	test("no suggestions for user input that's not in the mock list", () => {
+	it("no suggestions for user input that's not in the mock list", () => {
 		renderAutocompleteComponent();
 		const inputElement = screen.getByPlaceholderText("Rechercher un produit");
 		fireEvent.change(inputElement, { target: { value: "plante" } });
@@ -53,7 +53,7 @@ describe("Autocomplete component", () => {
 		expect(dropdownElement).toBeNull();
 	});
 
-	test("navigates to the selected product", () => {
+	it("navigates to the selected product", () => {
 		renderAutocompleteComponent();
 		const inputElement = screen.getByPlaceholderText("Rechercher un produit");
 		fireEvent.change(inputElement, { target: { value: "thon" } });

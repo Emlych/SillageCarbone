@@ -22,7 +22,7 @@ describe("Dropdown component", () => {
 		return render(<Dropdown {...mergedProps} />);
 	};
 
-	test("renders dropdown options correctly", () => {
+	it("renders dropdown options correctly", () => {
 		setup({ options });
 		const optionElements = screen.getAllByTestId("dropdown-option");
 
@@ -32,13 +32,13 @@ describe("Dropdown component", () => {
 		});
 	});
 
-	test("does not render dropdown when options are null", () => {
+	it("does not render dropdown when options are null", () => {
 		setup({ options: null });
 		const dropdownElement = screen.queryByTestId("dropdown");
 		expect(dropdownElement).toBeNull();
 	});
 
-	test("calls handleSelectInput when option is clicked", () => {
+	it("calls handleSelectInput when option is clicked", () => {
 		setup({ options });
 		const optionElement = screen.getByText("Option 1");
 		fireEvent.click(optionElement);
@@ -46,7 +46,7 @@ describe("Dropdown component", () => {
 		expect(handleSelectInput).toHaveBeenCalledWith(1);
 	});
 
-	test("does not render dropdown when options size is 0", () => {
+	it("does not render dropdown when options size is 0", () => {
 		setup({ options: new Map() });
 		const dropdownElement = screen.queryByTestId("dropdown");
 		expect(dropdownElement).toBeNull();

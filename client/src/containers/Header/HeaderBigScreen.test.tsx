@@ -66,7 +66,7 @@ describe("HeaderBigScreen component", () => {
 		(Cookies.get as jest.Mock).mockClear();
 	});
 
-	test("renders no account, favorites and backoffice if no token present", () => {
+	it("renders no account, favorites and backoffice if no token present", () => {
 		setup();
 
 		const compteElement = screen.queryByText("Compte");
@@ -79,20 +79,20 @@ describe("HeaderBigScreen component", () => {
 		expect(connexionElement).toBeInTheDocument();
 	});
 
-	test("renders account and favorites links when userToken is present", () => {
+	it("renders account and favorites links when userToken is present", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(userToken);
 		setup();
 		expect(screen.getByTestId("/account")).toBeInTheDocument();
 		expect(screen.getByTestId("/favorites")).toBeInTheDocument();
 	});
 
-	test("renders backoffice link when adminToken is present", () => {
+	it("renders backoffice link when adminToken is present", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(adminToken);
 		setup();
 		expect(screen.getByText("Backoffice")).toBeInTheDocument();
 	});
 
-	test("calls handleDeconnexion and navigate to home when déconnexion link is clicked", () => {
+	it("calls handleDeconnexion and navigate to home when déconnexion link is clicked", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(userToken);
 		setup();
 		const deconnexionLink = screen.getByTestId("link-deconnexion");
@@ -101,7 +101,7 @@ describe("HeaderBigScreen component", () => {
 		expect(mockNavigate).toHaveBeenCalledWith("/");
 	});
 
-	test("calls toggleModal when connexion link is clicked", () => {
+	it("calls toggleModal when connexion link is clicked", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(undefined);
 		setup();
 		const connexionLink = screen.getByTestId("link-connexion");
@@ -110,7 +110,7 @@ describe("HeaderBigScreen component", () => {
 	});
 
 	// Navigate to home page
-	test("When click on homepage Link, user will navigate to the home page", () => {
+	it("When click on homepage Link, user will navigate to the home page", () => {
 		setup();
 		const href = "/";
 		const link = screen.getByTestId(href);
@@ -120,7 +120,7 @@ describe("HeaderBigScreen component", () => {
 	});
 
 	// Navigate to account page
-	test("When click on account Link, user will navigate to the account page", () => {
+	it("When click on account Link, user will navigate to the account page", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(userToken);
 		setup();
 		const href = "/account";
@@ -131,7 +131,7 @@ describe("HeaderBigScreen component", () => {
 	});
 
 	// Navigate to account page
-	test("When click on favorites Link, user will navigate to the favorites page", () => {
+	it("When click on favorites Link, user will navigate to the favorites page", () => {
 		(Cookies.get as jest.Mock).mockReturnValue(userToken);
 		setup();
 		const href = "/favorites";

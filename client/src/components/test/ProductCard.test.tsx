@@ -25,7 +25,7 @@ const product = {
 	creation_date: new Date(),
 };
 
-test("ProductCard renders correctly", () => {
+it("ProductCard renders correctly", () => {
 	render(<ProductCard product={product} />);
 
 	// Check if product name is rendered

@@ -3,7 +3,7 @@ import CreateUser from "../BackOffice/CreateUser";
 import React from "react";
 
 describe("CreateUser", () => {
-	test("should update mail input value", () => {
+	it("should update mail input value", () => {
 		// Mock useState to track setMail function
 		const setState = jest.fn();
 		const useStateMock: any = (initialState: any) => [initialState, setState];
@@ -22,7 +22,7 @@ describe("CreateUser", () => {
 		jest.restoreAllMocks();
 	});
 
-	test("should update password input value", () => {
+	it("should update password input value", () => {
 		const setState = jest.fn();
 		const useStateMock: any = (initialState: any) => [initialState, setState];
 		jest.spyOn(React, "useState").mockImplementation(useStateMock);
@@ -40,7 +40,7 @@ describe("CreateUser", () => {
 		jest.restoreAllMocks();
 	});
 
-	test("should toggle hiddenPassword state when password eye icon is clicked", () => {
+	it("should toggle hiddenPassword state when password eye icon is clicked", () => {
 		render(<CreateUser />);
 
 		// Find the eye icon element

@@ -11,7 +11,7 @@ import {
 /** Unit testing of utils function */
 describe("Format Data Utils Function", () => {
 	// Format text to string
-	test("Format text to string without accents, extra space and all lowercase", () => {
+	it("Format text to string without accents, extra space and all lowercase", () => {
 		const textToFormat = "éàôüñA < Ejiu - de ";
 		const expectedFormattedString = "eaouna ejiu -";
 		const formattedString = formatTextToString(textToFormat);
@@ -19,42 +19,42 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// Format date
-	test("Format date with unknown format", () => {
+	it("Format date with unknown format", () => {
 		const date = new Date(2023, 6, 1);
 		const formattedDate = formatDate(date, "JJMMAAAA" as any as "yyyy-mm-dd"); //cast to force unknown date format
 		expect(formattedDate).toBe(undefined);
 	});
 
 	// Format date
-	test("Format date to yyyy-mm-dd", () => {
+	it("Format date to yyyy-mm-dd", () => {
 		const date = new Date(2023, 6, 1);
 		const formattedDate = formatDate(date, "yyyy-mm-dd");
 		expect(formattedDate).toBe("2023-6-1");
 	});
 
 	// Format date
-	test("Format date to dd-mm-yyyy", () => {
+	it("Format date to dd-mm-yyyy", () => {
 		const date = new Date(2023, 6, 1);
 		const formattedDate = formatDate(date, "dd-mm-yyyy");
 		expect(formattedDate).toBe("1-6-2023");
 	});
 
 	// Format date
-	test("Format date with default format", () => {
+	it("Format date with default format", () => {
 		const date = new Date(2023, 6, 1);
 		const formattedDate = formatDate(date, "JJMMAAAA" as any as "yyyy-mm-dd"); //cast to force unknown date format
 		expect(formattedDate).toBe(undefined);
 	});
 
 	// Format date to string
-	test("Format date to string with format dd-mm-yyyy", () => {
+	it("Format date to string with format dd-mm-yyyy", () => {
 		const dateToFormat = "2023-08-06T19:23:37.923Z";
 		const formattedDate = formatDateFromString(dateToFormat, "dd-mm-yyyy");
 		expect(formattedDate).toBe("06-08-2023");
 	});
 
 	// Format date to string
-	test("Format date to string with unknown format", () => {
+	it("Format date to string with unknown format", () => {
 		const dateToFormat = "2023-08-06T19:23:37.923Z";
 		const formattedDate = formatDateFromString(
 			dateToFormat,
@@ -64,14 +64,14 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// Format date to string
-	test("Format date to string with format yyyy-mm-dd", () => {
+	it("Format date to string with format yyyy-mm-dd", () => {
 		const dateToFormat = "2023-08-06T19:23:37.923Z";
 		const formattedDate = formatDateFromString(dateToFormat, "yyyy-mm-dd");
 		expect(formattedDate).toBe("2023-08-06");
 	});
 
 	// Format string to capital letters
-	test("First letter will be capital letter", () => {
+	it("First letter will be capital letter", () => {
 		const textToFormat = "boîte de thon gros massif";
 		const expectedText = "Boîte de thon gros massif";
 		const formattedText = capitalizeFirstLetter(textToFormat);
@@ -79,63 +79,63 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// Password strength
-	test("Password without uppercase, but with lowercase, numbers and long -> weak password", () => {
+	it("Password without uppercase, but with lowercase, numbers and long -> weak password", () => {
 		const noUppercasePassword = "motdepasse123456789";
 		const isStrong = isPasswordStrong(noUppercasePassword);
 		expect(isStrong).toEqual(false);
 	});
 
 	// Password strength
-	test("Password without lowercase, but with uppercase, numbers and long -> weak password", () => {
+	it("Password without lowercase, but with uppercase, numbers and long -> weak password", () => {
 		const noLowercasePassword = "MOTDEPASSE123456789";
 		const isStrong = isPasswordStrong(noLowercasePassword);
 		expect(isStrong).toEqual(false);
 	});
 
 	// // Password strength
-	// test("Password without numbers, but with lowercase and uppercase, and long -> weak password", () => {
+	// it("Password without numbers, but with lowercase and uppercase, and long -> weak password", () => {
 	// 	const noNumberPassword = "MOTDEPASSEMOTDEPASSE";
 	// 	const isStrong = isPasswordStrong(noNumberPassword);
 	// 	expect(isStrong).toEqual(false);
 	// });
 
 	// Password strength
-	test("Password with numbers, lowercase and uppercase, but short (less than 12) -> weak password", () => {
+	it("Password with numbers, lowercase and uppercase, but short (less than 12) -> weak password", () => {
 		const shortPassword = "Mm1";
 		const isStrong = isPasswordStrong(shortPassword);
 		expect(isStrong).toEqual(false);
 	});
 
 	// Password strength
-	test("Password with lowercase, uppercase, numbers and long -> strong password", () => {
+	it("Password with lowercase, uppercase, numbers and long -> strong password", () => {
 		const strongPassword = "MOTDEPASSE123456789motdepasse";
 		const isStrong = isPasswordStrong(strongPassword);
 		expect(isStrong).toEqual(true);
 	});
 
 	// Email format
-	test("String not respecting the email format (no @)", () => {
+	it("String not respecting the email format (no @)", () => {
 		const wrongFormat = "jjo.com";
 		const isEmail = isEmailFormat(wrongFormat);
 		expect(isEmail).toEqual(false);
 	});
 
 	// Email format
-	test("String not respecting the email format (no dot)", () => {
+	it("String not respecting the email format (no dot)", () => {
 		const wrongFormat = "jjo@com";
 		const isEmail = isEmailFormat(wrongFormat);
 		expect(isEmail).toEqual(false);
 	});
 
 	// Email format
-	test("String respecting the email format", () => {
+	it("String respecting the email format", () => {
 		const wrongFormat = "jjo@test.com";
 		const isEmail = isEmailFormat(wrongFormat);
 		expect(isEmail).toEqual(true);
 	});
 
 	// isFormCorrect
-	test("Form with missing new password", () => {
+	it("Form with missing new password", () => {
 		const formStatus = isFormCorrect("", "random");
 		const expectedResult = {
 			errorMessage: "Veuillez fournir un mot de passe.",
@@ -145,7 +145,7 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// isFormCorrect
-	test("Form with missing incorrect mail format", () => {
+	it("Form with missing incorrect mail format", () => {
 		const incorrectMail = "nomailformat";
 		const formStatus = isFormCorrect(
 			"TestPassword",
@@ -161,7 +161,7 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// isFormCorrect
-	test("Form with weak password", () => {
+	it("Form with weak password", () => {
 		const weakPassword = "MOTDEPASSEMOTDEPASSE";
 		const formStatus = isFormCorrect(weakPassword, weakPassword, undefined, undefined);
 		const expectedResult = {
@@ -173,7 +173,7 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// isFormCorrect
-	test("Form with newPassword different from confirmPassword", () => {
+	it("Form with newPassword different from confirmPassword", () => {
 		const strongPassword = "MOTDEPASSE123456789motdepasse";
 
 		const otherStrongPassword = "MOTDEPASSE123456789motdepasse1";
@@ -192,7 +192,7 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// isFormCorrect
-	test("Correct form", () => {
+	it("Correct form", () => {
 		const strongPassword = "MOTDEPASSE123456789motdepasse";
 
 		const formStatus = isFormCorrect(

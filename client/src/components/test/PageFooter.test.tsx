@@ -4,7 +4,7 @@ import PageFooter from "../PageFooter";
 
 /** Unit testing of utils function */
 describe("Page footer", () => {
-	test("When page at one, should not change page when click on left arrow", () => {
+	it("When page at one, should not change page when click on left arrow", () => {
 		const setPageMock = jest.fn();
 		const page = 1;
 		const maxNumberOfPages = 5;
@@ -18,7 +18,7 @@ describe("Page footer", () => {
 		expect(setPageMock).not.toHaveBeenCalled();
 	});
 
-	test("changePage function should update the page number correctly", () => {
+	it("changePage function should update the page number correctly", () => {
 		const setPageMock = jest.fn();
 		const page = 3;
 		const maxNumberOfPages = 5;
@@ -36,7 +36,7 @@ describe("Page footer", () => {
 		expect(setPageMock).toHaveBeenCalledWith(page + 1);
 	});
 
-	test("When at last page, should not change page when click on right arrow", () => {
+	it("When at last page, should not change page when click on right arrow", () => {
 		const setPageMock = jest.fn();
 		const page = 5;
 		const maxNumberOfPages = 5;
