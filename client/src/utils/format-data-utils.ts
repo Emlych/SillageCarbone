@@ -18,15 +18,10 @@ export const formatDate = (
 
 	// Format data
 	let formattedDate = "";
-	switch (stringFormat) {
-		case "yyyy-mm-dd":
-			formattedDate = `${year}-${month}-${day}`;
-			break;
-		case "dd-mm-yyyy":
-			formattedDate = `${day}-${month}-${year}`;
-			break;
-		default:
-			break;
+	if (stringFormat === "yyyy-mm-dd") {
+		formattedDate = `${year}-${month}-${day}`;
+	} else if (stringFormat === "dd-mm-yyyy") {
+		formattedDate = `${day}-${month}-${year}`;
 	}
 
 	return formattedDate as formattedDate;

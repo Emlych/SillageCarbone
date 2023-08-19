@@ -19,6 +19,13 @@ describe("Format Data Utils Function", () => {
 	});
 
 	// Format date
+	test("Format date with unknown format", () => {
+		const date = new Date(2023, 6, 1);
+		const formattedDate = formatDate(date, "JJMMAAAA" as any as "yyyy-mm-dd"); //cast to force unknown date format
+		expect(formattedDate).toBe(undefined);
+	});
+
+	// Format date
 	test("Format date to yyyy-mm-dd", () => {
 		const date = new Date(2023, 6, 1);
 		const formattedDate = formatDate(date, "yyyy-mm-dd");
@@ -32,8 +39,15 @@ describe("Format Data Utils Function", () => {
 		expect(formattedDate).toBe("1-6-2023");
 	});
 
+	// Format date
+	test("Format date with default format", () => {
+		const date = new Date(2023, 6, 1);
+		const formattedDate = formatDate(date, "JJMMAAAA" as any as "yyyy-mm-dd"); //cast to force unknown date format
+		expect(formattedDate).toBe(undefined);
+	});
+
 	// Format date to string
-	test("Format date to string", () => {
+	test("Format date to string with format dd-mm-yyyy", () => {
 		const dateToFormat = "2023-08-06T19:23:37.923Z";
 		const formattedDate = formatDateFromString(dateToFormat, "dd-mm-yyyy");
 		expect(formattedDate).toBe("06-08-2023");
@@ -47,6 +61,13 @@ describe("Format Data Utils Function", () => {
 			"ddmmYYYY" as any as "dd-mm-yyyy" // need to use as any to force format
 		);
 		expect(formattedDate).toBe(undefined);
+	});
+
+	// Format date to string
+	test("Format date to string with format yyyy-mm-dd", () => {
+		const dateToFormat = "2023-08-06T19:23:37.923Z";
+		const formattedDate = formatDateFromString(dateToFormat, "yyyy-mm-dd");
+		expect(formattedDate).toBe("2023-08-06");
 	});
 
 	// Format string to capital letters
