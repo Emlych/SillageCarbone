@@ -9,7 +9,6 @@ const router = express.Router();
 const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const adminTokenRegistered = req.headers.authorization;
-		console.log("amind token registered ", adminTokenRegistered);
 		if (adminTokenRegistered) {
 			const isAdmin = await User.find({
 				token: adminTokenRegistered.replace("Bearer ", ""),
@@ -18,6 +17,7 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 				console.log("i am admin");
 				next();
 			} else {
+				console.log("not admin");
 				throw new Error("Unauthorized to access these informations");
 			}
 		}
