@@ -25,6 +25,7 @@ mongoose
 	.connect(process.env.MONGODB_URI)
 	.then(() => console.info("Connected to database"))
 	.catch((error) => {
+		console.info("error ", error);
 		throw new Error("Could not connect to database");
 	});
 
