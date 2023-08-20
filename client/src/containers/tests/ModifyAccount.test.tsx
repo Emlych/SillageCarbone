@@ -21,10 +21,12 @@ jest.mock("../../utils/token-utils", () => ({
 jest.mock("react-toastify");
 
 describe("Modify Account Container", () => {
+	const toggleModal = jest.fn();
+
 	it("ModifyAccount component renders correctly", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -39,7 +41,7 @@ describe("Modify Account Container", () => {
 	it("Actual password input works correctly", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -54,7 +56,7 @@ describe("Modify Account Container", () => {
 	it("New password input works correctly", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -69,7 +71,7 @@ describe("Modify Account Container", () => {
 	it("Confirm password input works correctly", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -84,7 +86,7 @@ describe("Modify Account Container", () => {
 	it("Show actual password when click on the eye icon", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -109,7 +111,7 @@ describe("Modify Account Container", () => {
 	it("Show new password when click on the eye icon", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -134,7 +136,7 @@ describe("Modify Account Container", () => {
 	it("Show confirm password when click on the eye icon", () => {
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -171,7 +173,7 @@ describe("Modify Account Container", () => {
 
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -216,7 +218,7 @@ describe("Modify Account Container", () => {
 
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -252,7 +254,7 @@ describe("Modify Account Container", () => {
 
 		render(
 			<BrowserRouter>
-				<ModifyPassword />
+				<ModifyPassword toggleModal={() => {}} />
 			</BrowserRouter>
 		);
 
@@ -274,5 +276,17 @@ describe("Modify Account Container", () => {
 		const errorMessageContent = errorMessageElement.textContent; // Get the content of the error message element
 
 		expect(errorMessageContent).toBe("Message d'erreur test");
+	});
+
+	it("calls toggleModal when click on Button Annuler", () => {
+		render(
+			<BrowserRouter>
+				<ModifyPassword toggleModal={toggleModal} />
+			</BrowserRouter>
+		);
+		const cancelButton = screen.getByText("Annuler");
+		expect(cancelButton).toBeInTheDocument();
+		fireEvent.click(cancelButton);
+		expect(toggleModal).toHaveBeenCalledTimes(1);
 	});
 });
