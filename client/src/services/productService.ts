@@ -235,22 +235,21 @@ export const createNewTransportation = async (
 	newTransportation: string,
 	carbonCoef: number
 ): Promise<{ _id: string; mail: string; token: string }> => {
-	console.log("url base ", urlBase);
 	const url = `${urlBase}/product/transportation/create`;
 
 	try {
+		// -- Is user connected as admin
+		const adminToken = Cookies.get("adminToken");
+		if (!adminToken) {
+			throw new Error("Not authorized to access list of transportations.");
+		}
+
 		if (!newTransportation || !carbonCoef) {
 			throw new Error("Missing field");
 		}
 		console.log("url", url);
 		console.log("newTransportation", newTransportation);
 		console.log("carbonCoef", carbonCoef);
-
-		// -- Is user connected as admin
-		const adminToken = Cookies.get("adminToken");
-		if (!adminToken) {
-			throw new Error("Not authorized to access list of users.");
-		}
 
 		console.log("adminToken", adminToken);
 
@@ -262,12 +261,12 @@ export const createNewTransportation = async (
 				carbonCoefficient: carbonCoef,
 			},
 			{
-				headers: {
-					authorization: `Bearer ${adminToken}`,
-					"Content-Type": "multipart/form-data",
-				},
+				headers: { authorization: `Bearer ${adminToken}` },
 			}
 		);
+
+		console.log("response ");
+		console.log("response here", response.data);
 
 		if (!response.data) {
 			throw new Error("Transportation could not be created");
