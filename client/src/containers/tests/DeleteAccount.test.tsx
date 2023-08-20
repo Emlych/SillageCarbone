@@ -145,4 +145,32 @@ describe("Users Container", () => {
 			expect(toast.error).not.toHaveBeenCalled();
 		});
 	});
+
+	it("Form submission works with toast error", async () => {
+		const mockedDeleteUser = deleteUser as jest.Mock;
+		mockedDeleteUser.mockRejectedValue(new Error("Deletion failed")); // Mock a failed deletion
+		render(
+			<BrowserRouter>
+				<DeleteAccount toggleModal={() => {}} />
+			</BrowserRouter>
+		);
+
+		// Set a password value
+		const passwordInput = screen.getByTestId("password");
+		fireEvent.change(passwordInput, { target: { value: "testpassword" } });
+
+		// Click on delete button to trigger the form submission
+		const deleteButton = screen.getByText("Supprimer définitivement mon compte");
+		fireEvent.click(deleteButton);
+
+		await waitFor(() => {
+			// Check if deleteUser function is called with the correct password
+			expect(mockedDeleteUser).toHaveBeenCalledWith("testpassword");
+		});
+
+		await waitFor(() => {
+			// Check if toast.error is called with the correct error message
+			expect(toast.error).toHaveBeenCalledWith("Le compte n'a pas pu être supprimé");
+		});
+	});
 });
