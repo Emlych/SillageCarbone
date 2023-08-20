@@ -23,7 +23,6 @@ const Account = () => {
 				setUserMail(userData.mail);
 				setAccountDate(userData.creation_date);
 			} catch (error) {
-				// toast.error("Erreur dans la récupération des données utilisateur.");
 				console.error("Error ", error);
 			}
 		};

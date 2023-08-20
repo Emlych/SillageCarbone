@@ -7,12 +7,9 @@ import { deleteUser } from "../../services/userService";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import { ToggleAccountProps } from "../../pages/Modal";
 
-export type DeleteAccountProps = {
-	toggleModal: Function;
-};
-
-const DeleteAccount = ({ toggleModal }: DeleteAccountProps) => {
+const DeleteAccount = ({ toggleModal }: ToggleAccountProps) => {
 	const [password, setPassword] = useState("");
 	const [hiddenPassword, setHiddenPassword] = useState(true);
 

@@ -21,6 +21,10 @@ type ModalProps = {
 	productId?: string;
 };
 
+export type ToggleAccountProps = {
+	toggleModal: Function;
+};
+
 const Modal = ({
 	toggleModal,
 	accountModalKey,
@@ -39,7 +43,7 @@ const Modal = ({
 	const ComponentToRender = (componentKeyName: ComponentKey) => {
 		if (accountModalKey) {
 			if (accountModalKey === "change-password") {
-				return <ModifyPassword />;
+				return <ModifyPassword toggleModal={toggleModal} />;
 			} else if (accountModalKey === "delete-account") {
 				return <DeleteAccount toggleModal={toggleModal} />;
 			} else if (mailToDelete && accountModalKey === "admin-delete-account") {

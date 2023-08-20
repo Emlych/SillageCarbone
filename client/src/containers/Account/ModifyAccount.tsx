@@ -7,8 +7,9 @@ import Button from "../../components/Button";
 import { isFormCorrect } from "../../utils/format-data-utils";
 import { createToken } from "../../utils/token-utils";
 import { ToastContainer, toast } from "react-toastify";
+import { ToggleAccountProps } from "../../pages/Modal";
 
-const ModifyPassword = () => {
+const ModifyPassword = ({ toggleModal }: ToggleAccountProps) => {
 	const [actualPassword, setActualPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -119,7 +120,14 @@ const ModifyPassword = () => {
 						{errorMessage}
 					</p>
 
-					<Button buttonText="Modifier le mot de passe" buttonType="submit" />
+					<div className="account-button-container">
+						<Button
+							buttonText="Annuler"
+							buttonType="button"
+							callback={() => toggleModal()}
+						/>
+						<Button buttonText="Modifier le mot de passe" buttonType="submit" />
+					</div>
 
 					{/* Toast to display error message */}
 					<ToastContainer position="bottom-right" autoClose={5000} />
