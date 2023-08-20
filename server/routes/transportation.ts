@@ -14,6 +14,7 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 				token: adminTokenRegistered.replace("Bearer ", ""),
 			});
 			if (isAdmin) {
+				console.log("i am admin");
 				next();
 			} else {
 				throw new Error("Unauthorized to access these informations");
@@ -43,6 +44,7 @@ router.post(
 			if (transportation) {
 				throw new Error("Transportation type already exists");
 			}
+			console.info("Can create a new transportation");
 
 			// -- Create transportation
 			const newTransportation = new Transportation({
@@ -53,6 +55,8 @@ router.post(
 				archived: false,
 			});
 
+			console.info("transportation : ", newTransportation);
+
 			// -- Save
 			await newTransportation.save();
 
@@ -62,6 +66,7 @@ router.post(
 				carbonCoefficient: newTransportation.carbonCoefficient,
 			});
 		} catch (error: any) {
+			console.error("error in transportation creation ", error);
 			return res.status(400).json({ error: error.message });
 		}
 	}

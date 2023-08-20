@@ -11,7 +11,6 @@ const Dropdown = <T extends string | UserType>({
 }: DropdownProps<T>) => {
 	// Hide dropdown if empty or for conditions handled outside of Dropdown component (exemple when press on "esc" or click outside of dropdown)
 	if (!options || options.size === 0) return null;
-	console.log("options to display ", options);
 
 	return (
 		<div className="dropdown-menu" data-testid="dropdown">
