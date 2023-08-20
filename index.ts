@@ -7,6 +7,8 @@ dotenv.config();
 
 /** Create an express app called sillageApp  */
 export const sillageApp: Express = express();
+
+/** Enable Cross Origin Request */
 sillageApp.use(cors());
 
 /** Use middleware to parse incoming requests with JSON payloads */
@@ -39,6 +41,13 @@ sillageApp.all("*", (req, res) => {
 });
 
 /** Start the server (Returns http.Server on port 8000) */
-sillageApp.listen(process.env.PORT, () => {
+let server = sillageApp.listen(process.env.PORT, () => {
 	console.info("Listening to Sillage Carbone application on 8000");
+});
+server;
+
+/** For debbuging */
+server.on("clientError", (err, socket) => {
+	console.error(err);
+	socket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
 });
