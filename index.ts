@@ -39,6 +39,6 @@ sillageApp.all("*", (req, res) => {
 });
 
 /** Start the server (Returns http.Server on port 8000) */
-sillageApp.listen(process.env.PORT || 8000, () => {
+sillageApp.listen(process.env.PORT, () => {
 	console.info("Listening to Sillage Carbone application on 8000");
 });
