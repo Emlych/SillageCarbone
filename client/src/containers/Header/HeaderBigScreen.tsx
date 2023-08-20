@@ -13,7 +13,7 @@ const HeaderBigScreen = ({
 	const adminToken = Cookies.get("adminToken");
 
 	return (
-		<nav className="big-screen">
+		<nav className="big-screen" data-testid="header-big-screen">
 			<Link to={"/"}>
 				<div className="sillage-carbone">SillageCarbone</div>
 			</Link>
