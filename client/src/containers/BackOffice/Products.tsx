@@ -82,7 +82,6 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 				setIsLoading(false);
 			} catch (error) {
 				toast.error(`Erreur dans la récupération des produits`);
-				throw new Error("Error in retrival of products");
 			}
 		};
 		fetchAndFilterProductsData(params);
