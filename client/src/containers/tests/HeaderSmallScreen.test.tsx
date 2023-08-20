@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import HeaderSmallScreen from "../Header/HeaderSmallScreen";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
@@ -11,7 +10,7 @@ import Cookies from "js-cookie";
 // }))
 // Mock js cookie dependency
 jest.mock("js-cookie");
-jest.mock("./CollapseNav", () => () => <div>CollapseNav</div>);
+jest.mock("../Header/CollapseNav", () => () => <div>CollapseNav</div>);
 
 describe("HeaderSmallScreen component", () => {
 	//Token
