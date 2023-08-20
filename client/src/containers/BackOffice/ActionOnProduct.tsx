@@ -9,40 +9,42 @@ export type ActionOnProductProps = {
 	actionType: ActionType;
 };
 const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps) => {
+	/** Delete product by providing its id */
+	const deleteProductService = async () => {
+		try {
+			await deleteProduct(_id);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	/** Archive product by providing its id and archive status */
+	const archiveProductService = async (archiveStatus: boolean) => {
+		try {
+			await archiveProduct(_id, archiveStatus);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	/** On form submission, delete, archive or unarchive product */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const deleteProductService = async () => {
-			try {
-				deleteProduct(_id).then(() => {
-					// -- Close modal
-					toggleModal();
-					window.location.reload();
-				});
-			} catch (error) {
-				console.error(error);
+		try {
+			if (actionType === "archive") {
+				archiveProductService(true);
+			} else if (actionType === "delete") {
+				deleteProductService();
+			} else if (actionType === "unarchive") {
+				archiveProductService(false);
 			}
-		};
 
-		const archiveProductService = async (archiveStatus: boolean) => {
-			try {
-				archiveProduct(_id, archiveStatus).then(() => {
-					// -- Close modal
-					toggleModal();
-					window.location.reload();
-				});
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		if (actionType === "archive") {
-			archiveProductService(true);
-		} else if (actionType === "delete") {
-			deleteProductService();
-		} else if (actionType === "unarchive") {
-			archiveProductService(false);
+			// Close modal and refresh page
+			toggleModal();
+			window.location.reload();
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
