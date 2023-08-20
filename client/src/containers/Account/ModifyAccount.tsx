@@ -6,6 +6,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { isFormCorrect } from "../../utils/format-data-utils";
 import { createToken } from "../../utils/token-utils";
+import { ToastContainer, toast } from "react-toastify";
 
 const ModifyPassword = () => {
 	const [actualPassword, setActualPassword] = useState("");
@@ -26,13 +27,12 @@ const ModifyPassword = () => {
 		event.preventDefault();
 		const fetchData = async () => {
 			try {
-				updateUser(actualPassword, newPassword).then((userData) => {
-					setValidRequest(true);
-					createToken(userData.token, userData.mail, false);
-				});
+				const userData = await updateUser(actualPassword, newPassword);
+				setValidRequest(true);
+				createToken(userData.token, userData.mail, false);
 			} catch (error: any) {
-				alert("User password could not be changed.");
-				throw new Error("Could not modify password");
+				// Display error message using react-toastify
+				toast.error("Le mot de passe n'a pas été modifié");
 			}
 		};
 
@@ -44,7 +44,7 @@ const ModifyPassword = () => {
 			actualPassword
 		);
 		if (canSubmit.isCorrect) {
-			fetchData();
+			await fetchData();
 		} else {
 			setErrorMessage(canSubmit.errorMessage);
 		}
@@ -66,7 +66,7 @@ const ModifyPassword = () => {
 						<FontAwesomeIcon
 							icon={hiddenActualPassword ? faEye : faEyeSlash}
 							onClick={() => setHiddenActualPassword(!hiddenActualPassword)}
-							data-testid="eye-icon"
+							data-testid="eye-icon-1"
 							className="password-eye-icon"
 						/>
 						<Input
@@ -84,14 +84,14 @@ const ModifyPassword = () => {
 						<FontAwesomeIcon
 							icon={hiddenNewPassword ? faEye : faEyeSlash}
 							onClick={() => setHiddenNewPassword(!hiddenNewPassword)}
-							data-testid="eye-icon"
+							data-testid="eye-icon-2"
 							className="password-eye-icon"
 						/>
 						<Input
 							faIcon={faLock}
 							placeholderText=""
 							value={newPassword}
-							data-testid="actual-password"
+							data-testid="new-password"
 							onChange={(event) => setNewPassword(event?.target.value)}
 							type={hiddenNewPassword ? "password" : "text"}
 						/>
@@ -102,22 +102,27 @@ const ModifyPassword = () => {
 						<FontAwesomeIcon
 							icon={hiddenConfirmPassword ? faEye : faEyeSlash}
 							onClick={() => setHiddenConfirmPassword(!hiddenConfirmPassword)}
-							data-testid="eye-icon"
+							data-testid="eye-icon-3"
 							className="password-eye-icon"
 						/>
 						<Input
 							faIcon={faLock}
 							placeholderText=""
 							value={confirmNewPassword}
-							data-testid="actual-password"
+							data-testid="confirm-password"
 							onChange={(event) => setConfirmNewPassword(event?.target.value)}
 							type={hiddenConfirmPassword ? "password" : "text"}
 						/>
 					</div>
 					{/* Set error message  */}
-					<p className="warning">{errorMessage}</p>
+					<p className="warning" data-testid="error-message">
+						{errorMessage}
+					</p>
 
 					<Button buttonText="Modifier le mot de passe" buttonType="submit" />
+
+					{/* Toast to display error message */}
+					<ToastContainer position="bottom-right" autoClose={5000} />
 				</form>
 			)}
 		</div>

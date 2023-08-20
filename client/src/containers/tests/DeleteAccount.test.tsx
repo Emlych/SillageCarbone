@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect"; // For extended expect matchers
 import DeleteAccount from "../Account/DeleteAccount";
-import { BrowserRouter, useNavigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { deleteUser } from "../../services/userService";
 import { deleteToken } from "../../utils/token-utils";
 import { toast } from "react-toastify";
@@ -9,8 +9,6 @@ import Cookies from "js-cookie";
 
 // Mocks for dependencies
 jest.mock("js-cookie");
-
-// Mocks for dependencies
 jest.mock("../../services/userService", () => ({
 	deleteUser: jest.fn(() => Promise.resolve()),
 }));
@@ -25,7 +23,7 @@ jest.mock("react-router-dom", () => ({
 	useNavigate: () => mockNavigate,
 }));
 
-describe("Users Container", () => {
+describe("Delete Account Container", () => {
 	const toggleModal = jest.fn();
 
 	it("DeleteAccount component renders correctly", () => {
