@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import HeaderSmallScreen from "./HeaderSmallScreen";
+import HeaderSmallScreen from "../Header/HeaderSmallScreen";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
-import { SpecificHeaderConnexionProps } from "./Header";
+import { SpecificHeaderConnexionProps } from "../Header/Header";
 import Cookies from "js-cookie";
 
 // Mock the required modules
