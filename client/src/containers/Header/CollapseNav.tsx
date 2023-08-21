@@ -18,7 +18,7 @@ const CollapseNav = ({ toggleBurgerMenu, handleDeconnexion }: BurgerConnexionPro
 	return (
 		<div className="collapse-nav">
 			{/* With token == connected user */}
-			{Cookies.get("userToken") ? (
+			{Cookies.get("userToken") && (
 				<nav>
 					<ul onClick={() => closeMenuAndNavigate("/account")}>Compte</ul>
 					<ul onClick={() => closeMenuAndNavigate("/favorites")}>Favoris</ul>
@@ -32,8 +32,6 @@ const CollapseNav = ({ toggleBurgerMenu, handleDeconnexion }: BurgerConnexionPro
 						Déconnexion
 					</ul>
 				</nav>
-			) : (
-				<p></p>
 			)}
 			{Cookies.get("adminToken") ? <Link to={"/backoffice"}>Backoffice</Link> : <p></p>}
 		</div>
