@@ -30,7 +30,7 @@ const Autocomplete = () => {
 
 	/** On first load of this component, retrieve products from database and store them in products*/
 	useEffect(() => {
-		const fetchAndFilterProductsData = async () => {
+		const fetchProductsData = async () => {
 			try {
 				const products = await fetchProductsForCache();
 				setProducts(products);
@@ -38,14 +38,14 @@ const Autocomplete = () => {
 				console.error("Error ", error);
 			}
 		};
-		fetchAndFilterProductsData();
+		fetchProductsData();
 	}, []);
 
 	/** Store products in cache only when products array is updated */
 	const productCache = useMemo<ProductCache>(() => {
 		const cache: ProductCache = {};
-
 		if (products) {
+			console.log("y a til des produits ");
 			products.forEach((product) => {
 				product.keywords =
 					formatTextToString(product.name) + " " + formatTextToString(product.company);
@@ -72,6 +72,7 @@ const Autocomplete = () => {
 
 		// Provide list of products which match with inputValue and store its id and name inside a map
 		const matchingProducts = new Map<string, string>();
+
 		for (const product in productCache) {
 			const hasMatchInName = productCache[product].keywords.includes(inputKeywords);
 
@@ -101,7 +102,7 @@ const Autocomplete = () => {
 			{/* Search bar with search icon */}
 			<form className="autocomplete-searchbar">
 				<label htmlFor="product-search">
-					<FontAwesomeIcon icon={faSearch} aria-label="Rechercher un produit" />
+					<FontAwesomeIcon icon={faSearch} aria-label="Icone de recherche d'un produit" />
 				</label>
 				<div>
 					{/* Field for text input */}
@@ -110,7 +111,7 @@ const Autocomplete = () => {
 						placeholder="Rechercher un produit"
 						value={searchedProduct}
 						onChange={handleSearchInput}
-						aria-label="Rechercher un produit"
+						aria-label="Rechercher un produit via la barre de recherche"
 					/>
 
 					{/* List of all items by div - dropdown menu UI */}
