@@ -156,7 +156,7 @@ const CreateProduct = () => {
 						faIcon={faLocationDot}
 						placeholderText="Ville d'origine"
 						value={originCity}
-						data-testid="port-origine"
+						data-testid="port-ville-origine"
 						onChange={(event) => {
 							setOriginCity(event.target.value);
 						}}
@@ -166,7 +166,7 @@ const CreateProduct = () => {
 						faIcon={faLocationDot}
 						placeholderText="Pays d'origine"
 						value={originCountry}
-						data-testid="port-origine"
+						data-testid="port-pays-origine"
 						onChange={(event) => {
 							setOriginCountry(event.target.value);
 						}}
@@ -179,7 +179,7 @@ const CreateProduct = () => {
 						faIcon={faLocationDot}
 						placeholderText="Ville d'arrivée"
 						value={destinationCity}
-						data-testid="port-origine"
+						data-testid="port-ville-arrivee"
 						onChange={(event) => {
 							setDestinationCity(event.target.value);
 						}}
@@ -187,9 +187,9 @@ const CreateProduct = () => {
 					/>
 					<Input
 						faIcon={faLocationDot}
-						placeholderText="Pays d'origine"
+						placeholderText="Pays d'arrivée"
 						value={destinationCountry}
-						data-testid="port-origine"
+						data-testid="port-pays-arrivee"
 						onChange={(event) => {
 							setDestinationCountry(event.target.value);
 						}}
