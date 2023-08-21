@@ -8,19 +8,10 @@ export type ForgottenPasswordProps = {
 	setMail: Function;
 };
 const ForgottenPassword = ({ mail, setMail }: ForgottenPasswordProps) => {
-	/** On form submission, send user data to server */
-	const handleFormSubmit = async (event: React.FormEvent) => {
-		event.preventDefault();
-
-		// TODO V2
-	};
+	/** TODO V2 On form submission, send user data to server */
 
 	return (
-		<form
-			data-testid="forgotten-password-form"
-			onSubmit={handleFormSubmit}
-			className="forgotten-password"
-		>
+		<form data-testid="forgotten-password-form" className="forgotten-password">
 			<h2>Mot de passe oublié</h2>
 			<p className="modal-message">Veuillez fournir votre adresse mail.</p>
 
