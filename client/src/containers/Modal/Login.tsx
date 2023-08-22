@@ -99,7 +99,9 @@ const Login = ({
 			</p>
 
 			{/* Set error message  */}
-			<p className="warning">{errorMessage}</p>
+			<p className="warning" data-testid="error-message">
+				{errorMessage}
+			</p>
 
 			<Button buttonText="Se connecter" buttonType="submit" />
 			<p className="modal-navigateTo" onClick={() => setComponentKeyName("signup")}>
