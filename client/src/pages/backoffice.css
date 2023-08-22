@@ -46,8 +46,16 @@
 	width: 100%;
 	padding: 30px 30px;
 }
-.backoffice-components h2 {
+
+.backoffice-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	margin-bottom: 20px;
+}
+.backoffice-header .refresh-icon:hover {
+	cursor: pointer;
+	color: rgb(70, 148, 173);
 }
 
 /* -------------------------------- */

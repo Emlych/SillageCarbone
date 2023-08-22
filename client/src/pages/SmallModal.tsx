@@ -6,12 +6,14 @@ type ModalProps = {
 	toggleModal: Function;
 	productId: string;
 	accountModalKey: "archive-product" | "delete-product" | "unarchive-product";
+	setNeedRefresh: Function;
 };
 
 const SmallModal = ({
 	toggleModal,
 	accountModalKey,
 	productId,
+	setNeedRefresh,
 }: ModalProps): JSX.Element => {
 	/** Define type of action that modal should do */
 	const productActionType = (accountModalKey: string): ActionType => {
@@ -45,6 +47,7 @@ const SmallModal = ({
 					toggleModal={toggleModal}
 					_id={productId}
 					actionType={productActionType(accountModalKey)}
+					setNeedRefresh={setNeedRefresh}
 				/>
 			</div>
 		</div>

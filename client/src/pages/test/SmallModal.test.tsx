@@ -3,6 +3,7 @@ import SmallModal from "../SmallModal";
 
 describe("SmallModal", () => {
 	const toggleModalMock = jest.fn();
+	const setNeedRefresh = jest.fn();
 	const productId = "product_id";
 
 	it("Render without error", () => {
@@ -11,6 +12,7 @@ describe("SmallModal", () => {
 				toggleModal={toggleModalMock}
 				accountModalKey="archive-product"
 				productId={productId}
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 		expect(screen.getByText("×")).toBeInTheDocument(); // Close button
@@ -21,6 +23,7 @@ describe("SmallModal", () => {
 				toggleModal={toggleModalMock}
 				accountModalKey="delete-product"
 				productId={productId}
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 		expect(screen.getByText("×")).toBeInTheDocument(); // Close button
@@ -31,6 +34,7 @@ describe("SmallModal", () => {
 				toggleModal={toggleModalMock}
 				accountModalKey="unarchive-product"
 				productId={productId}
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 		expect(screen.getByText("×")).toBeInTheDocument(); // Close button
@@ -42,6 +46,7 @@ describe("SmallModal", () => {
 				toggleModal={toggleModalMock}
 				accountModalKey="archive-product"
 				productId={productId}
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -56,6 +61,7 @@ describe("SmallModal", () => {
 				toggleModal={toggleModalMock}
 				accountModalKey="archive-product"
 				productId={productId}
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 		const modal = screen.getByTestId("modal-backdrop");

@@ -5,6 +5,7 @@
 }
 .create-user-header .refresh-icon:hover {
 	cursor: pointer;
+	color: rgb(70, 148, 173);
 }
 .create-user form {
 	display: flex;

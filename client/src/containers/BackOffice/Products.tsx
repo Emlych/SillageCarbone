@@ -1,5 +1,10 @@
 /** Backoffice Products Container : display all products with filter */
-import { faBoxOpen, faHashtag, faTag } from "@fortawesome/free-solid-svg-icons";
+import {
+	faBoxOpen,
+	faHashtag,
+	faRefresh,
+	faTag,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
 // Components
@@ -11,20 +16,28 @@ import { ToastContainer, toast } from "react-toastify";
 import { fetchProducts } from "../../services/productService";
 import { ProductWithCO2 } from "../../dto/ProductDto";
 import SmallModal from "../../pages/SmallModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type BackofficeProductComponentsProps = {
 	archivedProducts?: boolean;
 };
 
 const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
-	// User data loaded
+	// -- User data loaded
 	const [isLoading, setIsLoading] = useState(true);
 
-	// Search filter: set the filter parameters (params) of product name, start and finish dates
-	const [params, setParams] = useState({
-		name: "",
-		company: "",
-	});
+	// -- Page needs to be refreshed
+	const [needRefresh, setNeedRefresh] = useState(false);
+
+	/** Refresh page */
+	const refreshPage = () => {
+		setNeedRefresh(false);
+		window.location.reload();
+	};
+
+	// -- Filters state
+	const [params, setParams] = useState({ name: "", company: "" });
+	/** Search filter: set the filter parameters (params) of product name, start and finish dates */
 	const handleFilterInput = (
 		event: React.ChangeEvent<HTMLInputElement>,
 		type: "product-name" | "company"
@@ -51,12 +64,12 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 		setParams(newParams);
 	};
 
-	// Limit quantity of users per page
+	// -- Limit quantity of users per page
 	const [page, setPage] = useState<number>(1);
 	const [limitPerPage, setLimitPerPage] = useState<number>(4);
 	const [maxNumberOfPages, setMaxNumberOfPages] = useState<number>(1);
 
-	// On update of filter params, update user data to display
+	// -- On update of filter params, update user data to display
 	const [products, setProducts] = useState<ProductWithCO2[]>();
 	useEffect(() => {
 		const fetchAndFilterProductsData = async (params: {
@@ -87,7 +100,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 		fetchAndFilterProductsData(params);
 	}, [params, page, limitPerPage, archivedProducts]);
 
-	// Toggle modals for detailed product, archive or deletion
+	// -- Toggle modals for detailed product, archive or deletion
 	const [detailModalIsOpen, setDetailModalOpen] = useState(false);
 	const [archiveModalIsOpen, setArchiveModalIsOpen] = useState(false);
 	const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
@@ -106,21 +119,30 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 		}
 	};
 
-	// Open action modal and pass product _id in it
+	//--  Open action modal and pass product _id in it
 	const [idProductWithAction, setIdProductWithAction] = useState("");
 	const openConfirmActionModal = (
-		_id: string,
+		_id: string, // -- id of product concerned by modification
 		actionType: "archive" | "delete" | "unarchive" | "detail"
 	) => {
 		if (_id) {
-			toggleActionModal(actionType);
+			toggleActionModal(actionType); // Change state of modalIsOpen
 			setIdProductWithAction(_id); // Store in state the id of product on which to apply action
 		}
 	};
 
 	return (
 		<div>
-			<h2>Liste des produits {archivedProducts && "archivés"}</h2>
+			<div className="backoffice-header">
+				<h2>Liste des produits {archivedProducts && "archivés"}</h2>
+				{needRefresh && (
+					<FontAwesomeIcon
+						icon={faRefresh}
+						className="refresh-icon"
+						onClick={refreshPage}
+					/>
+				)}
+			</div>
 
 			<p>Filtrer par : </p>
 
@@ -213,6 +235,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 							toggleModal={() => toggleActionModal("archive")}
 							accountModalKey="archive-product"
 							productId={idProductWithAction}
+							setNeedRefresh={setNeedRefresh}
 						/>
 					)}
 					{/* Modal for product deletion */}
@@ -221,6 +244,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 							toggleModal={() => toggleActionModal("delete")}
 							accountModalKey="delete-product"
 							productId={idProductWithAction}
+							setNeedRefresh={setNeedRefresh}
 						/>
 					)}
 					{/* Modal for product unarchive */}
@@ -229,6 +253,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 							toggleModal={() => toggleActionModal("unarchive")}
 							accountModalKey="unarchive-product"
 							productId={idProductWithAction}
+							setNeedRefresh={setNeedRefresh}
 						/>
 					)}
 					<PageFooter page={page} maxNumberOfPages={maxNumberOfPages} setPage={setPage} />

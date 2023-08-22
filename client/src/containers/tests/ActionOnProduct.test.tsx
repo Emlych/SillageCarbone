@@ -9,6 +9,8 @@ jest.mock("../../services/productService", () => ({
 }));
 
 describe("ActionOnProduct component", () => {
+	const setNeedRefresh = jest.fn();
+
 	it("handles archive action correctly", async () => {
 		const toggleModalMock = jest.fn();
 		render(
@@ -16,6 +18,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="archive"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -38,6 +41,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="delete"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -60,6 +64,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="unarchive"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -82,6 +87,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="unarchive"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -105,6 +111,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="delete"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -136,6 +143,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="archive"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 
@@ -167,6 +175,7 @@ describe("ActionOnProduct component", () => {
 				toggleModal={toggleModalMock}
 				_id="product-id"
 				actionType="unarchive"
+				setNeedRefresh={setNeedRefresh}
 			/>
 		);
 

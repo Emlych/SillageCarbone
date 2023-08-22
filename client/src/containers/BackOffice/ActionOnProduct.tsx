@@ -7,8 +7,14 @@ export type ActionOnProductProps = {
 	toggleModal: Function;
 	_id: string; //id of product to delete
 	actionType: ActionType;
+	setNeedRefresh: Function; // Set value of needRefresh if action is successful
 };
-const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps) => {
+const ActionOnProduct = ({
+	toggleModal,
+	_id,
+	actionType,
+	setNeedRefresh,
+}: ActionOnProductProps) => {
 	/** Delete product by providing its id */
 	const deleteProductService = async () => {
 		try {
@@ -40,9 +46,9 @@ const ActionOnProduct = ({ toggleModal, _id, actionType }: ActionOnProductProps)
 				archiveProductService(false);
 			}
 
-			// Close modal and refresh page
+			// Close modal and authorize refresh page
 			toggleModal();
-			window.location.reload();
+			setNeedRefresh(true);
 		} catch (error) {
 			console.error(error);
 		}
