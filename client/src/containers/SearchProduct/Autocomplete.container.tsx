@@ -45,7 +45,6 @@ const Autocomplete = () => {
 	const productCache = useMemo<ProductCache>(() => {
 		const cache: ProductCache = {};
 		if (products) {
-			console.log("y a til des produits ");
 			products.forEach((product) => {
 				product.keywords =
 					formatTextToString(product.name) + " " + formatTextToString(product.company);

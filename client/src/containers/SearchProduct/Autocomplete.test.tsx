@@ -137,7 +137,6 @@ describe("Autocomplete component", () => {
 				product.keywords = keywords;
 				productCache[product._id] = product;
 			});
-			console.log("product cache ", productCache);
 			// Check that the productCache is populated correctly
 			expect(productCache).toEqual(expect.objectContaining(productCache));
 		});

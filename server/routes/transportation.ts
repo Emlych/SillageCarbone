@@ -14,10 +14,8 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 				token: adminTokenRegistered.replace("Bearer ", ""),
 			});
 			if (isAdmin) {
-				console.log("i am admin");
 				next();
 			} else {
-				console.log("not admin");
 				throw new Error("Unauthorized to access these informations");
 			}
 		}

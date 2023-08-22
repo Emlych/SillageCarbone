@@ -247,11 +247,6 @@ export const createNewTransportation = async (
 		if (!newTransportation || !carbonCoef) {
 			throw new Error("Missing field");
 		}
-		console.log("url", url);
-		console.log("newTransportation", newTransportation);
-		console.log("carbonCoef", carbonCoef);
-
-		console.log("adminToken", adminToken);
 
 		// send transportation to server
 		const response = await axios.post(
@@ -264,9 +259,6 @@ export const createNewTransportation = async (
 				headers: { authorization: `Bearer ${adminToken}` },
 			}
 		);
-
-		console.log("response ");
-		console.log("response here", response.data);
 
 		if (!response.data) {
 			throw new Error("Transportation could not be created");
