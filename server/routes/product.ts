@@ -327,7 +327,7 @@ router.post(
 
 			// -- Calculate co2 transportation coefficient
 			const transportationCoef = transportation.carbonCoefficient;
-			const co2 = transportationCoef * defaultDistance;
+			const co2 = (transportationCoef * defaultDistance).toFixed(2);
 
 			// -- Check if transportation already exists, if not create it
 			let originHarbour = await Harbour.findOne({
