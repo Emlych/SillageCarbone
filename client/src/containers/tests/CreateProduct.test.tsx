@@ -70,7 +70,7 @@ describe("CreateProduct Container", () => {
 	// 	// -- COMPLETE TEST HERE
 	// });
 
-	it.skip("On handleFormSubmit fetchData success, display toast with ok message", async () => {
+	it("On handleFormSubmit fetchData success, display toast with ok message", async () => {
 		// Mock useState to track setMail function
 		const setState = jest.fn();
 		const useStateMock: any = (initialState: any) => [initialState, setState];
@@ -94,9 +94,11 @@ describe("CreateProduct Container", () => {
 		(createProduct as jest.Mock).mockResolvedValue({ success: true, data: mockProduct });
 		render(<CreateProduct />);
 
-		// Fill in form fields (you can mock the input change for these fields as you did before)
+		// Fill in form fields
 		const nameInput = screen.getByTestId("name") as HTMLInputElement;
 		fireEvent.change(nameInput, { target: { value: mockProduct.name } });
+		expect(setState).toHaveBeenCalledWith(mockProduct.name);
+		//TODO correct behaviour avec setProductName
 		expect(nameInput.value).toBe(mockProduct.name);
 
 		// Simulate form submission
@@ -116,7 +118,12 @@ describe("CreateProduct Container", () => {
 		});
 	});
 
-	it.skip("Form submission works with toast error", async () => {
+	it("Form submission works with toast error", async () => {
+		// Mock useState to track setMail function
+		const setState = jest.fn();
+		const useStateMock: any = (initialState: any) => [initialState, setState];
+		jest.spyOn(React, "useState").mockImplementation(useStateMock);
+
 		(createProduct as jest.Mock).mockResolvedValue({ success: false, data: null });
 		render(<CreateProduct />);
 
