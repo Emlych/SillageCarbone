@@ -1,5 +1,11 @@
 /** Backoffice Products Tags : manage transportation, product types, companies, ...*/
-import { faPen, faShip, faSmog, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+	faPen,
+	faShip,
+	faSmog,
+	faTrash,
+	faRefresh,
+} from "@fortawesome/free-solid-svg-icons";
 import Input from "../../components/Input";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -20,11 +26,19 @@ const ProductTags = () => {
 	const [allTransportations, setAllTransportations] = useState<Transportation[] | null>(
 		null
 	);
+	// -- Page needs to be refreshed
+	const [needRefresh, setNeedRefresh] = useState(false);
 
 	/** Initialize form */
 	const initForm = () => {
 		setNewTransportation("");
 		setCarbonCoef(1);
+	};
+
+	/** Refresh page */
+	const refreshPage = () => {
+		setNeedRefresh(false);
+		window.location.reload();
 	};
 
 	/** Create transportation */
@@ -37,7 +51,7 @@ const ProductTags = () => {
 					createNewTransportation(newTransportation, carbonCoef);
 					toast(`Transport ${newTransportation} créé `);
 					initForm();
-					window.location.reload();
+					setNeedRefresh(true);
 				} else {
 					throw new Error("Check type of carbonCoef");
 				}
@@ -80,7 +94,16 @@ const ProductTags = () => {
 		<div>
 			<h2>Gestion des catégories</h2>
 			<div className="create-user">
-				<h3>Types de transports</h3>
+				<div className="create-user-header">
+					<h3>Types de transports</h3>
+					{needRefresh && (
+						<FontAwesomeIcon
+							icon={faRefresh}
+							className="refresh-icon"
+							onClick={refreshPage}
+						/>
+					)}
+				</div>
 
 				<form data-test-id="manage-tags" onSubmit={createTransportation}>
 					<div>
@@ -143,6 +166,7 @@ const ProductTags = () => {
 								<div className="icon-container">
 									<FontAwesomeIcon
 										icon={faPen}
+										//TODO implement modify transport coefficient (not name)
 										onClick={() => console.log("modify transport for", item._id)}
 									/>
 								</div>

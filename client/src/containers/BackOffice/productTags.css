@@ -1,11 +1,16 @@
-.create-user h3 {
-	margin-bottom: 30px;
-	margin-top: 10px;
+.create-user-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.create-user-header .refresh-icon:hover {
+	cursor: pointer;
 }
 .create-user form {
 	display: flex;
 	align-items: flex-end;
 	gap: 20px;
+	margin-left: 10px;
 }
 
 .create-user form .button-container {
