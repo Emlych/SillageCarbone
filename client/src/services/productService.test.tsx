@@ -445,19 +445,18 @@ describe("createNewTransportation", () => {
 	it("Create a new transportation successfully", async () => {
 		const newTransportation = "Car";
 		const carbonCoef = 1.5;
+		const mockTransportation = {
+			transportation: newTransportation,
+			carbonCoefficient: carbonCoef,
+		};
 		const responseData = {
 			_id: "valid_id",
-			mail: "test@example.com",
-			token: "valid_token",
+			name: newTransportation,
+			carbonCoefficient: carbonCoef,
 		};
 		const url = `${urlBase}/product/transportation/create`;
 		// Mock the successful post request
-		mock
-			.onPost(url, {
-				transportation: newTransportation,
-				carbonCoefficient: carbonCoef,
-			})
-			.reply(200, responseData);
+		mock.onPost(url, mockTransportation).reply(200, responseData);
 		const result = await createNewTransportation(newTransportation, carbonCoef);
 		expect(result).toEqual(responseData);
 	});
