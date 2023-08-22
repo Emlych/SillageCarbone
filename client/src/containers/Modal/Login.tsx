@@ -53,6 +53,7 @@ const Login = ({
 				const isAdmin = searchedUser.userType === UserType.Admin;
 				createToken(searchedUser.token, searchedUser.mail, isAdmin);
 				toggleModal();
+				window.location.reload();
 			} catch (error) {
 				setErrorMessage("Email ou mot de passe incorrect(s).");
 			}

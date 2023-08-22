@@ -48,6 +48,7 @@ const Signup = ({
 				createUser(mail, password).then((userData) => {
 					createToken(userData.token, userData.mail, false);
 					toggleModal();
+					window.location.reload(); // Reload page to take into account token
 				});
 			} catch (error: any) {
 				throw new Error("Vous n'êtes pas autorisé à vous connecter.");
