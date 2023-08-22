@@ -34,10 +34,12 @@ describe("Login", () => {
 		setComponentKeyName: mockSetComponentKeyName,
 	};
 
+	const mockMailValue = "test@example.com";
+	const mockPasswordValue = "password123";
+
 	it("Update mail input value", () => {
 		render(<Login {...defaultProps} />);
 		const mailInput = screen.getByTestId("mail");
-		const mockMailValue = "test@example.com";
 		fireEvent.change(mailInput, { target: { value: mockMailValue } });
 		expect(mockSetMail).toHaveBeenCalledWith(mockMailValue);
 	});
@@ -45,7 +47,6 @@ describe("Login", () => {
 	it("Update password input value", () => {
 		render(<Login {...defaultProps} />);
 		const passwordInput = screen.getByTestId("password");
-		const mockPasswordValue = "password123";
 		fireEvent.change(passwordInput, { target: { value: mockPasswordValue } });
 		expect(mockSetPassword).toHaveBeenCalledWith(mockPasswordValue);
 	});
@@ -119,7 +120,7 @@ describe("Login", () => {
 		render(
 			<Login
 				toggleModal={jest.fn()}
-				mail="mock@mail.com"
+				mail={mockUserData.mail}
 				setMail={() => {}}
 				password="randomPassword"
 				setPassword={() => {}}
