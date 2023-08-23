@@ -150,7 +150,6 @@ export const getCarousselProducts = async (req: Request, res: Response) => {
 			);
 
 			// -- Send response to front
-			console.info("products array ", products);
 			res.json({ count: similarProductsIds.length, products: products });
 		}
 	} catch (error: any) {

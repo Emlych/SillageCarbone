@@ -5,12 +5,12 @@ const options = {
 	info: {
 		version: "1.0.0",
 		title: "Sillage carbone",
-		description: "",
+		description: "Backend routes",
 	},
 	baseDir: __dirname,
 	filesPattern: ["../routes/*.ts", "../models/*.ts", "../controllers/*.ts"],
 	// Doc URL
-	swaggerUIPath: "/api-docs", //process.env.API_DOCUMENTATION_ROUTE,
+	swaggerUIPath: "/api-docs",
 	// Serve API doc
 	exposeApiDocs: true,
 	apiDocsPath: "/api/docs",

@@ -62,12 +62,20 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
  * @summary Provide id to return all data on a product route
  * @tags product
  * @param {number} _id.path.required - Product ID
- * @return {product: product} 200 - success response - application/json
+ * @return {object} 200 - success response - application/json
  * @return {object} 404 - Product not found
  */
 router.get("/product/:_id", getProductById);
 
-/** Get all products with filter route */
+/**
+ * GET /products
+ * @summary Get all products with filter route
+ * @tags product
+ * @param {string} type.query.required - Product type for filtering
+ * @param {string} excludeId.query.required - ID of the product to exclude from results
+ * @return {object} 200 - Success response with carousel products and count
+ * @return {object}  400 - Bad request, missing queries or error message
+ */
 router.get("/products", isAdmin, getProducts);
 
 /** Get all products with filter route */
