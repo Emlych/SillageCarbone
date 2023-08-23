@@ -42,6 +42,13 @@ export const fetchUsers = async (
 	}
 };
 
+/**
+ * Create user
+ * @param mail
+ * @param password
+ * @param userRole
+ * @returns
+ */
 export const createUser = async (
 	mail: string,
 	password: string,
@@ -53,9 +60,7 @@ export const createUser = async (
 		if (!mail || !password) {
 			throw new Error("Missing field");
 		}
-
 		const response = await axios.post(url, { mail, password, userRole });
-
 		if (!response.data) {
 			throw new Error("User could not be created");
 		}

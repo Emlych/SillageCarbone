@@ -45,13 +45,20 @@ const Signup = ({
 
 		const fetchData = async () => {
 			try {
-				createUser(mail, password).then((userData) => {
-					createToken(userData.token, userData.mail, false);
-					toggleModal();
-					window.location.reload(); // Reload page to take into account token
-				});
+				const userData = await createUser(mail, password);
+				createToken(userData.token, userData.mail, false);
+				toggleModal();
+				window.location.reload(); // Reload page to take into account token
 			} catch (error: any) {
-				throw new Error("Vous n'êtes pas autorisé à vous connecter.");
+				if (
+					error.response &&
+					error.response.data &&
+					error.response.data.message === "User already exists"
+				) {
+					setErrorMessage("Ce compte existe déjà.");
+				} else {
+					setErrorMessage("Erreur dans la création du compte.");
+				}
 			}
 		};
 
