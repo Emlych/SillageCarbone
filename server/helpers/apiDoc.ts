@@ -9,9 +9,9 @@ const options = {
 	},
 	baseDir: __dirname,
 	filesPattern: [
-		`${__dirname}/server/routes/*.ts`,
-		`${__dirname}/server/models/*.ts`,
-		`${__dirname}/server/controllers/*.ts`,
+		`${__dirname}/routes/*.ts`,
+		`${__dirname}/models/*.ts`,
+		`${__dirname}/controllers/*.ts`,
 	],
 	// Doc URL
 	swaggerUIPath: "/api-docs",
@@ -19,6 +19,7 @@ const options = {
 	exposeApiDocs: true,
 	apiDocsPath: "/api/docs",
 };
+///app/dist/server/helpers
 
 /**
  *
