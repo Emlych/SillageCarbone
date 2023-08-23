@@ -127,3 +127,10 @@
 	flex: 1;
 	max-width: 100%;
 }
+.backoffice-components .custom-input-dropdown {
+	padding-left: 10px;
+	padding-top: 2px;
+}
+.backoffice-components .custom-input-dropdown:hover {
+	cursor: pointer;
+}

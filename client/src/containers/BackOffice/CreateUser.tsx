@@ -104,10 +104,11 @@ const CreateUser = () => {
 						<FontAwesomeIcon icon={faUserAstronaut} />
 					</label>
 
-					{showDropdown && <Dropdown<UserType> {...MapContentUserTypeProps} />}
-
 					<div>
-						{userRole === UserType.ConnectedUser ? "Utilisateur connecté" : "Admin"}
+						<div className="custom-input-dropdown">
+							▼ {userRole === UserType.ConnectedUser ? "Utilisateur connecté" : "Admin"}
+						</div>
+						{showDropdown && <Dropdown<UserType> {...MapContentUserTypeProps} />}
 					</div>
 				</div>
 
