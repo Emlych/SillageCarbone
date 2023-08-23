@@ -127,10 +127,18 @@
 	flex: 1;
 	max-width: 100%;
 }
-.backoffice-components .custom-input-dropdown {
+.backoffice-components .custom-input-dropdown,
+.custom-input-dropdown-transportation {
 	padding-left: 10px;
+}
+.backoffice-components .custom-input-dropdown {
 	padding-top: 2px;
 }
-.backoffice-components .custom-input-dropdown:hover {
+.backoffice-components .custom-input-dropdown-transportation {
+	padding-top: 8px;
+}
+
+.backoffice-components .custom-input-dropdown:hover,
+.backoffice-components .custom-input-dropdown-transportation:hover {
 	cursor: pointer;
 }

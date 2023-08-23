@@ -206,10 +206,9 @@ const CreateProduct = () => {
 						<FontAwesomeIcon icon={faShip} />
 					</label>
 					<div>
+						<div className="custom-input-dropdown-transportation">▼ {transportation}</div>
 						{showDropdown && <Dropdown<string> {...MapContentTransportationProps} />}
 					</div>
-
-					<div>{transportation}</div>
 				</div>
 
 				<label htmlFor="file" className="">
