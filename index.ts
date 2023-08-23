@@ -12,7 +12,7 @@ export const sillageApp: Express = express();
 sillageApp.use(cors());
 
 /** API documentation: needs to be disabled for prod - but no prod for titre */
-require("./helpers/apiDoc")(sillageApp);
+// require("./helpers/apiDoc")(sillageApp);
 
 /** Use middleware to parse incoming requests with JSON payloads */
 sillageApp.use(express.json());
