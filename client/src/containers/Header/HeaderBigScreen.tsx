@@ -30,10 +30,12 @@ const HeaderBigScreen = ({
 						</Link>
 					</div>
 				)}
-				{adminToken && <Link to={"/backoffice"}>Backoffice</Link>}
 			</div>
 
 			<div id="header-right">
+				{/* Backoffice link */}
+				{adminToken && <Link to={"/backoffice"}>Backoffice</Link>}
+
 				{/* Deconnexion or Connexion */}
 				{userToken || adminToken ? (
 					<button

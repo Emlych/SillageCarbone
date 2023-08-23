@@ -45,6 +45,7 @@ ul {
 		text-align: center;
 		-webkit-appearance: none;
 		-moz-appearance: none;
+		padding-left: 15px;
 	}
 
 	#header-right:hover {
