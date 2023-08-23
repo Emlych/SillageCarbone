@@ -32,8 +32,10 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
-		"test:product": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\" --testPathPattern=src/services/productService.test.tsx",
-		"eject": "react-scripts eject"
+		"test:product": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\" --testPathPattern=src/containers/tests/Login.test.tsx",
+		"eject": "react-scripts eject",
+		"coverage": "react-scripts test --coverage --watchAll=false --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+		"coverage:product": "react-scripts test --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\" --testPathPattern=src/containers/tests/Login.test.tsx"
 	},
 	"eslintConfig": {
 		"extends": [
