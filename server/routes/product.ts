@@ -57,7 +57,14 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-/** Provide id to return all data on a product route */
+/**
+ * GET /product/:_id
+ * @summary Provide id to return all data on a product route
+ * @tags product
+ * @param {number} _id.path.required - Product ID
+ * @return {product: product} 200 - success response - application/json
+ * @return {object} 404 - Product not found
+ */
 router.get("/product/:_id", getProductById);
 
 /** Get all products with filter route */
