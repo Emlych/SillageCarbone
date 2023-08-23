@@ -12,10 +12,15 @@ import {
 	faWarehouse,
 } from "@fortawesome/free-solid-svg-icons";
 import { DetailedProduct } from "../../dto/ProductDto";
+import Cookies from "js-cookie";
 
 const ProductCard = ({ product }: { product: DetailedProduct }) => {
 	// State to track whether the product is marked as favorite (version 2)
 	const [isFav, setIsFav] = useState(false);
+
+	// Check if user is connected to access to favorite button
+	const userToken = Cookies.get("userToken");
+
 	const productName = capitalizeFirstLetter(product.name);
 
 	return (
@@ -44,11 +49,13 @@ const ProductCard = ({ product }: { product: DetailedProduct }) => {
 					<div className="product-picture">
 						<img src={product.imgUrl} alt="" />
 					</div>
-					<Button
-						buttonText={isFav ? "Ajouter aux favoris" : "Retirer des favoris"}
-						buttonType="button"
-						callback={() => setIsFav(!isFav)}
-					/>
+					{userToken && userToken.length > 0 && (
+						<Button
+							buttonText={isFav ? "Ajouter aux favoris" : "Retirer des favoris"}
+							buttonType="button"
+							callback={() => setIsFav(!isFav)}
+						/>
+					)}
 				</div>
 			</div>
 		</div>
