@@ -15,7 +15,7 @@ const Caroussel = ({ products }: { products: CarousselProduct[] }) => {
 
 	return (
 		<div className="caroussel">
-			<div>ALTERNATIVES</div>
+			<h2>Alternatives</h2>
 			<div className="carousselCards">
 				{/* Mapping through the products array to render each product card */}
 				{products.map((product) => (
