@@ -63,6 +63,16 @@ git clone https://github.com/Emlych/SillageCarbone
 - **Crypto-js**: A library for cryptographic functions and utilities in JavaScript.
 - **Express-jsdoc-swagger**: A tool for generating API documentation from JSDoc comments.
 
+## Contribution
+
+Contributions are welcome! To contribute to the Sillage Carbone web app:
+
+1. Fork this repository.
+2. Create a new branch: git checkout -b feature/your-feature-name
+3. Make your changes and commit them: git commit -m 'Add some feature'
+4. Push to the branch: git push origin feature/your-feature-name
+5. Create a pull request.
+
 ```
 SillageCarbone
 ├─ .git
