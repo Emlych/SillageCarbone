@@ -50,6 +50,10 @@ export const fetchSimilarProducts = async (productType: string, excludeId: strin
 	}
 };
 
+/**
+ * Fetch all products and return name, company and id
+ * @returns Products data : name, company and id
+ */
 export const fetchProductsForCache = async () => {
 	const url = `${urlBase}/products/cache`;
 	try {
@@ -63,6 +67,15 @@ export const fetchProductsForCache = async () => {
 	}
 };
 
+/**
+ * Fetch products with filter (see params)
+ * @param name
+ * @param company
+ * @param limitPerPage
+ * @param page
+ * @param archivedProducts
+ * @returns
+ */
 export const fetchProducts = async (
 	name: string,
 	company: string,
@@ -103,6 +116,20 @@ export const fetchProducts = async (
 	}
 };
 
+/**
+ * Create product
+ * @param name
+ * @param company
+ * @param type
+ * @param originCity
+ * @param originCountry
+ * @param destinationCity
+ * @param destinationCountry
+ * @param transportation
+ * @param description
+ * @param picture
+ * @returns success status (boolean) and data object
+ */
 export const createProduct = async (
 	name: string,
 	company: string,
@@ -167,6 +194,11 @@ export const createProduct = async (
 	}
 };
 
+/**
+ * Delete a product by passing its id
+ * @param _id
+ * @returns
+ */
 export const deleteProduct = async (_id: string) => {
 	const url = `${urlBase}/product/delete`;
 
@@ -197,6 +229,12 @@ export const deleteProduct = async (_id: string) => {
 	}
 };
 
+/**
+ * Archive a product
+ * @param _id
+ * @param archiveStatus
+ * @returns
+ */
 export const archiveProduct = async (_id: string, archiveStatus: boolean) => {
 	const url = `${urlBase}/product/archive`;
 
@@ -231,6 +269,12 @@ export const archiveProduct = async (_id: string, archiveStatus: boolean) => {
 	}
 };
 
+/**
+ * Create a new transportation
+ * @param newTransportation
+ * @param carbonCoef
+ * @returns
+ */
 export const createNewTransportation = async (
 	newTransportation: string,
 	carbonCoef: number
@@ -269,6 +313,10 @@ export const createNewTransportation = async (
 	}
 };
 
+/**
+ * Fetch transportations
+ * @returns
+ */
 export const fetchTransportations = async (): Promise<Transportation[]> => {
 	const url = `${urlBase}/transportations`;
 
@@ -293,6 +341,11 @@ export const fetchTransportations = async (): Promise<Transportation[]> => {
 	}
 };
 
+/**
+ * Delete transportation
+ * @param _id
+ * @returns
+ */
 export const deleteTransportation = async (_id: string) => {
 	const url = `${urlBase}/transportation/delete`;
 
