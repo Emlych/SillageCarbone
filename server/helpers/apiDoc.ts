@@ -8,7 +8,11 @@ const options = {
 		description: "Backend routes",
 	},
 	baseDir: __dirname,
-	filesPattern: ["../routes/*.ts", "../models/*.ts", "../controllers/*.ts"],
+	filesPattern: [
+		"./server/routes/*.ts",
+		"./server/models/*.ts",
+		"./server/controllers/*.ts",
+	],
 	// Doc URL
 	swaggerUIPath: "/api-docs",
 	// Serve API doc
