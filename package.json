@@ -4,6 +4,7 @@
 	"description": "Sillage Carbone project",
 	"main": "index.js",
 	"scripts": {
+		"build": "npx tsc",
 		"start": "node dist/index.js",
 		"postinstall": "tsc",
 		"watch-node": "nodemon dist/index.js",
