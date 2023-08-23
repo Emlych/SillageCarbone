@@ -21,4 +21,7 @@ const options = {
  * @param {express.Application} app Express application
  * @returns {object} Express JSDoc Swagger middleware that create web documentation
  */
-module.exports = (app: express.Application) => expressJSDocSwagger(app)(options);
+const createSwaggerMiddleware = (app: express.Application) =>
+	expressJSDocSwagger(app)(options);
+
+export default createSwaggerMiddleware;

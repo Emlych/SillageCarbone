@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { Express } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import createSwaggerMiddleware from "./server/helpers/apiDoc";
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ export const sillageApp: Express = express();
 sillageApp.use(cors());
 
 /** API documentation: needs to be disabled for prod - but no prod for titre */
-// require("./helpers/apiDoc")(sillageApp);
+createSwaggerMiddleware(sillageApp);
 
 /** Use middleware to parse incoming requests with JSON payloads */
 sillageApp.use(express.json());
