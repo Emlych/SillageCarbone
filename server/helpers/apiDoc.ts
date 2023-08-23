@@ -8,11 +8,7 @@ const options = {
 		description: "Backend routes",
 	},
 	baseDir: __dirname,
-	filesPattern: [
-		`${__dirname}/routes/*.ts`,
-		`${__dirname}/models/*.ts`,
-		`${__dirname}/controllers/*.ts`,
-	],
+	filesPattern: [`../routes/*.ts`, `../models/*.ts`, `../controllers/*.ts`],
 	// Doc URL
 	swaggerUIPath: "/api-docs",
 	// Serve API doc
@@ -27,7 +23,7 @@ const options = {
  * @returns {object} Express JSDoc Swagger middleware that create web documentation
  */
 const createSwaggerMiddleware = (app: express.Application) => {
-	console.info("dir name is ", __dirname);
+	console.info(`${__dirname}/routes/*.ts`);
 	expressJSDocSwagger(app)(options);
 };
 
