@@ -1,12 +1,67 @@
-##SILLAGE CARBONE
+# Sillage Carbone web app
 
-Sillage Carbone is a project launched as part of the 2022 Ocean Hackathon, to address the lack of tools to quantify the carbon footprint of product transportation, despite 90% of freight volumes being transported by sea.
+**Sillage Carbone** is a project launched to address the lack of tools to quantify the carbon footprint of product transportation.
 
 This project involves the development of a website using React and a mobile Yuka-like application using React Native. Its primary objective is to empower users to easily search for information regarding the carbon footprint of product’s maritime journey. This can be done either through entering keywords in a search bar or by scanning the product’s barcode.
 
 This approach enables consumers to make informed decisions based on the environmental impact of their purchases, promoting a more sustainable and eco-conscious lifestyle. This project’s approach aligns with the growing need for eco-responsible practices, as the transportation industry plays a significant role in global carbon emissions. Sillage Carbone recognizes the crucial role of maritime transportation in climate change and aims to fill the information gap by delivering accessible tools for quantifying carbon footprints. By bridging this knowledge gap, the project contributes to raising awareness and promoting a greener future.
 
 The development of a React-based website ensures a seamless user experience, with intuitive navigation and efficient data retrieval. The React Native mobile application expands the project's accessibility, allowing users to access the carbon footprint database on-the-go and easily scan products while shopping.
+
+## Features
+
+- **Search Product Shipping Carbon Footprint**: Enter products name a/o company to get information about their environmental impact.
+- **Suggest Smilar Products**: Products of same type with different carbon footprint are suggested as alternatives.
+- **Project Information**: Access information about the Sillage Carbone project, its goals, and methods.
+- **Account Management**: Manage your account, preferences, and settings (needs to be implemented)
+- **User-Friendly Interface**: Intuitive UI/UX design for seamless navigation and engagement.
+- **Backoffice**: To manage users and products.
+
+## Installation
+
+1. Clone this repository to your local machine.
+
+```bash
+git clone https://github.com/Emlych/SillageCarbone
+```
+
+2. Navigate to the project directory.
+
+```bash
+ cd SillageCarbone
+```
+
+3. Install the required dependencies.
+
+```bash
+ npm install
+```
+
+4. Start the development server.
+
+```bash
+ npm start
+```
+
+## Technologies Used
+
+- **React**: A JavaScript library for building native mobile applications.
+- **react-router-dom**: A library for routing and navigation in React applications.
+- **js-cookie**: A JavaScript library for handling cookies.
+- **jest**: A JavaScript testing framework.
+- **eslint**: A pluggable JavaScript linter for identifying and fixing code issues.
+- **react-toastify**:A notification library for React applications.
+
+- **Express**: A minimal web application framework for Node.js to handle server-side operations.
+- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **MongoDB**: A NoSQL database system for storing and managing data.
+- **Express-validator**: Middleware for validating and sanitizing input data in Express.
+
+- **Cloudinary**: A cloud-based media management platform for image and video uploads.
+- **Multer**: A middleware for handling multipart/form-data, commonly used for file uploads.
+- **Cors**: A package to enable Cross-Origin Resource Sharing for handling API requests securely.
+- **Crypto-js**: A library for cryptographic functions and utilities in JavaScript.
+- **Express-jsdoc-swagger**: A tool for generating API documentation from JSDoc comments.
 
 ```
 SillageCarbone
