@@ -15,6 +15,7 @@ const HeaderSmallScreen = ({
 }: SpecificHeaderConnexionProps) => {
 	/** Retrieve existing token */
 	const userToken = Cookies.get("userToken");
+	const adminToken = Cookies.get("adminToken");
 
 	/** For smaller screens : open or close burger */
 	const [openBurger, setopenBurger] = useState(false);
@@ -29,11 +30,17 @@ const HeaderSmallScreen = ({
 					SillageCarbone
 				</Link>
 
-				{userToken ? (
+				{userToken && (
 					<button className="menu-icon" onClick={toggleBurgerMenu}>
 						<FontAwesomeIcon icon={!openBurger ? faBars : faXmark} />
 					</button>
-				) : (
+				)}
+
+				{/* Backoffice link */}
+				{adminToken && <Link to={"/backoffice"}>Backoffice</Link>}
+
+				{/* Connexion link */}
+				{!adminToken && !userToken && (
 					<ul className="connexion-nav" onClick={() => toggleModal()}>
 						Connexion
 					</ul>
