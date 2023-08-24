@@ -71,29 +71,85 @@ router.get("/product/:_id", getProductById);
  * GET /products
  * @summary Get all products with filter route
  * @tags product
+ * @param {string} type.query.required - Product type for filtering.
+ * @param {string} name.query - Filter products by name.
+ * @param {string} company.query - Filter products by company.
+ * @param {string} excludeId.query.required - ID of the product to exclude from results.
+ * @return {object} 200 - Success response with filtered products and count.
+ * @return {object} 400 - Bad request, missing queries or error message.
+ */
+router.get("/products", isAdmin, getProducts);
+
+/**
+ * GET /products/caroussel
+ * @summary Get all products of same type
+ * @tags product
  * @param {string} type.query.required - Product type for filtering
  * @param {string} excludeId.query.required - ID of the product to exclude from results
  * @return {object} 200 - Success response with carousel products and count
  * @return {object}  400 - Bad request, missing queries or error message
  */
-router.get("/products", isAdmin, getProducts);
-
-/** Get all products with filter route */
 router.get("/products/caroussel", getCarousselProducts);
 
-/** Get all products without filter route */
+/**
+ * GET /products/cache
+ * @summary Get all products without filter route
+ * @tags product
+ * @return {object} 200 - Success response with products (_id, name, company)
+ * @return {object}  400 - Bad request, error message
+ */
 router.get("/products/cache", getCacheProducts);
 
-/** Get all archived products with filter route */
+/**
+ * GET /products/archived
+ * @summary Get all archived products with filter route
+ * @tags product
+ * @param {string} type.query.required - Product type for filtering.
+ * @param {string} name.query - Filter products by name.
+ * @param {string} company.query - Filter products by company.
+ * @param {string} excludeId.query.required - ID of the product to exclude from results.
+ * @return {object} 200 - Success response with products and count
+ * @return {object}  400 - Bad request, error message
+ */
 router.get("/products/archived", isAdmin, getArchivedProducts);
 
-/** Create a product route */
+/**
+ * POST /product/create
+ * @summary Create a product route
+ * @tags product
+ * @param {string} name.body.required - Name of the product.
+ * @param {string} company.body.required - Company of the product.
+ * @param {string} type.body.required - Product type.
+ * @param {string} transportation.body.required - Transportation method.
+ * @param {string} originCity.body.required - City of origin.
+ * @param {string} originCountry.body.required - Country of origin.
+ * @param {string} destinationCity.body.required - City of destination.
+ * @param {string} destinationCountry.body.required - Country of destination.
+ * @param {string} [description.body] - Description of the product.
+ * @param {file} picture.body - Product image (file upload).
+ * @return {object} 200 - Success response with created product information.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.post("/product/create", isAdmin, multerUpload.array("picture", 1), createProduct);
 
-/** Delete a product route */
+/**
+ * DELETE /product/delete
+ * @summary Delete a product
+ * @tags product
+ * @param {string} _id.query.required - ID of the product to be deleted.
+ * @return {object} 200 - Success response with a message confirming product deletion.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.delete("/product/delete", isAdmin, deleteProduct);
 
-/** Archive a product route */
+/**
+ * PUT /product/archive
+ * @summary Archive a product
+ * @tags product
+ * @param {string} _id.query.required - ID of the product to be archived.
+ * @return {object} 200 - Success response with a message confirming product deletion.
+ * @return {object} 400 - Bad request, missing field or error message.
+ */
 router.put("/product/archive", isAdmin, archiveProduct);
 
 module.exports = router;

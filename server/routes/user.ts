@@ -49,28 +49,95 @@ const validateAndSanitizeInputs = [
 	},
 ];
 
-/** Create admin route (used only once to create one admin acount from login page)*/
+/**
+ * Create admin route (used only once to create one admin account from the login page).
+ * @route POST /user/admin/backoffice
+ * @tags user
+ * @param {string} mail.body.required - Email of the admin user.
+ * @param {string} password.body.required - Password of the admin user.
+ * @return {object} 200 - Success response with admin user information.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.post("/user/admin/backoffice", validateAndSanitizeInputs, createAdminUser);
 
-/** Connexion route : create a new user with token */
+/**
+ * Connexion route: create a new user with a token.
+ * @route POST /user/create
+ * @tags user
+ * @param {string} mail.body.required - Email of the user.
+ * @param {string} password.body.required - Password of the user.
+ * @param {string} userType.body - Type of the user (default is 'ConnectedUser').
+ * @return {object} 200 - Success response with user information.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.post("/user/create", validateAndSanitizeInputs, createUser);
 
-/** Login route : provide mail and password to return */
+/**
+ * Login route: provide email and password to authenticate a user.
+ * @route POST /user/login
+ * @tags user
+ * @param {string} mail.body.required - Email of the user.
+ * @param {string} password.body.required - Password of the user.
+ * @return {object} 200 - Success response indicating authorized login and user information.
+ * @return {object} 500 - Internal server error or error message.
+ */
 router.post("/user/login", loginUser);
 
-/** Get all users - backoffice */
+/**
+ * Get all users - backoffice.
+ * @route GET /users
+ * @tags user
+ * @param {string} mail.query - Filter users by email.
+ * @param {string} start_date.query - Filter users created on or after this date (YYYY-MM-DD).
+ * @param {string} finish_date.query - Filter users created on or before this date (YYYY-MM-DD).
+ * @param {number} page.query - Page number for pagination (default is 1).
+ * @param {number} limit.query - Maximum number of items per page (default is 2).
+ * @return {object} 200 - Success response with user count and information.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.get("/users", isAdmin, getUsers);
 
-/** Update user password */
+/**
+ * Update user password.
+ * @route PUT /user/change-password
+ * @tags user
+ * @param {string} mail.body.required - Email of the user.
+ * @param {string} password.body.required - Current password of the user.
+ * @param {string} newPassword.body.required - New password for the user.
+ * @return {object} 200 - Success response indicating password update and user information.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.put("/user/change-password", isConnectedUser, updateUserPassword);
 
-/** Delete user route */
+/**
+ * Delete user route.
+ * @route DELETE /user/delete
+ * @tags user
+ * @param {string} mail.body.required - Email of the user.
+ * @param {string} password.body.required - Password of the user.
+ * @return {object} 200 - Success response indicating user deletion.
+ * @return {object} 500 - Internal server error or error message.
+ */
 router.delete("/user/delete", isConnectedUser, deleteUser);
 
-/** Delete user as admin route  */
+/**
+ * Delete user as admin route.
+ * @route DELETE /user/admin/delete
+ * @tags user
+ * @param {string} mail.body.required - Email of the user.
+ * @return {object} 200 - Success response indicating user deletion.
+ * @return {object} 500 - Internal server error or error message.
+ */
 router.delete("/user/admin/delete", isAdmin, deleteUserAsAdmin);
 
-/** Provide mail to return creation date of a user route */
+/**
+ * Provide email to return creation date of a user route.
+ * @route GET /user
+ * @tags user
+ * @param {string} userMail.query - Email of the user.
+ * @return {object} 200 - Success response with user information.
+ * @return {object} 400 - Bad request or error message.
+ */
 router.get("/user", getUserInfo);
 
 module.exports = router;
