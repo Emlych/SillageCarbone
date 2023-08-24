@@ -1,5 +1,5 @@
 .searchhero {
-	background-color: lightblue;
+	background-color: #83c6fd;
 	padding-top: 50px;
 	padding-bottom: 40px;
 	display: flex;
@@ -7,7 +7,23 @@
 	align-items: center;
 	justify-content: center;
 	height: 40vh;
+	position: relative;
 }
+
+.searchhero img {
+	position: absolute;
+	left: -10%;
+	height: auto;
+	transform: translateY(-20%);
+	transition: left 0.3s ease-in-out;
+}
+
+.searchhero h2,
+.autocomplete {
+	position: relative;
+	z-index: 1;
+}
+
 .searchhero h2 {
 	margin-bottom: 20px;
 }
@@ -16,11 +32,23 @@
 	.searchhero h2 {
 		max-width: 70%;
 	}
+	.searchhero img {
+		position: absolute;
+		left: -10%;
+		max-width: 90%;
+		transform: translateY(-20%);
+	}
 }
 
 /* For big screens */
 @media (min-width: 680px) {
 	.searchhero h2 {
 		text-align: center;
+	}
+	.searchhero img {
+		position: absolute;
+		left: -10%;
+		max-width: 55%;
+		transform: translateY(-20%);
 	}
 }
