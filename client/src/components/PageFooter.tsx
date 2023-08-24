@@ -30,6 +30,7 @@ const PageFooter = ({ page, maxNumberOfPages, setPage }: PageFooterProps) => {
 			<button
 				onClick={() => changePage("right")}
 				className={page === maxNumberOfPages ? "empty" : "direction-button"}
+				data-testid="next-button"
 			>
 				→
 			</button>
