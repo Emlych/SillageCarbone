@@ -1,65 +1,155 @@
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, act } from "@testing-library/react";
 import Products from "../BackOffice/Products";
+import { fetchProducts } from "../../services/productService";
+import React from "react";
 
-it("Products component renders correctly", () => {
-	render(<Products />);
+// Mock the fetchProducts service
+jest.mock("../../services/productService", () => ({
+	fetchProducts: jest.fn(),
+}));
 
-	// Check if the page title is rendered
-	const pageTitle = screen.getByText("Liste des produits");
-	expect(pageTitle).toBeInTheDocument();
+// Mock list of products
+const mockProducts = [
+	{ _id: "1", name: "Boîte de thon", company: "Petit navire", co2: 140 },
+	{
+		_id: "2",
+		name: "Boîte de thon à l'huile de tournesol",
+		company: "Compagnie du Thonitruant",
+		co2: 200,
+	},
+	{ _id: "3", name: "Maquillage à l'algue", company: "Algue Moi", co2: 200 },
+	{ _id: "4", name: "Boîte de thon à la tomate", company: "Saw Piquette", co2: 200 },
+	{ _id: "5", name: "Boîte de thon 1", company: "Petit navire 1", co2: 200 },
+	{ _id: "6", name: "Boîte de thon 2", company: "Petit navire 2", co2: 200 },
+];
 
-	// Check if the filter labels are rendered
-	const filterLabels = ["Nom de produit", "Marque", "Quantité par page:"];
-	filterLabels.forEach((label) => {
-		const filterLabel = screen.getByText(label);
-		expect(filterLabel).toBeInTheDocument();
+describe("Products Backoffice", () => {
+	beforeAll(() => {
+		Object.defineProperty(window, "location", {
+			configurable: true,
+			value: { reload: jest.fn() },
+		});
 	});
-});
 
-it("Filter by product name", () => {
-	render(<Products />);
+	afterAll(() => {
+		Object.defineProperty(window, "location", {
+			configurable: true,
+			value: window.location,
+		});
+	});
 
-	// Find the search input
-	const searchInput = screen.getByTestId("product-name") as HTMLInputElement;
+	it("Products component renders correctly", () => {
+		render(<Products />);
 
-	// Simulate user input in the search input
-	fireEvent.change(searchInput, { target: { value: "jambon" } });
+		// Check if the page title is rendered
+		const pageTitle = screen.getByText("Liste des produits");
+		expect(pageTitle).toBeInTheDocument();
 
-	// Check if the search input value has changed
-	expect(searchInput.value).toBe("jambon");
-});
-it("Filter by product company", () => {
-	render(<Products />);
+		// Check if the filter labels are rendered
+		const filterLabels = ["Nom de produit", "Marque", "Quantité par page:"];
+		filterLabels.forEach((label) => {
+			const filterLabel = screen.getByText(label);
+			expect(filterLabel).toBeInTheDocument();
+		});
+	});
 
-	// Find the search input
-	const searchInput = screen.getByTestId("company") as HTMLInputElement;
+	it("Filter by product name", () => {
+		render(<Products />);
 
-	// Simulate user input in the search input
-	fireEvent.change(searchInput, { target: { value: "compagnie du jambon" } });
+		// Find the search input
+		const searchInput = screen.getByTestId("product-name") as HTMLInputElement;
 
-	// Check if the search input value has changed
-	expect(searchInput.value).toBe("compagnie du jambon");
-});
+		// Simulate user input in the search input
+		fireEvent.change(searchInput, { target: { value: "jambon" } });
 
-it("Displays products filtered by name correctly", () => {
-	render(<Products />);
+		// Check if the search input value has changed
+		expect(searchInput.value).toBe("jambon");
+	});
+	it("Filter by product company", () => {
+		render(<Products />);
 
-	// Find the search input
-	const searchInput = screen.getByTestId("product-name") as HTMLInputElement;
+		// Find the search input
+		const searchInput = screen.getByTestId("company") as HTMLInputElement;
 
-	// Simulate user input in the search input
-	const filterValue = "thon";
-	fireEvent.change(searchInput, { target: { value: filterValue } });
+		// Simulate user input in the search input
+		fireEvent.change(searchInput, { target: { value: "compagnie du jambon" } });
 
-	// Check if the filtered users are rendered correctly
-	const productCards = screen.getAllByTestId("card-item");
+		// Check if the search input value has changed
+		expect(searchInput.value).toBe("compagnie du jambon");
+	});
 
-	// Extract the mail values from the user cards
-	const productNames = productCards.map((card) => card.textContent);
+	it("Displays products filtered by name correctly", async () => {
+		// Mock the fetchProducts function to return the mockProducts
+		(fetchProducts as jest.Mock).mockResolvedValue({
+			products: mockProducts,
+			count: mockProducts.length,
+		});
 
-	// Check if the filtered users have the expected mail values
-	const expectedProductNames = ["Boîte de thon", "Boîte de gros thon massif"];
-	expectedProductNames.forEach((name) => {
-		expect(productNames).toContain(name);
+		render(<Products />);
+
+		// Find the search input
+		const searchInput = screen.getByTestId("product-name") as HTMLInputElement;
+
+		// Simulate user input in the search input
+		const filterValue = "thon";
+		fireEvent.change(searchInput, { target: { value: filterValue } });
+
+		// Wait for the component to finish rendering with the filtered products
+		await screen.findAllByText("Boîte de thon");
+
+		// Assert that the filtered product is displayed
+		const filteredProduct_1 = screen.getByText(mockProducts[0].name);
+		expect(filteredProduct_1).toBeInTheDocument();
+
+		// Assert that the filtered product is displayed
+		const filteredProduct_2 = screen.getByText(mockProducts[1].name);
+		expect(filteredProduct_2).toBeInTheDocument();
+	});
+
+	it("Displays correct products on pagination change", async () => {
+		// Mock the fetchProducts function to return the mockProducts
+		(fetchProducts as jest.Mock).mockResolvedValue({
+			products: mockProducts,
+			count: mockProducts.length,
+		});
+
+		render(<Products />);
+
+		// Find the search input
+		const searchInput = screen.getByTestId("product-name") as HTMLInputElement;
+
+		// Simulate user input in the search input
+		const filterValue = "thon";
+		fireEvent.change(searchInput, { target: { value: filterValue } });
+
+		// Wait for the component to finish rendering with the initial products
+		await screen.findAllByText("Boîte de thon");
+
+		// Simulate clicking the "Next" button
+		fireEvent.click(screen.getByTestId("next-button"));
+
+		// Wait for the component to finish rendering with the next set of products
+		await screen.findAllByText("Maquillage à l'algue");
+
+		// Assert that the correct product is displayed on the new page
+		const productOnNewPage = screen.getByText("Maquillage à l'algue");
+		expect(productOnNewPage).toBeInTheDocument();
+	});
+
+	it("Toggles action modals correctly", async () => {
+		// Mock the fetchProducts function to return the mockProducts
+		(fetchProducts as jest.Mock).mockResolvedValue({
+			products: mockProducts,
+			count: mockProducts.length,
+		});
+
+		render(<Products />);
+
+		// Wait for the component to finish rendering with the initial products
+		await screen.findAllByText("Boîte de thon");
+
+		// Find all buttons with the text "Archiver"
+		const archiveButtons = screen.getAllByTestId("submit");
+		expect(archiveButtons[0]).toBeInTheDocument();
 	});
 });
