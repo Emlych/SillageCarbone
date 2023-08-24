@@ -44,21 +44,17 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 	) => {
 		let newParams = { ...params };
 
-		switch (type) {
-			case "product-name":
-				newParams = {
-					...newParams,
-					name: event.target.value,
-				};
-				break;
-			case "company":
-				newParams = {
-					...newParams,
-					company: event.target.value,
-				};
-				break;
-			default:
-				break;
+		if (type === "product-name") {
+			newParams = {
+				...newParams,
+				name: event.target.value,
+			};
+		}
+		if (type === "company") {
+			newParams = {
+				...newParams,
+				company: event.target.value,
+			};
 		}
 
 		setParams(newParams);
@@ -140,6 +136,7 @@ const Products = ({ archivedProducts }: BackofficeProductComponentsProps) => {
 						icon={faRefresh}
 						className="refresh-icon"
 						onClick={refreshPage}
+						data-testid="refresh-icon"
 					/>
 				)}
 			</div>
