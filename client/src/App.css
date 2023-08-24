@@ -8,12 +8,23 @@
 *::after {
 	box-sizing: border-box;
 }
+/* Colors */
+:root {
+	--white: #fff;
+	--blue: #83c6fd;
+	--black: #191919;
+	--yellow: #fada94;
+}
 
 a:link,
 a:visited,
 a:active {
 	text-decoration: none;
 	color: black;
+}
+a:hover {
+	cursor: pointer;
+	color: var(--blue);
 }
 
 button:hover {

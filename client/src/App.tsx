@@ -29,7 +29,6 @@ function App() {
 
 				{/* Modal for connexion */}
 				{modalOpen ? <Modal toggleModal={toggleModal} /> : null}
-
 				{/* Navigation to other pages */}
 				<Routes>
 					{/* Home page - default path */}

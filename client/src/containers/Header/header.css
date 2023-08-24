@@ -9,7 +9,7 @@ header .small-screen {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	height: 7vh;
-	background-color: white;
+	background-color: var(--white);
 }
 
 .sillage-carbone {
@@ -37,11 +37,12 @@ ul {
 
 	#header-right .link-deconnexion,
 	#header-right .connexion-nav {
-		color: rgb(70, 148, 173);
+		color: var(--blue);
 		border: none;
 		text-decoration: none;
 		background-color: white;
 		font-size: 1rem;
+		font-weight: 700;
 		text-align: center;
 		-webkit-appearance: none;
 		-moz-appearance: none;
@@ -67,7 +68,7 @@ ul {
 		padding-right: 10px;
 		padding-left: 10px;
 		background: none;
-		color: rgb(70, 148, 173);
+		color: var(--blue);
 	}
 
 	.open-burger {

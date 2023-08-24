@@ -103,7 +103,7 @@
 }
 .modal .submit {
 	padding: 10px 15px;
-	background-color: lightblue;
+	background-color: var(--blue);
 	border: none;
 	border-radius: 7px;
 	margin-top: 15px;

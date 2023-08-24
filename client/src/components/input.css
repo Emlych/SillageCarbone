@@ -10,7 +10,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 5px 10px;
-	background-color: lightblue;
+	background-color: var(--blue);
 }
 
 .custom-input input {
@@ -36,7 +36,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 10px 10px;
-	background-color: lightblue;
+	background-color: var(--blue);
 }
 
 .select-transportation-input:hover {

@@ -32,11 +32,12 @@
 }
 .create-user .icon-container {
 	padding: 10px;
-	padding: 10px 10px;
-	background-color: lightblue;
+	padding: 10px 12px;
+	background-color: var(--blue);
 	margin-right: 10px;
 	margin-left: 10px;
 	border-radius: 5px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .create-user .icon-container:hover {
 	cursor: pointer;

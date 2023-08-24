@@ -6,7 +6,8 @@
 }
 .autocomplete-searchbar label {
 	padding: 10px 15px;
-	background-color: lightgray;
+	background-color: var(--yellow);
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .autocomplete-searchbar input {
 	padding: 10px 15px;

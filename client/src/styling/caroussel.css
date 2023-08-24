@@ -13,9 +13,10 @@
 .carousselCards {
 	display: flex;
 	justify-content: space-around;
-	background-color: lightblue;
-	padding: 15px;
+	background-color: var(--blue);
+	padding: 20px 25px;
 	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .carrousselCard-title {

@@ -6,10 +6,11 @@
 .productCard-container {
 	display: flex;
 	margin: 30px;
-	background-color: #f5f5f8;
+	background-color: var(--white);
 	border-radius: 8px;
 	padding: 20px 30px;
 	max-width: 500px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 /* product information */

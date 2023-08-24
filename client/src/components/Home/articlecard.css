@@ -14,8 +14,14 @@
 }
 
 .homecard-text {
-	padding: 10px 20px;
-	background-color: lightblue;
+	margin-top: 20px;
+	padding: 20px 30px;
+	background-color: var(--blue);
 	color: black;
 	font-size: 0.9em;
+	border-radius: 10px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
