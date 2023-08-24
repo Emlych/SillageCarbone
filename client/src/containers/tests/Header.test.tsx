@@ -3,7 +3,6 @@ import { deleteToken } from "../../utils/token-utils";
 import Header from "../Header/Header";
 import { MemoryRouter } from "react-router-dom";
 import Cookies from "js-cookie";
-import React from "react";
 
 // Mock js cookie dependency
 jest.mock("js-cookie");
@@ -22,12 +21,6 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("Header container", () => {
-	// Mock props
-	const toggleModal = jest.fn();
-	const handleDeconnexion = () => {
-		deleteToken();
-		mockNavigate("/");
-	};
 	// Test tokens
 	const userToken = "user-token";
 
