@@ -73,7 +73,7 @@ const Signup = ({
 
 	return (
 		<form data-testid="signup-form" onSubmit={handleFormSubmit} className="signup">
-			<h2>Créer un compte</h2>
+			<h2>Création d'un compte</h2>
 
 			<Input
 				faIcon={faEnvelope}
@@ -123,7 +123,9 @@ const Signup = ({
 			</div>
 
 			{/* Set error message  */}
-			<p className="warning">{errorMessage}</p>
+			<p className="warning" data-testid="error-message">
+				{errorMessage}
+			</p>
 
 			<Button buttonText="Créer un compte" buttonType="submit" />
 
