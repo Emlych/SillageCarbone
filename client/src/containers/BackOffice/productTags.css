@@ -38,3 +38,6 @@
 	margin-left: 10px;
 	border-radius: 5px;
 }
+.create-user .icon-container:hover {
+	cursor: pointer;
+}

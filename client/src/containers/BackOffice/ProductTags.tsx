@@ -170,11 +170,12 @@ const ProductTags = () => {
 										onClick={() => console.log("modify transport for", item._id)}
 									/>
 								</div>
-								<div className="icon-container">
-									<FontAwesomeIcon
-										icon={faTrash}
-										onClick={() => deleteTransportationService(item._id, item.name)}
-									/>
+								<div
+									className="icon-container"
+									data-testid="delete-icon-container"
+									onClick={() => deleteTransportationService(item._id, item.name)}
+								>
+									<FontAwesomeIcon icon={faTrash} />
 								</div>
 							</div>
 						</div>
