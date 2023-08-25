@@ -1,3 +1,5 @@
+//! File named dto, but it's just set of interfaces
+
 export enum UserType {
 	ConnectedUser = "connectedUser",
 	Admin = "admin",

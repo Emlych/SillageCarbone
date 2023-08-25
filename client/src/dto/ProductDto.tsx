@@ -1,3 +1,5 @@
+//! File named dto, but it's just set of interfaces
+
 // Product defined by an id in db, a name, a company and keywords for search.
 export interface PartialProduct {
 	_id: string;

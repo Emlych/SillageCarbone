@@ -1,6 +1,7 @@
 import SearchHero from "../containers/SearchProduct/SearchHero.container";
 import CarouselHome from "../containers/Home/Caroussel.container";
 
+/** Home page with caroussel of articles and a search hero */
 const Home = () => {
 	const articles = [
 		{

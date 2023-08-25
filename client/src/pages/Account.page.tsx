@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import { fetchUserByMail } from "../services/userService";
 import { formatDateFromString } from "../utils/format-data-utils";
 
+/** Account page to check data, modify password and delete account */
 const Account = () => {
 	// -- Retrieve user mail using cookie token
 	const [userMail, setUserMail] = useState("");
@@ -16,6 +17,7 @@ const Account = () => {
 	const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
 	useEffect(() => {
+		// Fetch user mail and creation date
 		const fetchUserData = async () => {
 			try {
 				// -- Update users

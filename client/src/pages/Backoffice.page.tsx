@@ -1,4 +1,3 @@
-/** Backoffice page : for admin to manage users and products */
 import "./backoffice.css";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -14,6 +13,7 @@ export type BackOfficeComponentKey =
 	| "archived-products"
 	| "product-keys";
 
+/** Backoffice page : for admin to manage users and products */
 const Backoffice = () => {
 	const [componentKey, setComponentKey] = useState<BackOfficeComponentKey>("users");
 

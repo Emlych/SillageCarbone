@@ -8,6 +8,7 @@ import ModifyPassword from "../containers/Account/ModifyAccount";
 import DeleteAccount from "../containers/Account/DeleteAccount";
 import AdminDeleteAccount from "../containers/BackOffice/AdminDeleteAccount";
 
+// Define types for different components and modal props
 type ComponentKey = "signup" | "login" | "forgotten-password" | "product-detail";
 
 type ModalProps = {
@@ -21,25 +22,29 @@ type ModalProps = {
 	productId?: string;
 };
 
+// Define a type for props used in toggling account-related components
 export type ToggleAccountProps = {
 	toggleModal: Function;
 };
 
+/** Modal component */
 const Modal = ({
 	toggleModal,
 	accountModalKey,
 	mailToDelete,
 	productId,
 }: ModalProps): JSX.Element => {
-	/** Informations associated with login or connexion: mail, password */
+	// Informations associated with login/registration from fields and password visibility
 	const [mail, setMail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [hiddenPassword, setHiddenPassword] = useState(true);
 	const [hiddenConfirmPassword, setHiddenConfirmPassword] = useState(true);
 
+	// State to track which component should be rendered in the modal
 	const [componentKeyName, setComponentKeyName] = useState<ComponentKey>("login");
 
+	/** Function to dynamically render different components based on conditions */
 	const ComponentToRender = (componentKeyName: ComponentKey) => {
 		if (accountModalKey) {
 			if (accountModalKey === "change-password") {
@@ -89,7 +94,7 @@ const Modal = ({
 		}
 	};
 
-	// Enable closing modal on clicking outside of modal
+	// Ref to the modal's DOM element for handling clicks outside the modal
 	const modalRef = useRef<HTMLDivElement>(null);
 	const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
 		if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -97,6 +102,7 @@ const Modal = ({
 		}
 	};
 
+	// Render the modal backdrop and content
 	return (
 		<div className="modal" onClick={handleBackdropClick} data-testid="modal-backdrop">
 			<div className="modal__content" ref={modalRef}>
