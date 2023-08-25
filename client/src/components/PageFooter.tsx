@@ -8,6 +8,10 @@ type PageFooterProps = {
 };
 
 const PageFooter = ({ page, maxNumberOfPages, setPage }: PageFooterProps) => {
+	/**
+	 * Change to previous or next page
+	 * @param direction
+	 */
 	const changePage = (direction: "left" | "right") => {
 		if (direction === "left" && page !== 1) {
 			setPage(page - 1);

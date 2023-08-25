@@ -1,5 +1,6 @@
 import { CarousselProduct } from "../dto/ProductDto";
 
+/** Card component to display name, company and co2 of a product in caroussel */
 const CarousselCard = ({ product }: { product: CarousselProduct }) => {
 	return (
 		<div className="carousselCard">
