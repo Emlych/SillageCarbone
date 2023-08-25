@@ -1,0 +1,45 @@
+.error-page {
+	background-size: cover; /* Adjust this property as needed */
+	background-repeat: no-repeat;
+	background-position: center center;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	background-image: url("https://res.cloudinary.com/deby3jois/image/upload/v1692976446/iStock-1334281797_osa90o.jpg");
+
+	height: 100vh;
+	padding-left: 50px;
+}
+
+.error-page h1 {
+	font-size: 7rem;
+	color: #fff;
+}
+
+.error-page h2 {
+	font-size: 3rem;
+	color: #fff;
+	padding-bottom: 30px;
+}
+
+.error-page div {
+	color: #fff;
+	padding-bottom: 20px;
+	font-weight: 600;
+}
+
+.error-page .button {
+	background-color: gold;
+	margin-top: 20px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+	font-weight: 600;
+}
+
+.error-page .button:hover {
+	box-shadow: rgba(50, 50, 93, 0.2) 0px 30px 60px -12px inset,
+		rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}

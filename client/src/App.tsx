@@ -45,6 +45,9 @@ function App() {
 
 					{/* Account for connected users - only with admin token */}
 					<Route path="/account" element={<Account />} />
+
+					{/* Route pour la page d'erreur 404 */}
+					<Route path="/*" element={<ErrorProduct />} />
 				</Routes>
 			</Router>
 		</div>
