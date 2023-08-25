@@ -1,8 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import "./header.css";
 import { deleteToken } from "../../utils/token-utils";
 import HeaderBigScreen from "./HeaderBigScreen";
 import HeaderSmallScreen from "./HeaderSmallScreen";
-import { useNavigate } from "react-router-dom";
 
 export type HeaderConnexionProps = {
 	toggleModal: Function;

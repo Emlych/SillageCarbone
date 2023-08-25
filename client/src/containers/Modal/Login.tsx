@@ -47,6 +47,7 @@ const Login = ({
 			return;
 		}
 
+		// Fetch data on user and enable login
 		const fetchData = async () => {
 			try {
 				const searchedUser = await loginUser(mail, password);

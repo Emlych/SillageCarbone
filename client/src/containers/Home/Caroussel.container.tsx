@@ -1,5 +1,3 @@
-/** Carousel of slides that will go to previous / next article each time you click on an arrow button or scroll vertically */
-
 import { useEffect, useRef } from "react";
 import "../../styling/carouselHome.css";
 import ArticleCard from "../../components/Home/ArticleCard";
@@ -12,6 +10,7 @@ interface Article {
 	text: string;
 }
 
+/** Carousel of slides that will go to previous / next article each time you click on an arrow button or scroll vertically */
 const CarouselHome: React.FC<CarouselProps> = ({ articles }) => {
 	// Content of carousel to handle scrolling
 	const carouselRef = useRef<HTMLDivElement>(null);

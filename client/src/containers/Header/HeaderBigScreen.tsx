@@ -1,9 +1,9 @@
-/** Header navigation for bigger screen. */
 import { Link } from "react-router-dom";
 import "./header.css";
 import Cookies from "js-cookie";
 import { SpecificHeaderConnexionProps } from "./Header";
 
+/** Header navigation for bigger screen. */
 const HeaderBigScreen = ({
 	toggleModal,
 	handleDeconnexion,

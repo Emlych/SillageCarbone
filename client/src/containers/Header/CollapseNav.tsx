@@ -6,7 +6,7 @@ export type BurgerConnexionProps = {
 	handleDeconnexion: () => void;
 };
 
-/**  */
+/** Navigation bar that will cover whole screen in mobile format */
 const CollapseNav = ({ toggleBurgerMenu, handleDeconnexion }: BurgerConnexionProps) => {
 	const navigate = useNavigate();
 	/** Will close the mobile menu and navigate to the path indicated */

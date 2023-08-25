@@ -1,8 +1,8 @@
-// Component containing a search bar to research product
 import Autocomplete from "./Autocomplete.container";
 import "../../styling/searchhero.css";
 import { useState } from "react";
 
+// Component containing a search bar to research product
 const SearchHero = () => {
 	// Define position of boat when move mouse on screen
 	const [imagePositionX, setImagePositionX] = useState(-30); // Initial horizontal position of the boat

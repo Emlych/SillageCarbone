@@ -1,5 +1,3 @@
-/** Header navigation for smaller screen. Backoffice is not accessible from small screen. */
-
 import { Link } from "react-router-dom";
 import "./header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +7,7 @@ import CollapseNav from "./CollapseNav";
 import Cookies from "js-cookie";
 import { SpecificHeaderConnexionProps } from "./Header";
 
+/** Header navigation for smaller screen. Backoffice is not accessible from small screen. */
 const HeaderSmallScreen = ({
 	toggleModal,
 	handleDeconnexion,

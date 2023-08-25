@@ -1,9 +1,9 @@
-// Component to display caroussel
 import CarousselCard from "../../components/CarousselCard";
 import "../../styling/caroussel.css";
 import { useNavigate } from "react-router-dom";
 import { CarousselProduct } from "../../dto/ProductDto";
 
+// Component to display caroussel
 const Caroussel = ({ products }: { products: CarousselProduct[] }) => {
 	//-- Enable navigation
 	const navigate = useNavigate();

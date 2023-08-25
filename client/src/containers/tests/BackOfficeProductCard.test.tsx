@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import BackofficeProductCard from "../BackOffice/BackofficeProductCard";
 import { capitalizeFirstLetter } from "../../utils/format-data-utils";
 

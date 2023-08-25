@@ -8,7 +8,7 @@ describe("CarouselHome", () => {
 		{ title: "Article 3", text: "Text 3" },
 	];
 
-	it("should scroll to the next article when the right arrow button is clicked", () => {
+	it("Scroll to the next article when the right arrow button is clicked", () => {
 		render(<CarouselHome articles={mockArticles} />);
 		const carousel = screen.getByTestId("carousel");
 		const previousArrowButton = screen.getByTestId("previous-arrow");
@@ -16,7 +16,7 @@ describe("CarouselHome", () => {
 		expect(carousel.scrollLeft).toBe(carousel.offsetWidth);
 	});
 
-	it("should scroll to the previous article when the left arrow button is clicked", () => {
+	it("Scroll to the previous article when the left arrow button is clicked", () => {
 		render(<CarouselHome articles={mockArticles} />);
 		const carousel = screen.getByTestId("carousel");
 		const nextArrowButton = screen.getByTestId("next-arrow");
@@ -24,14 +24,14 @@ describe("CarouselHome", () => {
 		expect(carousel.scrollLeft).toBe(0);
 	});
 
-	it("should scroll to the next article when the mouse wheel is scrolled down", () => {
+	it("Scroll to the next article when the mouse wheel is scrolled down", () => {
 		render(<CarouselHome articles={mockArticles} />);
 		const carousel = screen.getByTestId("carousel");
 		fireEvent.wheel(carousel, { deltaY: 100 });
 		expect(carousel.scrollLeft).toBe(carousel.offsetWidth);
 	});
 
-	it("should scroll to the previous article when the mouse wheel is scrolled up", () => {
+	it("Scroll to the previous article when the mouse wheel is scrolled up", () => {
 		render(<CarouselHome articles={mockArticles} />);
 		const carousel = screen.getByTestId("carousel");
 		fireEvent.wheel(carousel, { deltaY: -100 });

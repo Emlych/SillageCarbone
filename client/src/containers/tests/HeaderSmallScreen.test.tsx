@@ -4,10 +4,6 @@ import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import { SpecificHeaderConnexionProps } from "../Header/Header";
 import Cookies from "js-cookie";
 
-// Mock the required modules
-// jest.mock("react-router-dom", () => ({
-// 	Link: ({ to, children }) => <a href={to}>{children}</a>,
-// }))
 // Mock js cookie dependency
 jest.mock("js-cookie");
 jest.mock("../Header/CollapseNav", () => () => <div>CollapseNav</div>);

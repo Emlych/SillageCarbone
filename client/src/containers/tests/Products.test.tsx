@@ -1,7 +1,6 @@
-import { render, fireEvent, screen, act } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import Products from "../BackOffice/Products";
 import { fetchProducts } from "../../services/productService";
-import React from "react";
 
 // Mock the fetchProducts service
 jest.mock("../../services/productService", () => ({

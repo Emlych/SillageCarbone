@@ -59,7 +59,7 @@ describe("Signup", () => {
 		expect(mockSetPassword).toHaveBeenCalledWith(mockPasswordValue);
 	});
 
-	it("should update confirm password input value", () => {
+	it("Update confirm password input value", () => {
 		render(<Signup {...defaultProps} />);
 		const confirmPasswordInput = screen.getAllByTestId("password")[1];
 		const mockConfirmPasswordValue = "password123";
@@ -97,7 +97,6 @@ describe("Signup", () => {
 		render(
 			<Signup
 				toggleModal={jest.fn()}
-				//setUser={mockSetUser}
 				mail="invalid mail"
 				setMail={mockSetMail}
 				password="LongPassword1"
@@ -127,7 +126,6 @@ describe("Signup", () => {
 			mail: "user@example.com",
 		};
 		mockedCreateUser.mockResolvedValue(mockUserData); // Mock a successful creation
-
 		const mockedCreateToken = createToken as jest.Mock;
 
 		render(

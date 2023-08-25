@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, renderHook } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Autocomplete from "./Autocomplete.container";
 import { BrowserRouter as Router } from "react-router-dom";
 import { fetchProductsForCache } from "../../services/productService";

@@ -43,6 +43,7 @@ const Signup = ({
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
+		// Fetch token data to create user
 		const fetchData = async () => {
 			try {
 				const userData = await createUser(mail, password);

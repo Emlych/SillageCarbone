@@ -1,9 +1,4 @@
-// Component ProductCard displayed in product page
 import "./productcard.css";
-import { useState } from "react";
-import { capitalizeFirstLetter } from "../../utils/format-data-utils";
-import Button from "../../components/Button";
-import CardItem from "../../components/CardItem";
 import {
 	faLocationDot,
 	faRoute,
@@ -11,9 +6,14 @@ import {
 	faSmog,
 	faWarehouse,
 } from "@fortawesome/free-solid-svg-icons";
-import { DetailedProduct } from "../../dto/ProductDto";
+import { useState } from "react";
 import Cookies from "js-cookie";
+import { capitalizeFirstLetter } from "../../utils/format-data-utils";
+import Button from "../../components/Button";
+import CardItem from "../../components/CardItem";
+import { DetailedProduct } from "../../dto/ProductDto";
 
+// Component ProductCard displayed in product page
 const ProductCard = ({ product }: { product: DetailedProduct }) => {
 	// State to track whether the product is marked as favorite (version 2)
 	const [isFav, setIsFav] = useState(false);
@@ -21,6 +21,7 @@ const ProductCard = ({ product }: { product: DetailedProduct }) => {
 	// Check if user is connected to access to favorite button
 	const userToken = Cookies.get("userToken");
 
+	// Capitalize first letter of product's name
 	const productName = capitalizeFirstLetter(product.name);
 
 	return (

@@ -1,5 +1,4 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import CollapseNav from "../Header/CollapseNav";
 import { ReactNode } from "react";
