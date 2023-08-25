@@ -8,6 +8,10 @@ This approach enables consumers to make informed decisions based on the environm
 
 The development of a React-based website ensures a seamless user experience, with intuitive navigation and efficient data retrieval. The React Native mobile application expands the project's accessibility, allowing users to access the carbon footprint database on-the-go and easily scan products while shopping.
 
+<img src="/documentation/homepage.png" alt="Home page with search bar, little boat and articles on Sillage Carbon Project" width="300"> [Home page]
+<img src="/documentation/productpage.png" alt="Product page with informations on a tuna fish can and a search bar" width="300"> [Product page]
+<img src="/documentation/backofficepage.png" alt="Backoffice with side navigation bar, filter on users to display, user cards with email, creation date and button to delete the account" width="300"> [Backoffice page]
+
 ## Features
 
 - **Search Product Shipping Carbon Footprint**: Enter products name a/o company to get information about their environmental impact.
