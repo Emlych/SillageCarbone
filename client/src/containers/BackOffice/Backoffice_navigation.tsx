@@ -13,7 +13,7 @@ type NavigationProps = {
 	setComponentKey: React.Dispatch<React.SetStateAction<BackOfficeComponentKey>>;
 };
 const Navigation = ({ setComponentKey }: NavigationProps) => {
-	// -- Update url fragment identifier
+	/** Update url fragment identifier */
 	const handleNavItemClick = (key: BackOfficeComponentKey) => {
 		setComponentKey(key);
 		window.location.hash = key;

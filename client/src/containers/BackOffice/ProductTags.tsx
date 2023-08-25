@@ -1,4 +1,3 @@
-/** Backoffice Products Tags : manage transportation, product types, companies, ...*/
 import {
 	faPen,
 	faShip,
@@ -6,11 +5,11 @@ import {
 	faTrash,
 	faRefresh,
 } from "@fortawesome/free-solid-svg-icons";
-import Input from "../../components/Input";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./productTags.css";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import "./productTags.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Input from "../../components/Input";
 import { ToastContainer, toast } from "react-toastify";
 import {
 	createNewTransportation,
@@ -19,6 +18,7 @@ import {
 } from "../../services/productService";
 import { Transportation } from "../../dto/TransportationDto";
 
+/** Backoffice Products Tags : manage transportation, product types, companies, ...*/
 const ProductTags = () => {
 	//-- States for transportation
 	const [newTransportation, setNewTransportation] = useState("");

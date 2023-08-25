@@ -1,4 +1,3 @@
-/** BackOffice ProductCard container */
 import Button from "../../components/Button";
 import CardItem from "../../components/CardItem";
 import "./backofficeProductCard.css";
@@ -17,6 +16,7 @@ interface BackofficeProductCardProps {
 	) => void;
 }
 
+/** BackOffice ProductCard container */
 const BackofficeProductCard = ({
 	_id,
 	product_name,
@@ -25,14 +25,17 @@ const BackofficeProductCard = ({
 	actionType,
 	openConfirmActionModal,
 }: BackofficeProductCardProps) => {
+	// Capitalize the first letters of product name and company
 	const productName = capitalizeFirstLetter(product_name);
 	const productCompany = capitalizeFirstLetter(company);
+
 	return (
 		<div className="backofficeProductCard">
 			<CardItem text={productName} faIcon={faBoxOpen} />
 			<CardItem text={productCompany} faIcon={faWarehouse} />
 			<CardItem text={`${co2} eq CO2`} faIcon={faTag} />
 			<div className="usercard-button">
+				{/* If the action type is "delete", show "Désarchiver" button */}
 				{actionType === "delete" && (
 					<Button
 						buttonText="Désarchiver"
@@ -40,6 +43,7 @@ const BackofficeProductCard = ({
 						callback={() => openConfirmActionModal(_id, "unarchive")}
 					/>
 				)}
+				{/* Display "Archiver" or "Supprimer" button based on action type */}
 				<Button
 					buttonText={actionType === "archive" ? "Archiver" : "Supprimer"}
 					buttonType="button"

@@ -1,15 +1,17 @@
 import { faEye, faLock, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import { updateUser } from "../../services/userService";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
 import { isFormCorrect } from "../../utils/format-data-utils";
 import { createToken } from "../../utils/token-utils";
-import { ToastContainer, toast } from "react-toastify";
 import { ToggleAccountProps } from "../../pages/Modal";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
+// Functional component to handle account deletion
 const ModifyPassword = ({ toggleModal }: ToggleAccountProps) => {
+	// State for password inputs and passwords visibility
 	const [actualPassword, setActualPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -18,6 +20,7 @@ const ModifyPassword = ({ toggleModal }: ToggleAccountProps) => {
 	const [hiddenNewPassword, setHiddenNewPassword] = useState(true);
 	const [hiddenConfirmPassword, setHiddenConfirmPassword] = useState(true);
 
+	// State for error message
 	const [errorMessage, setErrorMessage] = useState("");
 
 	// -- When password has been changed, validRequest will be passed to true

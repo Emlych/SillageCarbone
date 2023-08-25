@@ -9,15 +9,19 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { ToggleAccountProps } from "../../pages/Modal";
 
+// Functional component to handle account deletion
 const DeleteAccount = ({ toggleModal }: ToggleAccountProps) => {
+	// State for password input and password visibility
 	const [password, setPassword] = useState("");
 	const [hiddenPassword, setHiddenPassword] = useState(true);
 
 	const navigate = useNavigate();
 
+	/** Handle deletion on submission of form */
 	const handleFormSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
+		// Perform deletion
 		const fetchData = async () => {
 			try {
 				await deleteUser(password).then(() => {
@@ -27,6 +31,7 @@ const DeleteAccount = ({ toggleModal }: ToggleAccountProps) => {
 					navigate("/");
 				});
 			} catch (error) {
+				// Display error toast if account deletion fails
 				toast.error("Le compte n'a pas pu être supprimé");
 			}
 		};
