@@ -1,9 +1,11 @@
 import "./account.css";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import Modal from "./Modal";
 import { fetchUserByMail } from "../services/userService";
 import { formatDateFromString } from "../utils/format-data-utils";
+import Cookies from "js-cookie";
 
 /** Account page to check data, modify password and delete account */
 const Account = () => {
@@ -31,7 +33,8 @@ const Account = () => {
 		fetchUserData();
 	}, []);
 
-	return (
+	/** User needs to be an admin to access to the backoffice, if not he will redirected to home page */
+	return Cookies.get("userToken") ? (
 		<div className="account">
 			{/* Three blocks on account's information, modify password and delete account */}
 			<div className="account-inside">
@@ -83,6 +86,8 @@ const Account = () => {
 				/>
 			)}
 		</div>
+	) : (
+		<Navigate to="/" />
 	);
 };
 
