@@ -34,7 +34,7 @@ const Account = () => {
 	return (
 		<div className="account">
 			{/* Three blocks on account's information, modify password and delete account */}
-			<div>
+			<div className="account-inside">
 				<h2>Gestion du compte</h2>
 				<div className="account-container">
 					<h3>Informations utilisateur</h3>
