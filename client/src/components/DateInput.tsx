@@ -15,6 +15,8 @@ type DateInputProps = {
 /** Custom Input component  */
 const DateInput = ({ value, type, onChange }: DateInputProps) => {
 	const [isDateSelected, setIsDateSelected] = useState(false);
+
+	// -- Control directly focus without rendering again, better for performance
 	const dateRef = useRef<HTMLInputElement>(null);
 
 	return (
@@ -29,7 +31,9 @@ const DateInput = ({ value, type, onChange }: DateInputProps) => {
 					value={value ? formatDate(value, "yyyy-mm-dd") : ""}
 					ref={dateRef}
 					onChange={(event) => onChange(event, type)}
+					// Click on item
 					onFocus={() => setIsDateSelected(value !== null)}
+					// Item looses focus
 					onBlur={() => setIsDateSelected(value !== null)}
 					data-testid={type === "start-date" ? "custom-date-start" : "custom-date-finish"}
 				/>

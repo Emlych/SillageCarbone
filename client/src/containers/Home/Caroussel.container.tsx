@@ -13,6 +13,7 @@ interface Article {
 }
 
 const CarouselHome: React.FC<CarouselProps> = ({ articles }) => {
+	// Content of carousel to handle scrolling
 	const carouselRef = useRef<HTMLDivElement>(null);
 
 	/** Apply offset on article position */

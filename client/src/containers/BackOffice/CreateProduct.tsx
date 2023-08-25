@@ -75,9 +75,10 @@ const CreateProduct = () => {
 		setTransportation("");
 	};
 
-	// Enable closing dropdown on clicking outside of dropdown
+	// useRef to handle user clcicking outside of dropdown
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const [showDropdown, setShowDropdown] = useState(false);
+	/** Enable closing dropdown on clicking outside of dropdown */
 	const handleDropdownClose = (event: React.MouseEvent<HTMLDivElement>) => {
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
 			setShowDropdown(false);
